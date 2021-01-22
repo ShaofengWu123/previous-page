@@ -9,7 +9,7 @@ title: Shaofeng's CV
 <dd>23</dd>
 <dt>Education</dt>
 <dd>
-*   2020~2022(expected) USTC, Second Bahchelor of Computer Science
-*   2016~2020           USTC, Bachelor of Materials Science and Physics
+2020~2022(expected) USTC, Second Bahchelor of Computer Science<br>
+2016~2020           USTC, Bachelor of Materials Science and Physics
 </dd>
 </dl>
