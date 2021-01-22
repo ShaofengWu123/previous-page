@@ -1,5 +1,7 @@
 ---
 layout: default
+title: Shaofeng's Page
+description: Nice to meet you!
 ---
 
 Text can be **bold**, _italic_, or ~~strikethrough~~.
@@ -10,9 +12,9 @@ There should be whitespace between paragraphs.
 
 There should be whitespace between paragraphs. We recommend including a README, or a file with information about your project.
 
-# Header 1
+# Welcome
 
-This is a normal paragraph following a header. GitHub is a code hosting platform for version control and collaboration. It lets you and others work together on projects from anywhere.
+Welcome to my personal website. This website is built on Github Page and to share my personal experience and perspective. Currently, I have just changed my majoring from materials science to computer science. For more inforamtion, please feel free to browse around my website.  
 
 ## Header 2
 
