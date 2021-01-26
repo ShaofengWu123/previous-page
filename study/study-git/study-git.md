@@ -17,10 +17,12 @@ Git is a distributed open-source version control tool. Developers use Git to col
 
 <h2><a id="git-commands">Git commands</a></h2>
 <p>
+
 ```
 git init
 ```
 Create a local repo in your local machine.<br>
+
 
 ```
 git pull [origin] [branch]
