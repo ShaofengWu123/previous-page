@@ -41,7 +41,7 @@
       <ul>
       <li><a href="#git-definition">What is Git?</a></li><!--content list -->
       <li><a href="#git-commands">Git commands</a></li> 
-      <li>Some cases (to do)</li>   
+      <li><a href="#git-cases">Some cases</a></li>   
       </ul>
       <hr>
 
@@ -101,15 +101,37 @@
         <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git log</code></pre></div></div>
         </li>
     </ul>
+    <br>
+
+    <h2><a id="git-cases">Some cases</a></h2>
+    <p>Here I listed several cases that people, especially beginners, may frequently ecounter when they are using Git.</p>
+    <h3>Q1: How to create a local repo, link it to a remote repo and update it with remote repo?</h3>
+      <ol>
+        <li><i>Git Bash Here</i>.</li>
+        <li><i><strong>git init</strong></i> to create a local repo. Right now it is empty if we do not consider init logs.</li>
+        <li><i><strong>git add remote origin [URL]</strong></i> to link local repo with remote repo. SSH is recommended to avoid typing username and password.</li>
+        <li><i><strong>git pull origin main</strong></i> to pull codes from remote repo's main branch. Note that previous files in working section will not be removed.</li>
+      </ol>
+      <p><strong>More quick tips</strong>: Always pull codes from remote repo before you get down to coding.</p><br>  
+
+      <h3>Q2: How to delete one or some files in one branch but still keep them in another branch?</h3>
+      <ol>
+        <li><i><strong>rm [filename]</strong></i> in branchA.</li>
+        <li><i><strong>git add -A</strong></i> to make sure all files are tracked in this branch.</li>
+        <li><i><strong>git commit -am "comments"</strong></i> to commit changes to local repo branchA.</li>
+        <li><i><strong>git checkout main</strong></i>, and you will find that deleted files will appear in this branch.</li>
+      </ol>
+      <p><strong>More quick tips</strong>: <i><strong>rm -rf [directory]</strong></i> to remove a whole directory (recursively and without asking).</p>
+
 
     <br>
     <hr>
-    <p><a href="https://shaofengwu123.github.io/">Back</a></p>
+    <p><a href="https://shaofengwu123.github.io/study/study-main.html">Back</a></p>
     </section>
   </div>
 
   <footer>
-    <p>Project maintained by <a href="https://shaofengwu123.github.io/study/study-main.html">ShaofengWu123</a></p>
+    <p>Project maintained by <a href="https://github.com/ShaofengWu123">ShaofengWu123</a></p>
     <p>© 2021 GitHub, Inc.</p>
   </footer>
 </div>
