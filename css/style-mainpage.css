@@ -28,8 +28,8 @@
 
 html{background:#6C7989;background:#6C7989 linear_gradient(#6C7989, #434B55) fixed;height:100%}
 /*html{ background-image: url(back.png);background-repeat:repeat;background-size:cover;}*/
-body{padding:50px 0;margin:0;font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;color:#555;font-weight:300;;min-height:calc(100% - 100px)}/*background:url("checker.png") fixed*/
-.wrapper{width:740px;margin:0 auto;background:#DEDEDE;border-radius:8px;box-shadow:rgba(0,0,0,0.2) 0 0 0 1px,rgba(0,0,0,0.45) 0 3px 10px}
+body{padding:50px 0;margin:0;font:14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;color:#555;font-weight:550;;min-height:calc(100% - 100px)}/*background:url("checker.png") fixed*/
+.wrapper{width:720px;margin:0 auto;background:#DEDEDE;border-radius:8px;box-shadow:rgba(0,0,0,0.2) 0 0 0 1px,rgba(0,0,0,0.45) 0 3px 10px}
 header,section,footer{display:block}
 a{color:#069;text-decoration:none}
 p{margin:0 0 20px;padding:0}
@@ -60,22 +60,24 @@ blockquote{margin:0 -20px 20px;padding:15px 20px 1px 40px;font-style:italic;back
 img{max-width:100%}
 
 code,pre{font-family:Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal;color:#333;font-size:12px;overflow-x:auto}
-pre{padding:20px;background:#3A3C42;color:#f8f8f2;margin:0 -20px 20px}
+pre{padding:10px;background:#3A3C42;color:#f8f8f2;margin:0 -20px 20px}
 pre code{color:#f8f8f2}
 
 #particles-js{
-position:fixed;
-height:100%;
-width:100%
+    position:fixed;
+    height:100%;
+    width:100%
+}
+#contentpart{
+    position: relative;
 }
 
-#contentpart{
-    z-index: 20;
+#allpart{
     position: absolute;
     top:0;
-    left:0;
-    right:0
+    left:31.25%
 }
+
 
 li pre{margin-left:-60px;padding-left:60px}
 table{width:100%;border-collapse:collapse}

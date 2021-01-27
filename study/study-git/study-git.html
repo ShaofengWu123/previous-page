@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>Study Git| Shaofeng's Page</title>
+<meta property="og:title" content="Shaofeng's Page" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A personal page of Shaofeng Wu." />
+
+<link rel="stylesheet" href="../../css/style-mainpage.css">
+<script src="/modernist/assets/js/scale.fix.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="../../img/emilia.png"><!--logo-->
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div id="particles-js"></div><!-- particle effect scripts -->
+    <script src="../../js/particles.js"></script>
+    <script src="../../js/app.js"></script>
+
+  <div id="allpart">
+  <div class="wrapper" id="contentpart">
+    <header >
+      <h1>伍少枫的个人主页</h1>
+      <p>Shaofeng's Personal Website</p>
+    <p class="view"><a href="https://github.com/ShaofengWu123/ShaofengWu123.github.io">View the Project on GitHub <small></small></a></p>
+    <ul>
+    <li><a href="https://github.com/ShaofengWu123/ShaofengWu123.github.io">View On <strong>GitHub</strong></a></li>
+    </ul>
+    </header>
+    <section>
+      <h1><img src="https://git-scm.com/images/logo@2x.png" sizes=""></h1><!-- main title -->
+      
+
+      <ul>
+      <li><a href="#git-definition">What is Git?</a></li><!--content list -->
+      <li><a href="#git-commands">Git commands</a></li> 
+      <li>Some cases (to do)</li>   
+      </ul>
+      <hr>
+
+      <h2><a id="git-definition">What is Git</a></h2>
+      <p>
+      Git is a distributed open-source version control tool. Developers use Git to collaborate their work and control program versions.</p>
+      <br>
+      
+      <h2><a id="git-commands">Git commands</a></h2>
+      <p>Following is a list of frequently used Git commands and how to use them.</p>
+      
+      <ul>
+        <li>Create a local repo in your local machine.
+          <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git init</code></pre></div></div>
+        </li>
+
+        <li>Link your local repo with a remote repo, for example, a Github repo.
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git remote add origin [URL]</code></pre></div></div>
+      </li>  
+
+      <li>Update the code in your local repo and workspace by pulling codes from remote repo. For example, if you want to pull codes from the linked remote repo's main branch, you should use <i><strong>git pull origin master</strong></i> command.
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git pull [origin] [branch]</code></pre></div></div>
+        </li>
+
+      <li>View the current status of local repo and workspace. This command can be used to view if there is any untracked files or modified files.
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git status</code></pre></div></div>
+        </li>
+
+      <li>Add some files to the index. You can use <i><strong>git add -A</strong></i> command to add all files to the index. Note: Files in index are tracked files, which means they will be committed to local repo using <i><strong>git commit</strong></i> command. If you want to add only one file to the index, use <i><strong>git add filename</strong></i> command. 
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git add [options] [filename]</code></pre></div></div>
+        </li>
+
+      <li>Commit file in index to local repo. Frequently used command is <i><strong>git commit -a -m "description"</strong></i>, which can commit all tracked files to local repo with specific description.  
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git commit [options]</code></pre></div></div>
+        </li>
+      
+      <li>Push codes to update a branch of a remote repo. <i><strong>git push origin main</strong></i> can update your linked remote repo.
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git push [origin] [branch]</code></pre></div></div>
+        </li>
+
+      <li>Create a new branch from current branch in local repo.
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git branch [branchname]</code></pre></div></div>
+        </li>
+
+      <li>Merge a branch into current branch. If I am currently in main branch, <i><strong>git merge anotherbranch</strong></i> can merge anotherbranch branch to main branch.
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git merge [another branchname]</code></pre></div></div>
+        </li>
+      
+      <li><i><strong>git checkout</strong></i> can be used to:<br>
+          1. Change to another branch by <i><strong>git checkout [branchname]</strong></i>.
+          <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout [branchname]</code></pre></div></div>
+          2. Revert back to previous version by <i><strong>git checkout [version-hash]</strong></i>.
+          <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git checkout [version-hash]</code></pre></div></div>
+        </li>
+
+      <li>View version log of the program. Version hash can be view by this command.
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git log</code></pre></div></div>
+        </li>
+    </ul>
+
+    <br>
+    <hr>
+    <p><a href="https://shaofengwu123.github.io/">Back</a></p>
+    </section>
+  </div>
+
+  <footer>
+    <p>Project maintained by <a href="https://shaofengwu123.github.io/study/study-main.html">ShaofengWu123</a></p>
+    <p>© 2021 GitHub, Inc.</p>
+  </footer>
+</div>
+
+
+</body>
+</html>
+
+
+
+
+
+
