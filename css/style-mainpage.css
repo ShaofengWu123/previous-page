@@ -64,7 +64,9 @@ pre{padding:10px;background:#3A3C42;color:#f8f8f2;margin:0 -20px 20px}
 pre code{color:#f8f8f2}
 
 #particles-js{
-    position:relative;
+    position: fixed;
+    width: 100%;
+    height:100%
 }
 #contentpart{
     position: relative;
