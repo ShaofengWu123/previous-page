@@ -64,9 +64,7 @@ pre{padding:10px;background:#3A3C42;color:#f8f8f2;margin:0 -20px 20px}
 pre code{color:#f8f8f2}
 
 #particles-js{
-    position:fixed;
-    height:100%;
-    width:100%
+    position:relative;
 }
 #contentpart{
     position: relative;
@@ -74,8 +72,9 @@ pre code{color:#f8f8f2}
 
 #allpart{
     position: absolute;
-    top:0;
-    left:31.25%
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
 }
 
 
