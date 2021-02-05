@@ -46,7 +46,29 @@
       <h2><a id="ds-outline">Content outline</a></h2>
       <p>
         <ul>
-          <li>Linear list</li>
+          <li>Linear list/线性表</li>
+            <li>基本定义:<br>n(n>=0)个具有相同特性元素组成的有限序列。</li>
+            <li>顺序实现：顺序表
+            <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define LIST_INIT_SIZE 100
+#define LIST_INCREMENT 10
+typedef struct _sqlist{
+    Elemtype* elem;
+    int length;
+    int size;
+}SqList;</code></pre></div></div></li>
+            <li>链式实现：链式表 (用一组任意的存储单元存储线性表中元素)
+            <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define LIST_INIT_SIZE 100
+typedef struct _lnode{
+    Elemtype* elem;
+    struct _lnode * next;  
+}Lnode,*LinkList;</code></pre></div></div></li>
+            其他的链式表：循环链表、双向循环链表
+            <li>典型问题</li>
+            <ul>
+              <li>顺序表和链式表的比较，例如是否能随机存取和顺序存取</li>
+              <li>时间复杂度分析：线性表插入、删除，链式表插入、删除...</li>
+              <li>容易搞错的基本操作：清空表、销毁表</li>
+            </ul>
           <li>Stack</li> 
           <li>Queue</li> 
           <li>String</li>
@@ -55,8 +77,9 @@
           <li>Tree</li>
             <ul>
               <li>Basic definations:<br>
-                node, degree, leaf, branch node, degree of tree, level, height, ordered/disordered tree, forest, child, parent, sibling, ancestor, descendant  
+                node, <abbr title="子树的数量">degree</abbr>, leaf, branch node, <abbr title="节点最大度数">degree of tree</abbr>, level, height, ordered/disordered tree, forest, child, parent, sibling, ancestor, descendant  
               </li>
+
               <li>Binary tree</li>
                 <ul>
                   <li>完全二叉树和满二叉树</li>
@@ -83,9 +106,61 @@
                       <li>层序遍历：<br>利用队列实现，每次出队列一下，出队列元素的lchild和rchild先后入队
                       </li>
                     </ul>
+                    <li>一些经典问题</li>
+                    <ul>
+                      <li>由先序序列和中序序列唯一确定一颗二叉树</li>
+                      <li><abbr title="波兰式">前缀式</abbr>、中缀式、<abbr title="逆波兰式">后缀式</abbr>与先序、中序、后序遍历</li>
+                    </ul>
+                  </ul>
+                  <li>线索二叉树</li>
+                  <ul>
+                    <li>线索二叉树节点结构</li>
+                    <li>二叉树的线索化</li>
+                    <li>线索二叉树寻找前驱或者后继</li>
                   </ul>
                 </ul>
+
               <li>Tree</li>
+              <ul>
+                <li>树的存储结构</li>
+                <ul>
+                  <li>双亲表示法</li>
+                  <li>孩子表示法</li>
+                  <ul>
+                    <li>多重链表</li>
+                    <li>孩子链表（图的邻接表）</li>
+                    <li>带双亲的孩子链表（双亲表示法+孩子链表）</li>
+                  </ul>
+                  <li>孩子兄弟表示法</li>
+                </ul>
+                <li>树的遍历：先根遍历、后根遍历、层序遍历</li>
+                <ul>
+                  <li><abbr title="先访问根，然后依次先根遍历它的子树">先根遍历</abbr>：<br>借助孩子兄弟表示法和先序遍历实现</li>
+                  <li><abbr title="先依次后根遍历根的子树，然后访问根">后根遍历</abbr>：<br>借助孩子兄弟表示法和中序遍历实现</li>
+                  <li>层序遍历：<br>借助孩子兄弟表示法和队列实现</li>
+                </ul>
+              </ul>
+
+              <li>Forest</li>
+              以下均是在森林非空的前提下进行的
+              <ul>
+                <li><abbr title="访问第一颗子树的根，然后先序遍历第一颗子树去掉根后的子树森林，最后先序遍历去掉第一棵树后的森林">先序遍历</abbr>：<br>借助孩子兄弟表示法和先序遍历实现，也可看做依次先根遍历子树</li>
+                <li><abbr title="中序遍历第一颗子树去掉根后的子树森林，然后访问第一颗子树的根，最后中序遍历去掉第一棵树后的森林">中序遍历</abbr>：<br>借助孩子兄弟表示法和中序遍历实现，也可看做依次后根遍历子树</li>
+              </ul>
+
+              <li>Huffman tree</li>
+              <ul>
+                <li>基本概念<br><abbr title="带权路径长度最小的二叉树">哈夫曼树</abbr>、树的内部/外部路径长度、带权路径长度</li>
+                <li>一些简单的问题</li>
+                <ul>
+                  <li>包含n个权值的Huffman树总共多少节点？ 2n+1</li>
+                  <li>由权值列表画Huffman树</li>
+                  <li>最佳判定树 （能否直接套用Huffman算法？ 不一定）<br>成绩判定问题，构建Huffman树必须相邻的成绩区间项相结合，原因：if else语句一次只能判断大于还是小于等于</li>
+                  <li>计算外部路径、带权路径？</li>
+                </ul>
+                <li>Huffman算法 - 构建Huffman树</li>
+                <li>Huffman树以及Huffman算法的代码实现<br>推荐的数据结构：结构体数组</li>
+              </ul>
             </ul>
           <li>Graph</li>
           <li>Search table</li>   
