@@ -47,6 +47,7 @@
       <p>
         <ul>
           <li>Linear list/线性表</li>
+          <ul>
             <li>基本定义:<br>n(n>=0)个具有相同特性元素组成的有限序列。</li>
             <li>顺序实现：顺序表
             <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define LIST_INIT_SIZE 100
@@ -69,9 +70,156 @@ typedef struct _lnode{
               <li>时间复杂度分析：线性表插入、删除，链式表插入、删除...</li>
               <li>容易搞错的基本操作：清空表、销毁表</li>
             </ul>
-          <li>Stack</li> 
-          <li>Queue</li> 
-          <li>String</li>
+          </ul>
+
+          <li><abbr title="仅限定在表尾或者说栈顶进行插入删除操作的特殊线性表，LIFO">Stack</abbr></li> 
+          <ul>
+            <li>顺序实现：顺序栈
+              <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define STACK_INIT_SIZE 100
+#define STACK_INCREMENT 10
+  typedef struct _sqstack{
+      Elemtype* base;
+      Elemtype* top;
+      int stacksize;//已分配的存储空间
+  }SqStack;</code></pre></div></div></li>
+            <li>链式实现：链式栈
+              <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>typedef struct _stacknode{
+  Elemtype data;
+  struct _stacknode * next;
+}StackNode;
+
+typedef strrct _linkstack{
+  StackNode * top;
+}LinkStack;</code></pre></div></div>
+            </li>
+            <li>基本操作的实现：判断栈空，出栈，入栈，清空栈，销毁栈</li>
+            <li>栈的应用
+              <ul>
+                <li>数制转换计算时储存结果并按顺序输出</li>
+                <li>行编辑器的实现</li>
+                <li>检测括号匹配</li>
+                <li>中缀式求值：
+                  <ul>
+                    <li>双栈求值（符号栈和数字栈）：<br>&nbsp &nbsp 数字入栈；当前符号优先级小于栈顶符号优先级，处理栈顶符号；当前符号优先级大于栈顶符号优先级，入栈等待；相等，消配对括号</li>
+                    <li>中缀式转后缀式（逆波兰式）:<br>&nbsp &nbsp 方法和双栈求值类似，注意碰到右括号时一直出栈直到左括号出栈；逆波兰式求值一次弹出两个数字，此时运算顺序已经排列好了</li>
+                  </ul>
+                <li>函数调用
+                  <ul>
+                    <li>调用过程：<abbr title="包括返回地址、局部变量、寄存器。不同语言、不同编译器存在差异">栈帧</abbr>入栈、执行被调函数、出栈、按返回地址继续执行主调函数</li>
+                    <li><abbr title="直接或间接调用、定义自己">递归</abbr>
+                      <ul>
+                        <li>典型问题：汉诺塔、斐波那契数列、阶乘时间空间复杂度（On）</li>
+                        <li>提高算法时空性能：尾递归、全局栈存储信息</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                </li>
+              </ul>
+            </li>
+          </ul>
+
+          <li><abbr title="仅限定在一端进行插入，另一端进行删除的特殊线性表，FIFO">Queue</abbr>
+            <ul>
+              <li>链式实现：链式队列
+                <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>typedef struct _queuenode{
+  Elemtype data;
+  struct _queuenode * next;
+}QueueNode;
+                
+typedef struct _linkqueue{
+  QueueNode * front, *rear;//front指针恒等于head，这样出队方便改变指针指向
+}LinkQueue;</code></pre></div></div>
+              </li>
+              <li>顺序实现：循环队列
+                <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define MAXSIZE 100
+typedef struct _sqqueue{
+  Elemtype *queue;
+  int front, rear;//用下标指示队头队尾
+}SqQueue;</code></pre></div></div>
+                <ul>
+                  循环队列留出一个位置用于区分队满和队空
+                  <li>入队：rear = (rear+1)%MAXSIZE</li>
+                  <li>出队：front = (front+1)%(MAXSIZE-1)</li>
+                  <li>判断队满：front==(rear+1)%MAXSIZE</li>
+                  <li>判断队空：front==rear</li>
+                </ul>
+              </li>
+            </ul>
+          </li> 
+
+          <li><abbr title="0个或多个字符组成的有限序列">String</abbr>
+            <ul>
+              <li>基本概念<br>&nbsp &nbsp 串值、串长、空串、<abbr title="空格组成的串">空白串</abbr>、子串、<abbr title="从1开始计数，要注意英文字符、数字等为1字节，汉字是2字节">子串的位置</abbr>、串相等、串变量、串常量</li>
+              <li>定长顺序存储实现
+                <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define MAXSTRLEN 100
+typedef struct _sstring{
+  unsigned char str[MAXSTRLEN+1];//0位置存储串长
+}SString;</code></pre></div></div>
+              </li>
+              <li>堆分配存储实现
+                <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define INITSTRLEN 100
+typedef struct _hstring{
+  char * ch;
+  int length;
+}HString;</code></pre></div></div>
+              堆分配要注意做操作时要要释放原来的空间，因为原来内存可能被占用
+              </li>
+              <li>块链存储实现
+                <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define BLOCK_SIZE 4
+typedef struct _bnode{
+  char data[BLOCK_SIZE];//以Bnode为单元，每个单元BLOCK_SIZE个字符，为了提高内存利用率；若不够一个单元，用'@'占位
+  struct _bnode * next;
+}Bnode;
+typedef struct _bstring{
+  Bnode * head;
+  int strlne;
+}BString;</code></pre></div></div>               
+              </li>
+              <li>串的模式匹配
+                <ul>
+                  <li>暴力模式匹配 <br> &nbsp &nbsp 时间复杂度O(nm)，即每次都在最后一个出错，实际情况下近似于O(n+m)</li>
+                  <li>KMP算法
+                    <ul>
+                      <li>算法核心思想：对模式串T计算next[]数组，当T的j位置失配，j=next[j]，即按照寻路表向右滑动一定距离</li>
+                      <li>求next[]数组
+                        <ul>
+                          <li>暴力（穷举）法：比较长1,2，...，j-1的子串</li>
+                          <li>改进穷举法：先比较长1,2，...，j-1的子串最后一位，相等再比较这两个子串</li>
+                          <li>递推法（实现类似KMP算法）
+                            <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void next3(int next[], SString T) {
+  next[0] = T[0];
+	next[1] = 0;
+	next[2] = 1;
+	int i=2, j =1;
+  while(i&ltT[0]){
+    if(j==0||T[i]==T[j]){i++;j++;next[i]=j}
+    else{j=next[j];}
+  }
+}
+</code></pre></div></div>
+                          </li>
+                        </ul>
+                      <li>KMP算法
+                        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int KMP_SString(SString S, SString T, int pos, int next[]) {
+  if (pos <= 0 || pos > S[0]) { return -1; }//检查pos是否合法
+    int j = 1; int i = 1;
+    while (j<=T[0]&&i<=S[0]) {
+      if (j == 0 || S[i] == T[j]) { i++; j++; }//首个字符失配（此时j=0，是非法的值）或者当前字符匹配，i和j都往后移动一下
+      else { j = next[j]; }
+    }
+    if (j > T[0]) { return i - T[0]; }
+    return -1;
+  }</code></pre></div></div>
+                      </li>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
           <li>Number set</li>
           <li>Lists</li>   
           <li>Tree</li>
@@ -82,7 +230,7 @@ typedef struct _lnode{
 
               <li>Binary tree</li>
                 <ul>
-                  <li>完全二叉树和满二叉树</li>
+                  <li><abbr title="除最深一层右边可能缺少节点，其它各层均满">完全二叉树</abbr>和<abbr title="各层均满的二叉树">满二叉树</abbr></li>
                   <li>二叉树的性质</li>
                     <ul>
                       <li>n<SUB>0</SUB>=n<SUB>2</SUB>+1</li>
