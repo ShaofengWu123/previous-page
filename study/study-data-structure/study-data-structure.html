@@ -63,7 +63,7 @@ typedef struct _lnode{
     Elemtype* elem;
     struct _lnode * next;  
 }Lnode,*LinkList;</code></pre></div></div></li>
-            其他的链式表：循环链表、双向循环链表
+            其他的链式表：循环链表（尾部next回到头结点head）、双向循环链表
             <li>典型问题</li>
             <ul>
               <li>顺序表和链式表的比较，例如是否能随机存取和顺序存取</li>
@@ -81,14 +81,16 @@ typedef struct _lnode{
       Elemtype* base;
       Elemtype* top;
       int stacksize;//已分配的存储空间
-  }SqStack;</code></pre></div></div></li>
+  }SqStack;</code></pre></div></div>
+  栈空：base==top，栈满：top-base==stacksize
+</li>
             <li>链式实现：链式栈
               <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>typedef struct _stacknode{
   Elemtype data;
   struct _stacknode * next;
 }StackNode;
 
-typedef strrct _linkstack{
+typedef struct _linkstack{
   StackNode * top;
 }LinkStack;</code></pre></div></div>
             </li>
@@ -220,8 +222,114 @@ typedef struct _bstring{
             </ul>
           </li>
 
-          <li>Number set</li>
-          <li>Lists</li>   
+          <li><abbr title="n(n>1)个具有相同特性数据元素组成的地址连续的有限序列。数组采用随机存取，可以视为线性表的推广，其中数据元素可以是一个数据结构。">Array</abbr>
+            <ul>
+              <li>存储方式
+                <ul>
+                  <li>二维数组：<abbr title="同一行的元素优先放在连续的地址空间">行优先存放</abbr>、列优先存放
+                  <br>行优先存放：LOC(i,j) = a + (in+j)L
+                  </li>
+                  <li>n维数组：映象函数。n维数组由b1个n-1维数组构成，以此类推。<br> LOC(j1,j2,j3,...,jn) = a + Σciji ,其中ci是第i维地址系数，用于提高运算速度，ji是第i维坐标<br>cn = L, cj-1 = cj * bj</li>
+                </ul>
+              </li>
+              <li>顺序实现
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>typedef struct _array{
+  Elemtype * base;//数组元素基址
+  int dim;//维度
+  int * bounds;//各维度元素个数存放基址
+  int * constant;//各维度地址系数存放基址  
+}
+</code></pre></div></div>                
+              </li>
+              <li>C语言实现参数个数可变函数：
+                <ul>
+                  <li>va_list类型：存放变参</li>
+                  <li>va_start(va_list, n)：从本函数参数中读取变参到va_list变参表中</li>
+                  <li>va_arg(va_list, int)：以int类型读取从va_list中读取一个参数，每读取一个下次读取会自动读下一个</li>
+                  <li>va_end(va_list)：结束读取，与va_start配合使用</li>
+                </ul>
+              </li>
+            </ul>
+          </li>
+
+          <li><abbr title="0和非零元素分布有一定规律的矩阵">特殊矩阵</abbr>
+          <ul>
+            <li>对称矩阵、二对角矩阵、三对角矩阵：顺序压缩存储映象函数的求解 <br> 一般为线性关系，通过 k = ai + bj + c 解方程来求解</li>
+            <li><abbr title="非零元素远少于0元素的矩阵"></abbr>稀疏矩阵(Sparse Matrix)
+              <ul>
+                <li>顺序存储实现：三元组表(Triple)
+                <img src="三元组表.png"><br>
+                代码实现:带先后顺序结构体数组<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define MAXSIZE 12500
+typedef struct _triple{
+  Elemtype e;
+  int i,j;
+}Triple;
+
+typedef struct _tsmatrix{
+  Triple data[MAXSIZE+1];//索引0处未用，行为主序（行数小的在前面）
+  int mu, nu, tu;//行数、列数、非零元素数
+}TSMatrix;</code></pre></div></div> 
+                </li>
+                <li>链式存储实现：十字链表
+                  <img src="十字链表.png"><br>
+                  代码实现:两个指针数组加一堆链表节点相连<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>typedef struct _olnode{
+  Elemtype e;
+  struct _olnode * down, *right;
+  int i,j;//该节点的行、列数，设置此域是为了方便建立十字链表的时候找到插入节点的位置
+}OLnode;
+
+typdef struct _crosslist{
+  int mu,nu,tu;//行数、列数、非零元素数
+  OLnode ** chead, rhead;//列指针、行指针数组
+}CrossList;
+</code></pre></div></div> 
+十字链表的优点：<br>对于需要大量移动非零元素位置的操作，十字链表比三元组表更加容易。例如转置（递归交换down和right指针即可）、等于x的元素置零（递归实现，递归过程中记录递归来源节点的指针从而修改链表连接关系，例如将上一个节点的right指针指向被置零节点的right）等操作
+                </li>
+                <li>注意事项：<br> &nbsp &nbsp 绘制三元组表要注意行/列为主序，列/行为次序；绘制十字链表注意节点包括行、列、值和down、right</li>
+              </ul>
+            </li>
+            <li>三元组表实现矩阵转置操作
+              <li>方法1：先交换行号和列号，再按照行先序、列次序的顺序进行排序</li>
+              <li>方法2：从列号j=1开始，重复从前往后搜索列号等于j的元素（先搜索到的元素行号更小），然后放入新的三元组表内，对j=1到j=n循环。时间复杂度O(tu*nu)，即每次都要搜索表，要搜索nu次</li>
+            </li>
+          </ul>
+          </li>
+
+          <li><abbr title="n(n>=0)个元素组成的有限序列，其中元素可以是原子，也可以是广义表。广义表是线性表的推广">广义表（Lists）</abbr>
+            <ul>
+              <li>基本定义
+                <ul>
+                  <li>表头：表非空时，表中第一个元素称作表头。</li>
+                  <li>表尾：除去表头其他元素组成的<strong>广义表</strong>称作表尾。</li>
+                  <li>表长：广义表中元素的个数。</li>
+                  <li>表深：广义表中括号的最大层数。空表的深度为0。</li>
+                </ul>
+              </li>
+              <li>常见问题
+                <ul>
+                  <li>广义表与线性表的区别？ <br>答：广义表元素可以是原子也可以是广义表，而线性表的元素是原子。广义表是线性表的推广。</li>
+                  <li>广义表的表尾是？ <br>答：广义表。</li>
+                  <li>空广义表的长度是？深度是？ <br>答：长度为0，深度也为0。</li>
+                  <li>一个递归定义的广义表，例如 E = (a,E) 表长是多少？表深又是多少？ <br>答：表长为2，表深为无穷。</li>
+                  <li>如何唯一确定一个广义表？ <br>答：一个确定的表头和一个确定的表尾即可确定广义表。</li>
+                </ul>
+              </li>
+              <li>链式存储实现：
+                <img src="广义表的链式存储结构.png">
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>typedef struct _glnode{
+  int tag;//tag为0代表原子节点，tag为1代表表结点
+  union{
+    Elemtype value;原子节点的值
+    struct _glnode * hp;//表头指针
+  };
+  struct _glnode * tp;//表尾指针，对于原子节点来说恒为NULL，若表尾为空表也为NULL；
+}GLNode;</code></pre></div></div> 
+              </li>
+
+            </ul>
+          </li>   
+
+
           <li>Tree</li>
             <ul>
               <li>Basic definations:<br>
