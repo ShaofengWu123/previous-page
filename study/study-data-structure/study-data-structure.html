@@ -202,6 +202,8 @@ typedef struct _bstring{
 </code></pre></div></div>
                           </li>
                         </ul>
+                        注意：求next[]数组可以直接根据定义求，求的时候一定要找到最长匹配的子串，不然next值可能有误
+                        </li>
                       <li>KMP算法<br>
                         时间复杂度为O(length(s))，其中s为主串的长度，原因是：主串指针向后移动length次，在单个字符匹配并且i向后移动的过程中模式串最多会回跳j次，而j取决于匹配的次数，最多为length，所以时间复杂度为O(length(s))；另外这里不包括求next数组的复杂度。
                         <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int KMP_SString(SString S, SString T, int pos, int next[]) {
@@ -227,7 +229,7 @@ typedef struct _bstring{
             <ul>
               <li>存储方式
                 <ul>
-                  <li>二维数组：<abbr title="同一行的元素优先放在连续的地址空间">行优先存放</abbr>、列优先存放
+                  <li>二维数组：<abbr title="同一行的元素优先放在连续的地址空间">行优先存放</abbr>、列优先存放。另外要注意所有数组的下标都是从0开始的。
                   <br>行优先存放：LOC(i,j) = a + (in+j)L
                   </li>
                   <li>n维数组：映象函数。n维数组由b1个n-1维数组构成，以此类推。<br> LOC(j1,j2,j3,...,jn) = a + Σciji ,其中ci是第i维地址系数，用于提高运算速度，ji是第i维坐标<br>cn = L, cj-1 = cj * bj</li>
@@ -310,7 +312,7 @@ typdef struct _crosslist{
                 <ul>
                   <li>广义表与线性表的区别？ <br>答：广义表元素可以是原子也可以是广义表，而线性表的元素是原子。广义表是线性表的推广。</li>
                   <li>广义表的表尾是？ <br>答：广义表。</li>
-                  <li>空广义表的长度是？深度是？ <br>答：长度为0，深度也为0。</li>
+                  <li>空广义表的长度是？深度是？ <br>答：长度为0，深度为1。原子节点的深度定义为0.</li>
                   <li>一个递归定义的广义表，例如 E = (a,E) 表长是多少？表深又是多少？ <br>答：表长为2，表深为无穷。</li>
                   <li>如何唯一确定一个广义表？ <br>答：一个确定的表头和一个确定的表尾即可确定广义表。</li>
                 </ul>
@@ -321,7 +323,7 @@ typdef struct _crosslist{
   int tag;//tag为0代表原子节点，tag为1代表表结点
   union{
     Elemtype value;原子节点的值
-    struct _glnode * hp;//表头指针
+    struct _glnode * hp;//表头指针，实际上这里放表尾指针也可，因为原子节点本身就没有表头表尾。但是不能同时放表头表尾，因为union每次只能存一个成员
   };
   struct _glnode * tp;//表尾指针，对于原子节点来说恒为NULL，若表尾为空表也为NULL；
 }GLNode;</code></pre></div></div> 
@@ -334,12 +336,12 @@ typdef struct _crosslist{
           <li>Tree</li>
             <ul>
               <li>Basic definations:<br>
-                node, <abbr title="子树的数量">degree</abbr>, leaf, branch node, <abbr title="节点最大度数">degree of tree</abbr>, level, height, ordered/disordered tree, forest, child, parent, sibling, ancestor, descendant  
+                node, <abbr title="子树的数量">degree</abbr>, leaf, branch node, <abbr title="节点最大度数">degree of tree</abbr>, level, height, <abbr title="孩子左右顺序是否能变换">ordered/disordered tree</abbr>, forest, child, parent, sibling, ancestor, descendant  
               </li>
 
               <li>Binary tree</li>
                 <ul>
-                  <li><abbr title="除最深一层右边可能缺少节点，其它各层均满">完全二叉树</abbr>和<abbr title="各层均满的二叉树">满二叉树</abbr></li>
+                  <li><abbr title="除最深一层右边可能缺少节点（可以缺奇/偶数个节点），其它各层均满">完全二叉树</abbr>和<abbr title="各层均满的二叉树">满二叉树</abbr></li>
                   <li>二叉树的性质</li>
                     <ul>
                       <li>n<SUB>0</SUB>=n<SUB>2</SUB>+1</li>
@@ -410,7 +412,7 @@ typdef struct _crosslist{
                 <li>基本概念<br><abbr title="带权路径长度最小的二叉树">哈夫曼树</abbr>、树的内部/外部路径长度、带权路径长度</li>
                 <li>一些简单的问题</li>
                 <ul>
-                  <li>包含n个权值的Huffman树总共多少节点？ 2n+1</li>
+                  <li>包含n个权值的Huffman树总共多少节点？ 2n-1</li>
                   <li>由权值列表画Huffman树</li>
                   <li>最佳判定树 （能否直接套用Huffman算法？ 不一定）<br>成绩判定问题，构建Huffman树必须相邻的成绩区间项相结合，原因：if else语句一次只能判断大于还是小于等于</li>
                   <li>计算外部路径、带权路径？</li>
@@ -718,7 +720,7 @@ typedef struct _amlgraph{
                   <li>平衡二叉排序树
                     <ul>
                       <li>定义：是平衡树的二叉排序树。其中平衡树左右子树深度相差最大为1，且左右子树也是平衡树。平衡二叉排序树可以解决二叉排序树性能受形态影响的缺点。</li>
-                      <li>平衡二叉树的性质：<br>对于深度为h的平衡二叉树，其拥有的最少节点数为N<sub>h</sub>，其中N<sub>h</sub> = N<sub>h-1</sub>+N<sub>h-2</sub>+1。因此对于拥有n个节点的平衡二叉树，可反推出h为O(logn)，平均查找长度为O(logn)</li>
+                      <li>平衡二叉树的性质：<br>对于深度为h的平衡二叉树，其拥有的最少节点数为N<sub>h</sub>，其中N<sub>h</sub> = N<sub>h-1</sub>+N<sub>h-2</sub>+1。因此对于拥有n个节点的平衡二叉树，可反推出h为O(logn)（斐波那契数列），平均查找长度为O(logn)</li>
                       <li>平衡因子与平衡二叉树的判定<br>
                         平衡因子 = 左子树深度-右子树深度，平衡二叉树节点平衡因子必为0,-1,1。
                         <img src="平衡二叉树与平衡因子.png">  
@@ -824,7 +826,8 @@ typedef struct _BTNode{
                       </li>
                       <li>哈希查找<br>
                         <img src="哈希查找.png"><br>
-                        哈希查找的ASL是冲突处理方法和装填因子（α=n/m）的函数，而非仅仅是n的函数；通过控制装填因子α，可以将ASL限制在某个范围内，所有哈希表都有这个特点。
+                        哈希查找的ASL是冲突处理方法和装填因子（α=n/m）的函数，而非仅仅是n的函数；通过控制装填因子α，可以将ASL限制在某个范围内，所有哈希表都有这个特点。<br>
+                        探测链与同义词的概念。
                       </li>
                     </ul>
                   </li>
@@ -832,6 +835,9 @@ typedef struct _BTNode{
               </li>
 
             </ul>
+          </li>
+          <li>易错知识点：<br>
+            AOE网络、强连通分量（极大连通子图）、图的深度优先遍历、Floyd算法
           </li>   
         </ul>
       </p>
