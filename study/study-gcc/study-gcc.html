@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en-US">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<title>Study GCC| Shaofeng's Page</title>
+<meta property="og:title" content="Shaofeng's Page" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A personal page of Shaofeng Wu." />
+
+<link rel="stylesheet" href="../../css/style-mainpage.css">
+<script src="/modernist/assets/js/scale.fix.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+<link rel="shortcut icon" href="../../img/emilia.png"><!--logo-->
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+    <div id="particles-js"></div><!-- particle effect scripts -->
+    <script src="../../js/particles.js"></script>
+    <script src="../../js/app.js"></script>
+
+  <div id="allpart">
+  <div class="wrapper" id="contentpart">
+    <header >
+      <h1>伍少枫的个人主页</h1>
+      <p>Shaofeng's Personal Website</p>
+    <p class="view"><a href="https://github.com/ShaofengWu123/ShaofengWu123.github.io">View the Project on GitHub <small></small></a></p>
+    <ul>
+    <li><a href="https://github.com/ShaofengWu123/ShaofengWu123.github.io">View On <strong>GitHub</strong></a></li>
+    </ul>
+    </header>
+    <section>
+      <h1>GCC</h1><!-- main title -->
+      
+
+      <ul>
+      <li><a href="#gcc-definition">What is GCC?</a></li><!--content list -->
+      <li><a href="#gcc-program">Build a Program in C</a></li>
+      <li><a href="#gcc-options">gcc Options</a></li> 
+      <li><a href="#git-ref">Reference</a></li>   
+      </ul>
+      <hr>
+
+      <h2><a id="gcc-definition">What is GCC</a></h2>
+      <p>GCC（GNU Compiler Collection，GNU编译器套件）是由GNU开发的编程语言译器。GNU编译器套件包括C、C++、 Objective-C、 Fortran、Java、Ada和Go语言前端，也包括了这些语言的库（如libstdc++，libgcj等。）</p>
+      <br>
+      
+      <h2><a id="gcc-program">Build a Program in C</a></h2>
+      <p>
+        <img src="./build_c_program.png"> 
+      </p>
+
+      <h2><a id="gcc-options">gcc options</a></h2>
+      <p>Following is a list of frequently used gcc options and how to use them.</p>
+      
+      <ul>
+        <li>无选项编译链接：将test.c预处理、编译、汇编并链接形成可执行文件。这里未指定输出文件，默认输出为a.out。
+          <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc test.c </code></pre></div></div>
+        </li>
+
+        <li>-o：将test.c预处理、编译、汇编并链接形成可执行文件test。-o选项用来指定输出文件的文件名。
+      <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc -o test.exe test.c</code></pre></div></div>
+      </li>  
+
+      <li>-E：将test.c预处理输出test.i文件。
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc -E test.c -o test.i</code></pre></div></div>
+        </li>
+
+      <li>-S：将预处理输出文件test.i汇编成test.s文件。
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc -S test.i</code></pre></div></div>
+        </li>
+
+      <li>-c：将汇编输出文件test.s编译输出test.o文件。
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc -c test.s</code></pre></div></div>
+        </li>
+
+      <li>无选项链接：将编译输出文件test.o链接成最终可执行文件test。 
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc test.o -o test.exe</code></pre></div></div>
+        </li>
+      
+      <li>-O：使用编译优化的编译程序。级别为1~3，级别越大优化效果越好，但编译时间越长。
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc-O1 test.c -o test.exe</code></pre></div></div>
+        </li>
+
+      <li>多文件同时编译：若其中某源文件发生改变，那么所有源文件都需要重新编译
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc test1.c test2.c -o test.exe</code></pre></div></div>
+        </li>
+
+      <li>分别编译，然后链接：若其中某源文件发生改变，那么只需要重新编译发生改变的源文件
+        <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcc -c test1.c
+gcc -c test2.c
+gcc test1.o test2.o -o test.exe</code></pre></div></div>
+        </li>
+    </ul>
+    <br>
+
+
+    <h2 id="gcc-ref">Reference</h2>
+    <ul>
+      <li>https://www.runoob.com/w3cnote/gcc-parameter-detail.html</li>
+      <li>中科大操作系统课程ppt</li>
+    </ul>  
+    <br>
+    <hr>
+    <p><a href="../study-main.html">Back</a></p>
+    </section>
+  </div>
+
+  <footer>
+    <p>Project maintained by <a href="https://github.com/ShaofengWu123">ShaofengWu123</a></p>
+    <p>© 2021 GitHub, Inc.</p>
+  </footer>
+</div>
+
+
+</body>
+</html>
+
+
+
+
+
+
