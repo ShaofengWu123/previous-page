@@ -26,6 +26,12 @@ window.onload=function()
  var odiv6=document.getElementById("thediv6");
  var olink7=document.getElementById("link7");
  var odiv7=document.getElementById("thediv7");
+ var olink8=document.getElementById("link8");
+ var odiv8=document.getElementById("thediv8");
+ var olink9=document.getElementById("link9");
+ var odiv9=document.getElementById("thediv9");
+ var olink10=document.getElementById("link10");
+ var odiv10=document.getElementById("thediv10");
  olink1.onclick=function()
  {
   Show_Hidden(odiv1);
@@ -59,6 +65,21 @@ window.onload=function()
  olink7.onclick=function()
  {
   Show_Hidden(odiv7);
+  return false;
+ }
+ olink8.onclick=function()
+ {
+  Show_Hidden(odiv8);
+  return false;
+ }
+ olink9.onclick=function()
+ {
+  Show_Hidden(odiv9);
+  return false;
+ }
+ olink10.onclick=function()
+ {
+  Show_Hidden(odiv10);
   return false;
  }
 }

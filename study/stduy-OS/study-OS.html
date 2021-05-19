@@ -322,7 +322,52 @@
                   </li>
                 </ul>
               </li>
-              <li>多线程引起的一些问题
+              <li>多线程编程
+                <ul>
+                  <li>显式多线程：线程库-创建和管理线程的API
+                    <ul>
+                      <li>创建线程类型
+                        <ul>
+                          <li>异步线程:多个线程独立同时运行，很少进行数据共享</li>
+                          <li>同步线程：父线程等待子线程结束，大量数据共享（fork-join）
+                          </li>
+                        </ul>
+                      </li>
+                      <li>Pthread库：POSIX标准的线程创建、同步API
+                        <ul>
+                          <li>线程创建：线程以一个指定的函数（线程函数）开始，父线程在join处阻塞等待子进程结束，join返回
+                            <ul>
+                              <li>pthread_create(&tid,线程属性,函数名,函数参数)<br>例子：pthread_create(&tid,NULL,hello,"hello world")
+                              <br>说明：线程属性若为非分离的，那么线程结束时未完全释放资源，也未完全终止，在join返回时才完全释放，或者设置分离属性，线程结束时立即释放
+                              </li>
+                              <li>pthread_join(tid,用户定义指针)<br>
+                              说明：用户定义指针用于存储被等待线程的返回值，pthread_join返回值为0表示成功，失败返回错误号
+                              </li>
+                            </ul>
+                          </li>
+                          <li>传递参数：注意线程函数若以指针为参数，那么线程修改指针指向内容会引起所有线程（包括父线程）相关变量值的变更</li>
+                          <li>等待多个线程返回：注意pthread_join的特点，要指定等待的tid -> pthread_join(tid,NULL) in a loop</li>
+                          <li>返回值：pthread_exit(output) -> pthread_join(tid,(void**)output)，将全局变量或堆指针（pass by reference not value）返回给父线程，从而使用子线程处理好的数据</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>隐式多线程：创建、管理线程由编译器和运行时库完成
+                    <br>&nbsp &nbsp 好处：编程容易，bug少
+                    <ul>
+                      <li>线程池:创建一定数量的线程等待工作<br>
+                        好处：
+                        <ul>
+                          <li>用已存在的线程比创建一个线程来服务请求更快</li>
+                          <li>线程池限制了应用所拥有的线程数，防止无限请求无限创建线程，线程池空请求只能等待线程</li>
+                        </ul>
+                      </li>
+                      <li>OpenMP：编译制导</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>多线程引起的一些问题-特殊处理
                 <ul>
                   <li>fork()和exec()的语义
                     <ul>
@@ -332,18 +377,856 @@
                           <li>新进程只复制调用线程。这种情况应适用于fork()之后调用exec()的应用</li>
                         </ul>
                       </li>
-                      <li>exec()语义</li>
+                      <li>exec()语义：指定程序替换整个进程，作用于所有线程</li>
                     </ul>
                   </li>
-                  <li>线程取消</li>
-                  <li>信号处理</li>
-                  <li>线程特定数据</li>
-                  <li>线程池</li>
+                  <li>线程取消
+                    <ul>
+                      <li>异步取消：一个线程立即终结目标线程</li>
+                      <li>同步取消：目标线程不断检查自身是否可以终止，在取消点安全、有序终止自身</li>
+                      <li>优点/缺点：
+                        <ul>
+                          <li>异步取消在目标线程更新与其他线程共享数据时十分麻烦</li>
+                          <li>由于操作系统并不回收线程所有资源，异步取消也不能使已分配的资源空闲</li>
+                        </ul>
+                      </li>
+                      <li>pthread线程取消方式<br>
+                        默认为deferred，通过pthread_testcancel()来设置撤销点，通过pthread_cancel()请求取消
+                        <table>
+                          <thead>
+                            <tr>
+                              <th style="text-align: left">Mode</th>
+                              <th style="text-align: left">是否允许取消</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td style="text-align: left">Off</td>
+                              <td style="text-align: left">Disabled</td>
+                            </tr>
+                            <tr>
+                              <td style="text-align: left">Deferred</td>
+                              <td style="text-align: left">Enabled</td>
+                            </tr>
+                            <tr>
+                              <td style="text-align: left">Asynchronous</td>
+                              <td style="text-align: left">Enabled</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>信号处理
+                    <ul>
+                      <li>信号：UNIX中用于通知进程某事件已经发生，信号产生后被发送到进程，一旦产生必须进行处理</li>
+                      <li>信号接收方式/信号类型
+                        <ul>
+                          <li>同步接收：同步信号被送到产生信号的同一进程，例子有非法访问内存或被0所除</li>
+                          <li>异步接收：异步信号一般被送到另一个进程，例子有使用特殊键和计时器到期</li>
+                        </ul>
+                      </li>
+                      <li>信号处理
+                        <ul>
+                          <li>默认信号处理程序（在内核中对信号进行处理）</li>
+                          <li>用户定义的信号处理程序</li>
+                        </ul>
+                      </li>
+                      <li>信号传递的目标线程（对于多线程进程而言）
+                        <ul>
+                          <li>发送信号到信号所应用的线程</li>
+                          <li>发送信号到进程内每个线程</li>
+                          <li>发送信号到线程内某些固定线程</li>
+                          <li>规定一个特定线程以接收进程的所有信号</li>
+                          <li>例子：信号发送方法取决于信号类型。同步信号应送到产生信号的线程，异步信号不一定，有的可能要发送到所有线程，例如Ctrl+C按键产生的信号。</li>
+                        </ul>
+                      </li>
+                      <li>发送信号函数
+                        <ul>
+                          <li>UNIX标准发送信号的函数：kill(pid,signal)</li>
+                          <li>POSIX Pthread发送信号到特定线程：pthread_kill(tid,signal)</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>线程特定数据(TLS)：线程拥有的属于自己的数据拷贝
+                    <ul>
+                      <li>理解：TLS是属于线程的一份数据，可以理解为static类型的数据，但不是static数据，因为static在内存管理层面放在data段，与全局变量一视同仁，同进程线程都能访问，但是从功能的角度可以理解为线程内的static数据，线程内所有函数共享，其粒度介于全局变量（同进程线程共享）和局部变量（栈，仅单个函数内可见）之间</li>
+                      <li>作用：提供更细致粒度的数据范围的控制，线程内部函数均可见TLS，并且这份数据属于单个线程，适合一些应用场景下每个线程需要一份单独的数据</li>
+                    </ul>
+                  </li>
                 </ul>
               </li>
             </ul>
           </div>
         </li>
+
+        <li><a href="#" id="link8">进程通信与同步</a>
+          <br>
+          合作进程 -> 进程间通信（IPC）<br>
+          竞争条件 -> 进程间同步 -> 最终方案：信号量 -> 死锁和三个典型问题
+          <div id="thediv8" style="display:none">
+          <ul>
+            <li>合作进程（Cooperating process）
+              <ul>
+                <li>概念：与独立进程比较，合作进程与其他进程共享数据，会被其他进程影响</li>
+                <li>优点：
+                  <ul>
+                    <li>共享信息</li>
+                    <li>加速计算</li>
+                    <li>功能模块化</li>
+                    <li>便利</li>
+                  </ul>
+                </li>
+                <li>实现关键：IPC</li>
+              </ul>
+            </li>
+            <li>IPC-进程间通信
+              <ul>
+                <li>概念：进程间交换数据的过程</li>
+                <li>实现方法：
+                  <img src="IPC_modules.png">
+                  <ul>
+                    <li>共享存储（shared memory）
+                      <ul>
+                        <li>实现方法（三要素）：生产者、消费者、buffer（一个共享的队列）</li>
+                        <li>特点：通过routine访问共享对象，比较快</li>
+                        <li>实现方法中的问题->buffer的要求<br>
+                          buffer分为bounded和unbounded，其中有限buffer需要满足如下要求
+                          <ul>
+                            <li>对于producer：producer向buffer写入但buffer已满 -> producer被挂起，consumer出队一个元素后唤醒producer</li>
+                            <li>对于consumer：consumer从buffer读取但buffer已空 -> consumer被挂起，producer入队一个元素后唤醒consumer</li>
+                          </ul>
+                        </li>
+                        <li>适合场景：不同进程在同一台机器上</li>
+                      </ul>
+                    </li>
+                    <li>消息传递（message passing）
+                      <ul>
+                        <li>实现方法：建立连接->send/receive operation</li>
+                        <li>特点：需要内核干预，适合分布式系统</li>
+                        <li>实现方法中的问题（逻辑实现）：
+                          <ul>
+                            <li>命名问题
+                              <table>
+                                <thead>
+                                  <tr>
+                                    <th style="text-align: left">命名方式</th>
+                                    <th style="text-align: left">实现方式</th>
+                                    <th style="text-align: left">操作</th>
+                                    <th style="text-align: left">特点</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr>
+                                    <td style="text-align: left">显式/直接沟通</td>
+                                    <td style="text-align: left">显示命名彼此</td>
+                                    <td style="text-align: left">send/receive(msg)</td>
+                                    <td style="text-align: left">指明对方并建立连接（两者之间只存在一个连接）以通信，但是这会导致编程困难</td>
+                                  </tr>
+                                  <tr>
+                                    <td style="text-align: left">隐式/间接沟通</td>
+                                    <td style="text-align: left">从邮箱或者说端口收发消息</td>
+                                    <td style="text-align: left">send/receive(A,msg)</td>
+                                    <td style="text-align: left">两者有共享的邮箱，一个连接可能与多个进程对有关，一个进程对可以有多个连接</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </li>
+                            <li>同步问题-关于send和receive的实现
+                              <ul>
+                                <li>同步：阻塞接收和发送
+                                  <ul>
+                                    <li>blocking send：直到msg被确认收到才继续发送</li>
+                                    <li>blocking receive：在收到msg之前阻塞</li>
+                                  </ul>
+                                </li>
+                                <li>异步：非阻塞接收和发送
+                                  <ul>
+                                    <li>unblocking send：发送msg然后恢复</li>
+                                    <li>unblocking receive：收到有效msg或者null</li>
+                                  </ul>
+                                </li>
+                                <li>组合
+                                  <ul>
+                                    <li>同步+同步：产生会话，无需buffer</li>
+                                    <li>其他组合需要buffer：
+                                      <ul>
+                                        <li>零容量buffer：停-等</li>
+                                        <li>有限buffer：sender发送窗口有限</li>
+                                        <li>无限buffer：sender无限发送</li>
+                                      </ul>
+                                    </li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>IPC具体实例
+                  <ul>
+                    <li>POSIX共享内存 - memory-mapped file
+                      <ul>
+                        <li>核心思想：生产者消费者模型 + 共享内存关联到一个文件</li>
+                        <li>特点：通过读写操作直接访问共享对象的区域</li>
+                        <li>生产者操作：<br>
+                          创建共享内存对象-配置对象大小-建立内存映像文件-文件操作
+                        </li>
+                        <li>消费者操作：<br>
+                          打开共享对象-建立内存映像文件-文件操作-移除共享对象
+                        </li>
+                      </ul>
+                    </li>
+                    <li>套接字Socket</li>
+                    <li>管道Pipe - A shared object<br>
+                      管道让进程以生产者-消费者模型沟通。
+                      <ul>
+                        <li>普通管道/匿名管道
+                          <ul>
+                            <li>文件标识符：在文件系统中无名</li>
+                            <li>使用对象：父-子进程间，子进程从父进程继承管道的文件描述符，进程要在同一机器上</li>
+                            <li>方向：单向（当然也是单工的）</li>
+                            <li>存活期：进程间沟通结束后消失</li>
+                          </ul>
+                        </li>
+                        <li>命名管道
+                          <ul>
+                            <li>文件标识符：在文件系统中有名字</li>
+                            <li>使用对象：无需父-子进程关系，进程要在同一机器上，多进程共享</li>
+                            <li>方向：双向（但是半双工的）</li>
+                            <li>存活期：在被完全删除前一直存在</li>
+                          </ul>
+                        </li>
+                        <li>UNIX管道 - 特殊的共享文件，内核空间的一个FIFO
+                          <ul>
+                            <li>匿名管道：pipe(fd[]),fork(),read(),write(),close()</li>
+                            <li>命名管道:mkfifo(),open(),read(),write(),close</li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>竞争条件(Race Condition)
+                  <ul>
+                    <li>定义：程序执行的结果决定于共享资源某个特定的被访问次序，不同的访问次序可能造成不同结果。</li>
+                    <li>例子：对共享对象的同时访问会造成意想不到的结果。</li>
+                    <li>特点：99%结果正确，1%结果错误 -> 难以debug</li>
+                    <li>避免方法：进程间同步</li>
+                  </ul>
+                </li>
+                <li>进程间同步 - <strong>互斥</strong>
+                  <ul>
+                    <li>核心思想：互斥(Mutual Exclusion)</li>
+                    <li>互斥的概念：某一时刻只有一个进程可以进行对共享对象的访问（这里的访问指的是一系列操作）。</li>
+                    <li>互斥的实现：
+                      <ul>
+                        <li>不可抢占内核（不通用）：对于SMP比较容易设计，但不通用，且不利于快速响应、实时编程。</li>
+                        <li><strong>临界区（critical zone）</strong>
+                          <ul>
+                            <li>定义：进程操作共享对象的一段代码，当进程在临界区内执行时，其他的进程不允许进入它们的临界区执行。临界区应该是紧凑的。</li>
+                            <li>框架：section entry + critical section + section exit + remainder section 
+                              <img src="critical_section.png">
+                            </li>
+                            <li>E-E(entry-exit)实现的四个要求：
+                              <ul>
+                                <li>E-E包含的临界区是互斥的</li>
+                                <li>假定进程执行速度不为0，但是不应该对n个进程的相对速度和CPU数量做任何假定（不能用进程在临界区内时间来决定退出或进入）</li>
+                                <li>进展(progress)：在临界区外的进程之间不应阻塞彼此，即只有不在剩余区执行的进程能决定谁下一个进入临界区</li>
+                                <li>有限等待(bounded waiting)：即不能饿死</li>
+                              </ul>
+                            </li>
+                            <li>E-E的硬件实现：原子指令</li>
+                            <li><strong>E-E的软件实现</strong>：
+                              <ul>
+                                <li>不可中断：进入临界区前禁用上下文切换<br>
+                                  缺点：
+                                  <ul>
+                                    <li>多核均被禁用 -> 在多核的体系中会导致资源严重浪费且不现实</li>
+                                    <li>降低并行度</li>
+                                  </ul>
+                                </li>
+                                <li>互斥锁(Mutex Lock)：进入临界区前申请获取锁，离开临界区释放锁。其中互斥锁是一个共享对象。<br>
+                                  缺点：
+                                  <ul>
+                                    <li>造成忙等(busy waiting)，浪费CPU资源，但是如果临界区执行的时间比较短（即锁被持有的时间段比较短）那么可以忽略这一点。</li>
+                                  </ul>
+                                </li>
+                                <li>严格轮转(Strict Alternation)：turn作为共享对象，所有进程排成队列，严格轮流进入临界区<br>
+                                  缺点：
+                                  <ul>
+                                    <li>造成忙等(busy waiting)，浪费CPU资源</li>
+                                    <li>过于严格，必须轮流进入，每一轮每个进程只能进入一次临界区</li>
+                                    <li>违反E-E实现的要求progress，即不在临界区的进程阻塞了其他进程进入临界区</li>
+                                  </ul>
+                                </li>
+                                <li>Peterson算法（两个进程）：turn和interested[2]作为共享对象<br>
+                                  缺点
+                                  <ul>
+                                    <li>造成忙等(busy waiting)，浪费CPU资源</li>
+                                    <li>优先级反转/自旋锁（指会发生忙等的锁）</li>
+                                  </ul>
+                                </li>
+                                <li>信号量(semaphore)：令牌数记录了共享对象数量，其作为共享对象 -> 最终解决方案
+                                  <ul>
+                                    <li>定义：一种数据类型（int,maybe more than int），一个共享对象，其记录进程操纵需要的空闲共享对象数量</li>
+                                    <li>唯二操作：down()/up()，也可叫wait()/signal -> <strong>都是原子的</strong></li>
+                                    <li>类型：二进制、计数型</li>
+                                    <li>实现的两个问题：忙等和原子标准操作
+                                      <ul>
+                                        <li>忙等：阻塞进程而不是忙等，即把进程放入等待队列</li>
+                                        <li>原子标准操作：禁止抢占
+                                        </li>
+                                      </ul>
+                                    </li>
+                                  </ul>
+                                  <img src="./semaphore.png">
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>信号量使用问题：死锁(Dead Lock)
+                  <ul>
+                    <li>概念：进程互相需要彼此持有的资源，导致没有进程能获得资源并离开section entry进入临界区</li>
+                    <li>要求：
+                      <ul>
+                        <li>互斥：某个资源实体在某时刻只能被某一个进程使用</li>
+                        <li>持有并等待(Hold and wait)：持有至少一项资源并等待其他资源</li>
+                        <li>无抢占：即资源只能由当前持有者在section exit自愿释放</li>
+                        <li>循环等待(Circular wait)：P0 waits for P1,...,Pn-1 waits for Pn,Pn waits for P0</li>
+                      </ul>
+                    </li>
+                    <li>表征：资源分配图（两种节点两种边）
+                      <ul>
+                        <li>无有向圈 -> 无死锁</li>
+                        <li>有有向圈且每种资源只有一个实体 -> 有死锁</li>
+                        <li>有有向圈且每种资源有多个实体   -> 可能有死锁</li>
+                        <img src="./resource_allocation_datagram.png">
+                      </ul>
+                    </li>
+                    <li>解决方法
+                      <ul>
+                        <li>检测恢复
+                          <ul>
+                            <li>一种资源一个实体：DFS检测有向圈</li>
+                            <li>一种资源多个实体：EACR<br>
+                              目标：检测出一条可行的执行序列；对于每个进程，若
+                              <ul>
+                                <li>若Ci=0,那么忽略此进程，原因是其必然不会处于产生死锁的环内，虽然它可能被饿死，但这跟检测死锁算法无关</li>
+                                <li>若Ci>0，Ri小于等于A，那么假设此进程结束执行，令A = A + Ci，继续寻找执行序列下一个可行的进程</li>
+                                <li>若找不到可行进程，即剩下的进程全部满足Ci>0且Ri大于A，那么说明系统死锁，且是由于剩下进程发生的死锁</li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>预防避免：银行家算法(EACR)
+                          <ul>
+                            <li>系统状态：由(E,A,C,R)四个向量定义</li>
+                            <li>安全/不安全系统状态：存在/不存在可行执行序列（判断方法同检测恢复中第二种情况）</li>
+                            <li>算法：周期性检查系统状态，对于新的请求，请求后状态为安全则接受，不安全则拒绝</li>
+                            <img src="./bankers_algorithm.png">
+                          </ul>
+                        </li>
+                        <li>忽略（鸵鸟算法）：停止工作，手动重启
+                          <ul>
+                            <li>优点：开销低，容易实现 -> 由于死锁发生频率小，检测、避免得不偿失</li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </li>
+          <li>信号量应用场景：三个典型IPC问题模型
+            <ul>
+              <li>生产者-消费者问题
+                <ul>
+                  <li>三要素：producer + consumer + bounded buffer</li>
+                  <li>两个要求
+                    <ul>
+                      <li>生产者：产生资源，队满时挂起，消费者在队满时消费了资源那么将其唤醒</li>
+                      <li>消费者：消费资源，队空时挂起，生产者在队空时产生了资源那么将其唤醒</li>
+                    </ul>
+                  </li>
+                  <li>解决方法：pipe（前面已经有过总结）或者semaphore+shared object(buffer)
+                    <ul>
+                      <li>子问题1：互斥 -> 二进制信号量mutex</li>
+                      <li>子问题2：同步 -> 计数型信号量full和empty</li>
+                      <li>实现逻辑<br>
+                        生产者产生一个新的资源，检查buffer是否满(down(empty))，满则挂起，不满则申请锁；申请不到则挂起，申请到则进入临界区；临界区内访问buffer，向其中插入一个元素；释放锁并up(full)<br>
+                        消费者检查buffer是否空(down(full))，空则挂起，不空则申请锁；申请不到则挂起，申请到则进入临界区；临界区内访问buffer，从其中获取一个元素；释放锁并up(empty)，处理得到的元素<br>
+                        <img src="./producer_consumer.png"><br>
+                        注意：调换生产者section entry内empty和mutex进行down()的顺序可能会引起死锁 -> 队满，生产者需要empty但持有mutex，消费者需要mutex但持有empty，形成循环等待
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>哲学家就餐问题
+                <ul>
+                  <li>问题描述(要素)：哲学家思考（剩余区）和吃饭（临界区），吃饭时哲学家i同时需要筷子i和(i+1)%N</li>
+                  <li>问题要求（子问题）
+                    <ul>
+                      <li>子问题1：互斥</li>
+                      <li>子问题2：同步</li>
+                    </ul>
+                  </li>
+                  <li>不完善的解决方法：让筷子作为共享对象<br>
+                    问题：一人拿一支筷子 -> 死锁 -> 退避解决 -> 存在执行顺序，所有的哲学家都忙着拿筷子、放筷子、睡觉，但是没有任何进展
+                  </li>
+                  <li>解决方法：让哲学家的状态state作为共享对象，外加二进制信号量mutex、二进制信号量数组s（s[i]代表哲学家i是否有吃的许可证）<br>
+                    section entry逻辑：获取mutex，修改自身state为hungry，并检测（test()）是否能获得令牌，然后释放锁，最后down令牌，若发现没有令牌则阻塞，等待左右两边的哲学家发给自己令牌，否则直接开始吃饭<br>
+                    section exit 逻辑：获取mutex，修改自身state为thinking，并检测左右哲学家是否能获得令牌，然后释放锁<br>
+                    test(i)：测试哲学家是否能获得吃饭令牌，当自己state为hungry且左右哲学家都不在吃饭时，修改自己状态为eating，并为自己添加令牌，否则不修改状态和令牌（状态保持hungry，令牌保持为0）
+                  </li>
+                </ul>
+                <img src="philosopher.png">
+              </li>
+              <li>读者-写者问题
+                <ul>
+                  <li>问题描述：读者、写者对同一个数据库进行访问</li>
+                  <li>问题要求（子问题）：
+                    <ul>
+                      <li>子问题1：互斥（database是共享对象）</li>
+                      <li>子问题2：同步问题
+                        <br>可以同时读、读时不能写、写时不能读和写
+                      </li>
+                      <li>子问题3：并发问题
+                        <br>多读者并发读允许
+                      </li>
+                    </ul>
+                  </li>
+                  <li>解决方法：db是database的二进制信号量，mutex二进制信号量是read_count共享对象的锁，读者写者共享信号量db以达到读写、写写互斥，读者共享信号量mutex和read_count，互斥地访问read_count，对正在阅读的读者量计数<br>
+                    写者函数逻辑：section entry部分准备好写入，然后down(db)；临界区写；section exit执行up(db)即可<br>
+                    读者函数逻辑：section entry部分申请mutex，对read_count加1，若发现自己是第一个读者，则down(db)，释放mutex；临界区读；section exit部分申请mutex，对read_count减1，若发现自己是最后一个读者，则up(db)，释放mutex<br>
+                    △该解决方法存在的问题：未限制读者写者数量、权限，且给予了读者更高的优先级
+                  </li>
+                </ul>
+              </li>
+              <img src="reader_writer.png">
+            </ul>
+          </li>  
+          </ul>
+          </div></li>
+
+          <li><a href="#" id="link9">进程调度</a>
+            <div id="thediv9" style="display:none">
+              <ul>
+                <li>进程调度的意义：<br>
+                有很多进程处于不同的状态，而CPU资源是有限的，进程调度有利于提高CPU利用率（CPU比I/O快，将等待I/O进程调离）以及改善系统的响应度
+                </li>
+                <li>进程生命周期
+                  <img src="./process_life_cycle.png">
+                  <ul>
+                    <li>new: 除了init均由fork()创建</li>
+                    <li>ready：进程位于ready queue内
+                      <br>刚刚被创建、上下文切换被调离、从阻塞状态返回
+                    </li>
+                    <li>running：运行中</li>
+                    <li>waiting：阻塞状态，不可中断地等待资源</li>
+                    <li>terminated：被结束或者自己结束，成为僵尸进程</li>
+                    <li>进程调度：who next ready -> running
+                      <br>触发事件：决定下一个运行的进程（实际方法：上下文切换）
+                      <ul>
+                        <li>某进程运行了一段时间，被调离</li>
+                        <li>新进程被创建</li>
+                        <li>某进程结束</li>
+                        <li>某进程等待I/O</li>
+                        <li>某进程结束I/O</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>上下文切换
+                  <ul>
+                    <li>概念：上下文指进程在用户空间的数据的集合以及寄存器值（包括PC），上下文切换指由一个进程切换到另一个进程运行的过程。</li>
+                    <li>过程：备份（backup）当前进程的上下文 -> 调度器决定下一进程 -> 将新进程的上下文加载进入内存和CPU</li>
+                    <li>成本：上下文切换存在开销，并且当目标进程位于硬盘上开销会变的很大 -> 减少上下文切换</li>
+                  </ul>
+                </li>
+                <li>调度算法分类
+                  <ul>
+                    <li>可抢占：进程除了等待I/O或结束（自愿释放CPU资源），在特定的中断或事件发生时也会离开调度器
+                      <br>优点/缺点：响应快，可以多任务/不利于强调进程完成时间的进程
+                    </li>
+                    <li>不可抢占：进程除了等待I/O或结束（自愿释放CPU资源），不会离开调度器
+                      <br>优点/缺点：有利于进程完成时间的降低/用户体验差，无法多任务
+                    </li>
+                  </ul>
+                </li>
+                <li>调度算法性能参量
+                  <ul>
+                    <li>CPU利用率</li>
+                    <li>吞吐量：单位时间内完成的任务量</li>
+                    <li>完成时间(turnaround time)：从递交任务开始到任务完成为止，即running + I/O(waiting) + waiting(ready)</li>
+                    <li>等待时间：在就绪队列里等待的时间</li>
+                    <li>响应时间：从递交请求到第一个回复产生的时间</li>
+                  </ul>
+                </li>
+                <li>进程调度算法
+                  <br>离线调度 vs 在线调度，实际工作是在线的，因为无法提前得知所有将要提交到系统内的任务
+                  <ul>
+                    <li>调度算法的输入和输出：
+                      <br>输入：进程集合、进程到达时间、进程CPU需求（这一项只能是预估，永远无法真正得知CPU需求）
+                      <br>输出：进程执行序列、单进程/平均完成时间、单进程/平均等待时间、上下文切换次数
+                    </li>
+                    <li>先到先服务(First-come,first served,or FIFO)<br>
+                      思想：先到的一直占用直到做完，即一个FIFO队列<br>
+                      特点：对输入敏感，平均等待时间通常很长（如果一个CPU需求很大的进程先到达），已过时
+                    </li>
+                    <li>短作业优先(SJF)
+                      思想：
+                      <ul>
+                        <li>非抢占型：当前任务正在执行，调度器选择执行期间到达的对CPU需求最小的进程下一个执行（在当前任务执行完毕后）</li>
+                        <li>抢占型：当前任务正在执行，调度器在新任务到达时，选择剩余CPU需求（可以预测）最少的任务，立刻进行上下文切换</li>
+                        <li>非抢占型 vs 抢占型：前者上下文切换次数少，后者平均完成时间和等待时间短</li>
+                      </ul> 
+                    </li>
+                    <li>轮转(Round-robin)<br>
+                      思想：按序运行固定时间，也可认为是时分复用<br>
+                      特点：是可抢占的（从时间片用尽强制切换的角度来说）；平均等待时间、完成时间、上下文切换次数均大于SJF，但响应更快，适合现代操作系统服务一般用户；时间片长度会影响算法性能
+                    </li>
+                    <li>优先级调度<br>
+                      思想：任务根据时间限制、内存需要、重要性等被赋予优先级（通常是一个整数），调度器总是选择最高优先级任务<br>
+                      特点：可能会导致某些进程饿死，可采用aging的方法提高等待时间长进程的优先级
+                    </li>
+                    <li>多队列优先级调度 - 实际的调度实现<br>
+                      思想：进程到达时按固定优先级分类，不同类之间按优先级调度，同类使用某种其他调度算法（例如RR、SJF），高优先级可以设计成对低优先级可抢占
+                      特点：
+                      <ul>
+                        <li>优先级固定，可能会造成饿死</li>
+                        <li>高优先级进程应该是重要但运行时间短的</li>
+                        <li>低优先级进程只有在高优先级进程类没有进程时才有可能被调度</li>
+                        <li>可以对具体policy设定以满足不同系统的需要</li>
+                      </ul>
+                    </li>
+                    <li>多反馈队列优先级调度<br>
+                      思想：与多队列优先级调度基本相同，但进程优先级是动态的，优先级变化具体的policy可设定，例如在用完RR的时间片后优先级下降一级，
+                    </li>
+                  </ul>
+                </li>
+                <li>进程调度算法应用
+                  <ul>
+                    <li>SMP体系下的多核调度算法 -> 减少进程迁移</li>
+                    <li>实时系统
+                      <ul>
+                        <li>约束（特征）：系统有最大的响应延迟，不能超过这个延迟，尽快服务到达进程</li>
+                        <li>调度算法：优先权可抢占算法
+                          <ul>
+                            <li>速率单调调度<br>
+                              思想：假设进程按p周期性产生，每次burst需要常数CPU时间t，根据产生速率1/p来赋予进程固定优先级，速率越高，优先级越高<br>
+                              特点：是可抢占的（例如某进程还没执行完，但另一个高优先级进程新的burst产生），不保证一定有可行的进程调度序列
+                            </li>
+                            <li>EDF(earlist-deadline-first)<br>
+                              思想：根据最后期限动态分配优先级，最后期限越早，优先级越高<br>
+                              特点：不需要像速率单调调度那样假设进程是周期产生的，也不需要假设周期产生进程所需要的CPU时间是常数，但需要声明最后期限
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>Linux进程调度器 - 多队列优先级调度<br>
+                      具体实现：priority queues + CFS(completely fair scheduler)
+                      <ul>
+                        <li>Priority：实时进程，均为privileged，采用RR或者FCFS</li>
+                        <li>CFS：根据虚拟运行时间（对实际运行时间伸缩），vruntime越小，越先被调度器选中（从红黑树上选择最左的）</li>
+                      </ul>
+                    </li>
+                    <li>选择调度算法原则<br>
+                      用具体例子、理论、模拟实现来评价一个调度算法，从而选择调度算法
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </li>
+          
+          <li><a href="#" id="link10">内存管理</a>
+            <div id="thediv10" style="display:none">
+              <ul>
+                <li>内存管理的意义
+                  <br>进程运行时，CPU从内存中获取指令，并且要实现multi-programming那么需要在内存中存储一些进程
+                </li>
+                <li>用户空间内存管理
+                  <ul>
+                    <li>逻辑地址空间(Adress space)
+                      <ul>
+                        <li>分段(segmentation)：地址布局的方式
+                          <br>即把地址空间分成不同的功能段
+                        </li>
+                        <li>段布局
+                        </li>
+                        <img src="./user_address_space.png">
+                        <li>进程用户地址空间大小：4GB (32bit system)
+                          <br>字长为1字节，2^32 bytes address -> 4GB<br>
+                          △注意：此为逻辑地址空间，即每个进程有自己的地址空间，其可能位于实际物理内存的任何位置
+                        </li>
+                      </ul>
+                    </li>
+                    <li>代码段&常数
+                      <ul>
+                        <li>存储内容：代码，常数
+                          <br>对于C语言中常数，操作系统决定其位置，使用指针来访问常数，例如对于字符串常量char * ptr =“HELLO”，ptr和"HELLO"指的是同一个地址存放的常量。
+                        </li>
+                        <li>特点：只读</li>
+                      </ul>
+                    </li>
+                    <li>数据段和BSS (Data segment & BSS)
+                      <ul>
+                        <li>存储内容：<br>
+                        数据段：已初始化的全局变量和静态变量<br>
+                        BSS(Block started by symbol)：未初始化的全局变量和静态变量
+                        </li>
+                        <li>性质：BSS和data段相邻，BSS地址更高，即全局变量和静态变量在内存管理上是一视同仁的，只不过编译器区别对待他们</li>
+                        <li>地址分配行为
+                          <br>数据段 -> 存放已初始化的全局、静态变量 -> 编译时已分配所需的空间
+                          <br>BSS -> 存放未初始化的全局、静态变量，它们只是一系列的符号 -> 编译时未分配空间，当执行进程时所需空间将被分配
+                        </li>
+                        <li>数据段和BSS大小：最大3GB
+                          <br>用户地址空间3GB + 内存保留的1GB地址空间 = 4GB进程的地址空间
+                        </li>
+                      </ul>
+                    </li>
+                    <li>栈
+                      <ul>
+                        <li>存储内容：所有局部变量、函数形参、实参、返回地址、环境变量</li>
+                        <li>性质：
+                          <ul>
+                            <li>FILO</li>
+                            <li>当前函数可以要求CPU访问栈的任何一个位置，不仅仅是自己的局部变量等 ->危险但也有用</li>
+                          </ul>
+                        </li>
+                        <li>地址分配行为
+                          <br>函数被调用，局部变量入栈（分配空间）；函数返回，局部变量出栈（回收空间，<strong>注意：OS并未回收这些空间，这些空间再次进行函数调用时可以利用</strong>）
+                          <br>具体的入栈、出栈实现
+                          <ul>
+                            <li>入栈：调用函数，参数值、返回地址入栈；函数调用发生时，CPU切换到被调函数，参数值变为函数的局部变量值</li>
+                            <li>出栈：函数返回，返回地址写入EAX寄存器，栈收缩，CPU回到主调函数</li>
+                          </ul>
+                        </li>
+                        <li>栈大小：linux默认大小8MB，可修改</li>
+                        <li>递归造成栈溢出 -> stackoverflow exception<br>
+                          减少函数参数数量、减少局部变量数量、减少递归次数、使用全局变量</li>
+                      </ul>
+                    </li>
+                    <li>堆
+                      <ul>
+                        <li>存储内容：动态分配的空间</li>
+                        <li>性质
+                          <ul>
+                            <li>动态：编译时未定义，进程刚开始运行时堆是空的</li>
+                            <li>分配：运行时只有进程请求分配空间时，才会分配</li>
+                          </ul>
+                        </li>
+                        <li>地址分配行为
+                          <ul>
+                            <li>malloc()：调用brk()系统调用以分配空间并创建一个相应的结构体作为记录分配信息的头部，返回(void *)
+                              <br>malloc()请求空间大于单个空闲块，那么在高地址分配新的空间；请求空间等于单个空闲块，修改空闲块链表指针，重复利用空闲块；小于空闲块，将高地址部分分配，并修改空闲块的size域。
+                            </li>
+                            <li>free()：调用brk()系统调用以回收空间，注意这里并不是指内存被操作系统回收，这部分虚拟内存仍然属于当前进程，组织在空闲链表里，但是在页表里虚拟页对应的物理页为NIL（未分配）
+                              <br>free()将空闲块组织成一个链表，head指向第一个空闲块的头部，块的头部结构体中address指向下一个空闲块头部。
+                              <br>△注意：free()应对正确的地址进行操作，否则free()操作的地址不是一个块的头部，那么会造成头部size域无效或错误，导致已分配空间混乱
+                            </li>
+                          </ul>
+                        </li>
+                        <li>堆内存管理具体实现
+                          <ul>
+                            <li>隐式空闲链表：size + a + payload + padding，已分配、已分配未使用、未分配块均记录
+                              <ul>
+                                <li>内存分配：可能需要O(n)
+                                  <ul>
+                                    <li>first fit：用找到的第一个足够大的洞</li>
+                                    <li>next fit：用从上次搜索结束位置开始找到的第一个足够大的洞</li>
+                                    <li>best fit：找到足够大且最小的洞 -> 有助于减少内部碎片化和外部碎片化，但是会消耗更长的搜索时间</li>
+                                    <li>worst fit：用最大的洞</li>
+                                  </ul>
+                                </li>
+                                <li>内存释放：内存合并
+                                  <br>与前一块（需要前一块的footer指示）或后一块（需要后一块的header指示）相邻的空闲块合并，修改size域
+                                </li>
+                                <li>缺点：内存分配的开销太大，因为是使用扫描的方式</li>
+                              </ul>
+                            </li>
+                            <li>显式空闲链表：与隐式类似，但只记录未分配块，分配时可分割空闲块（因为有指针指示），回收时仍用tag合并
+                              已分配：size + a + payload + padding + size + a<br>
+                              未分配：size + a + next + prev + size + a<br>
+                            </li>
+                            <li>分离空闲链表：按size将空闲块分成多个链表
+                              <br>分配时搜索合适size的链表，找到则切割并分配，未找到则搜索更大的 -> 近似best-fit，但有first-fit的延迟
+                            </li>
+                            <li>伙伴系统（分离空闲链表特例）
+                              <br>将内存不断二分，一块用于分配，另一块空闲；某块被释放时，其伙伴若空闲则与其合并
+                            </li>
+                          </ul>
+                        </li>
+                        <li>碎片化问题
+                          <ul>
+                            <li>内部碎片：负载(payload)小于分配的空间 -> 取决于用户进程的代码以及分页系统内存分配按页分配的特性，难以完全解决</li>
+                            <li>外部碎片：未分配空间和已分配空间交替出现在堆中 -> 内存分配搜索合适碎片需要消耗时间，但外部碎片无法避免（必然存在内存的分配与回收）</li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>段错误(Segmentation fault)
+                      <ul>
+                        <li>概念：访问不允许访问的内存空间</li>
+                        <li>引发段错误的方式</li>
+                        <img src="./segmentation_fault.png">
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>内核空间内存管理（从内核的角度）
+                  <ul>
+                    <li>虚拟内存：逻辑地址对物理内存编址，逻辑地址（CPU访问的地址）与物理地址之间存在地址转换（MMU完成）的关系<br>
+                      意义：不同进程可以使用相同的逻辑地址，可以完成内存共享，进程的物理地址可以不再连续，大进程的大小可以超过内存的大小
+                    </li>
+                    <li>MMU实现与分页
+                      <ul>
+                        <li>MMU(memory management unit)：一个用于地址转换的片上设备，每个进程都需要使用MMU完成地址转换</li>
+                        <li>MMU实现：查找表(look-up table)<br>
+                        基本实现的问题：一一映射 -> 表过大，即使只存储物理地址项（逻辑地址相同）也有16GB -> 分页减小查找表大小
+                        </li>
+                        <li>分页：减小每个进程的查找表大小（减少映射条目） -> 页表（虚拟页与物理页，也称页框，的映射）
+                          <ul>
+                            <li>分页基本实现：32bit逻辑/物理地址 = 20bit逻辑/物理页地址 + 12bit页偏移（逻辑页偏移=物理页偏移）</li>
+                            <li>页表：即使用页地址映射建立的查找表，大小：4MB/process = 2^20 * 4Bytes<br>
+                            物理含义（特点）：页可不连续，页内连续</li>
+                            <li>分页系统内存分配：按页分配，页时内存分配的最小单位，即使需要的少于一页</li>
+                            <li>问题：内部碎片化</li>
+                          </ul>
+                        </li>
+                        <img src="./vm_to_page.png">
+                      </ul>
+                    </li>
+                    <li>分页系统设计
+                      <ul>
+                        <li>页表设计：指示地址转换映射关系、权限、是否分配、位置<br>
+                          ·注意：什么时候会造成段错误？ -> 访问NIL页、写只读页、执行不可执行的页
+                          <br>某进程页表<br><img src="./page_table.png">
+                          <ul>
+                            <li>结构（优化较大页表的存储）：两级/多级的层次化页表 -> 页表也分页，从而页表不用连续存储</li>
+                            <img src="./two_level_page_table.png">
+                            <li>性能（优化访问查找时间）
+                              <ul>
+                                <li>大页：减少页表项数，抵消多级页表带来的访问开销
+                                  <br>缺点：加重内部碎片化、降低重删率（因为必须一页完全相同才会重复删除，从而节约空间）
+                                </li>
+                                <li>缓存：TLB(translation lookaside buffer) -> 流水线的一部分，缓存部分页表映射条目，访问很快但不一定能命中
+                                  <br>有效访问时间 = TLB命中率*（TLB访问时间+内存访问时间）+（1-TLB命中率）*（页表访问时间+内存访问时间）  （有时TLB访问时间可以忽略，有时认为访问页表查找的时间等于普通的访问内存时间）
+                                </li>
+                                <img src="TLB.png">
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>按需调页
+                      <br>malloc()、变量声明等并不真正立刻分配物理空间，只是标记逻辑空间已被分配，只有在真正访问已被分配逻辑空间时，系统才会调页以分配物理空间（懒惰分配）
+                      <ul>
+                        <li>流程：发现虚拟页对应物理页NIL -> 产生<strong>page fault中断</strong> -> page fault服务例程工作，内核为虚拟页分配页框，更新页表<br>
+                        流程特例：发现虚拟页对应物理页NIL -> 产生<strong>page fault中断</strong> -> 位于内存内的页框全满 -> 某虚拟页对应页框内容放入<strong>交换区(swap area)</strong> -> 把内存中空出来的页框分配给对应的虚拟页 <br>
+                         -> 需要访问页框位于交换区的虚拟页 -> 产生page fault中断 -> 重复前面的步骤
+                        </li>
+                        <li>交换区
+                          <ul>
+                            <li>大小：>= 物理内存，这样某个大进程获取了所有的内存页框，原来内存里的内容可以全部放入交换区</li>
+                            <li>位置：永久存储设备上预留的一块区域</li>
+                          </ul>
+                        </li>
+                        <li>大进程运行：不需要全存储在内存上，按需调页，max size = 内存大小+交换分区大小-内核占有的内存大小</li>
+                        <li>写时复制(COW,copy on write)：解决fork()&exec()时没有必要的复制<br>
+                          <br> fork() -> 子进程复制，分配新的页面？ -> exec()替换页面内容，因此分配新的页面存放相同内容完全没有意义 -> 写时复制：父子进程共享页面，只有当某进程对共享对象写时才分配新页面
+                        </li>
+                        <li>性能：有效访问时间 = (1-p)*内存访问时间 + p*page fault 时间 (page fault时间包括服务例程处理时间，以及交换后内存访问时间)
+                          <br>·注意：由于page fault时间远大于内存访问时间，因此降低p非常重要
+                        </li>
+                      </ul>
+                    </li>
+                    <li>页面置换算法
+                      <ul>
+                        <li>最优算法(Optimal)：提前知道页面访问序列，将未来最久不会被使用的页面置换出去</li>
+                        <li>FIFO：被置换出去的永远是最早进入内存（年龄最大）的页面</li>
+                        <li>LRU(least-recently-used)：被置换出去的永远是年龄最大的页面，但是如果页面刚刚被访问（无论这个页面访问时是在内存里还是交换区内），其年龄归0
+                          <br>原理：利用访问的局部性进行页面访问的预测
+                          <br>实现：counters（需要搜索遍历页表找到年龄最大的） / 栈（当某页被访问，其被从栈内删除并入栈或者直接入栈，栈顶部总是最近访问的页，栈底永远是LRU页）
+                        </li>
+                        <li>二次机会算法(LRU近似)：在FIFO的基础上，如果reference bit有效，那么先不置换此页并将其ref bit置0，年龄清0，并找年龄第二大的看是否能置换，以此类推
+                          <br>实现：reference bit（每页都关联一个引用位，页面被引用时由硬件快速置位） / 时钟循环队列：FIFO队列组织成循环的，当所有页面ref bit均有效时，二次机会退化成FIFO
+                        </li>
+                        <li>Belady异常：当内存帧数变多时，页错误次数反而上升的现象
+                          <br>栈算法：不会出现Belady异常的页面置换算法，例如LRU和最佳置换算法。此类算法的特征为：n个页框的情况下内存中的页面集合总是n+1个页框的情况下内存中页面的子集，例如LRU算法内存中页面是前n个最多被引用的页面，一定是前n+1个最多被引用的页面的子集。
+                        </li>
+                      </ul>
+                    </li>
+                    <li>页框的分配（多进程之间）
+                      <ul>
+                        <li>分配的约束：<br>
+                        单个进程帧数上界(总空闲页框)/下界(防止页错误率过高，由电脑架构定义，进程页框小于此值被挂起)，全局/局部分配(即能否替换其他进程页框)
+                        </li>
+                        <li>分配算法
+                          <ul>
+                            <li>平均分配：可能造成浪费和不足</li>
+                            <li>按比例分配</li>
+                            <li>按优先级和比例分配</li>
+                          </ul>
+                        </li>
+                        <li>抖动(Thrashing)：进程页框数量不够，频繁发生页错误与交换，因此运行变慢
+                          <ul>
+                            <li>典型例子：多进程且全局交换的场景下，随着多进程程度的增加，内存页框数成为瓶颈，进程排队等待页交换，CPU利用率下降</li>
+                            <li>解决方法：
+                              <ul>
+                                <li>本地交换/优先级交换<br>
+                                并没有完全解决问题 -> 页错误的平均时间变长(因为可能要排队)，即使没有发生抖动，有效访问时间也会上升
+                                </li>
+                                <li>(在一段时间内)提供足够的页框：在最近△次页面引用时提供足够多的页框
+                                  <ul>
+                                    <li>工作集(working set)：最近△次页面引用的页面集合（访问局部性），用工作集大小确定合适的页框数
+                                  <br>抖动条件：WSSi > m，此时抖动可能发生
+                                    </li>
+                                    <li>启发式：使用PFR(page fault rate)来确定合适的页框数</li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>内核内存分配
+                          <ul>
+                            <li>内核内存分配特征：小而多变的请求(不同的数据结构)、连续空间的请求(某些硬件与物理内存的交互)</li>
+                            <li>分配方法
+                              <ul>
+                                <li>伙伴系统：连续页框不断二分，得到小的连续块</li>
+                                <li>Slab分配：
+                                  <br>Slab:一个/多个连续页，预先分配好
+                                  <br>缓存:一个/多个slab，每个缓存对应一个特定的内核数据结构，例如某slab全是3kb对象，这样可以减少碎片化和提高访问速度
+                                </li>
+                                <img src="./slab_allocation.png">
+                              </ul>
+                            </li>
+                            <li>内存映射文件：将虚拟内存空间一部分与磁盘上文件关联
+                              <br>初次访问文件：按需调页，文件调入内存 -> 接下来的文件访问：内存访问例程（效率更高），多个进程可以同时访问映射文件
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </li>      
       </ul>
 
       <h2 id="os-question">Questions</h2>
@@ -382,8 +1265,70 @@
         <li>(4)使用多线程的优点体现在哪些方面？</li>
         <li>(4)用户线程和内核线程是什么？</li>
         <li>(4)线程模型有哪三种？多对一模型的优缺点是什么？一对一模型呢？</li>
-        <li>(4)线程池是什么？线程池的好处有什么？</li>
-      
+        <li>(4)(★)多线程编程有哪两种多线程方式？它们各自的特点是什么？</li>
+        <li>(4)(★)线程池是什么？线程池的好处有什么？</li>
+        <li>(4)fork()和exec()这两个进程操作在多线程情况下有什么具体语义？</li>
+        <li>(4)(★)线程取消的方式有哪两种？缺点和优点是？pthread具体三种取消模式是什么？</li>
+        <li>(4)UNIX信号分为哪两种？信号处理例程一般有哪两种？信号的发送方式或者说目标线程要根据什么来确定？发送方式分为哪四种情况？对于同步信号/异步信号，他们应该发送给谁？POSIX Pthread使用什么函数将信号发送到特定线程？</li>
+        <li>(4)(★)线程特定数据(TLS)是什么？它的作用是什么？</li>
+        <br>
+        <li>(5)(★)什么是IPC？为什么需要IPC？如何实现IPC？</li>
+        <li>(5)(★)共享存储方案对应的模型是什么？该模型的三要素是什么？对于其中的buffer，其实际上是什么？如果是有限的buffer，有什么要求？</li>
+        <li>消息传递方案怎么实现进程间通信？直接通信和间接通信的区别是什么？直接通信的缺点是什么？消息传递方案下进程间同步如何体现在send/receive操作的实现上？什么情况需要buffer来进行同步？</li>
+        <li>(5)POSIX共享内存可以用什么模型来解释？对于消费者、生产者，它们实际上通过访问什么来访问共享内存的区域？生产者创建一块共享内存对象并写入需要哪几步操作？消费者读取共享对象的内容需要哪几步操作？</li>
+        <li>(5)(★)Pipe实际上是什么？Pipe分为哪两种？匿名管道的特点是什么（例如是否在文件系统中有标识符？方向？使用的对象？存活期？）？命名管道的特点是什么？</li>
+        <li>(5)(★)什么是竞争条件(race condition)？为什么race condition非常难debug？通过什么方法可以避免race condition（或者说为什么需要进程间同步）？</li>
+        <li>(5)(★)进程间同步的核心思想或者说最主要做法是什么？互斥(Mutual Exclusion)指什么？实现互斥的通用方法是？</li>
+        <li>(5)(★)什么是临界区(Critical zone)？临界区的代码框架是什么样的？框架中各部分作用是什么？E-E的实现有哪四个要求？E-E的软件实现有哪些？</li>
+        <li>(5)(★)互斥锁的思想是什么？互斥锁的获取和释放为什么要是原子的？互斥锁会导致什么问题？在什么样的场景下，互斥锁的缺点可以忽视？</li>
+        <li>(5)(★)严格轮转算法怎么实现？严格轮转算法的缺点是什么？它是否符合所有E-E实现的要求？</li>
+        <li>(5)(★)Peterson算法怎么实现？其是否存在轮转？它的缺点是什么？</li>
+        <li>(5)(★★★)信号量(semaphore)是什么？信号量有哪两种类型？用信号量如何实现互斥（例如E-E如何实现）？信号量的具体实现中如何解决忙等？为什么说信号量不仅仅是int型共享对象？原子操作的定义是什么？对信号量访问的唯二两个原子操作是什么？为什么标准操作需要是原子的（因为信号量也是共享对象）？
+          如何保证标准操作是原子的？为什么多个被从等待队列唤醒的进程不会同时访问信号量？这多个被唤醒进程中哪一个能访问信号量是谁决定的？描述一下信号量E-E（即down()和up()）的具体实现代码结构？其中为什么down()的实现要有存在两对enable_interrupt()和disable_interrupt()？</li>
+        <li>(5)(★★★)死锁(Dead lock)是什么？形成死锁的要求是什么？用什么来表征死锁？解决死锁的方法有哪三类？检测恢复算法对于资源单实体和多实体是怎么处理的？银行家算法中的系统状态、安全状态、不安全状态指什么？不安全状态下是否意味着一定发生了死锁？如何用银行家算法完成对死锁的预防避免？银行家算法是否需要提前知道进程对共享资源的的总需求量？鸵鸟算法的概念和优点是什么？解决死锁的算法能同时解决饿死问题么？</li>
+        <li>(5)(★★★)生产者-消费者问题的三要素是什么？对于生产者和消费者分别有什么要求？用信号量解决此问题共需要几个信号量？它们的类型和作用是什么？生产者和消费者函数实现的完整逻辑是什么样的？</li>
+        <li>(5)(★★★)哲学家用餐问题是什么？用筷子作为共享对象解决此问题有什么缺点？用退避的方法可以解决么？最终解决方案需要几个信号量？它们的作用是什么？section entry、section exit以及test()函数的实现逻辑是什么样的？</li>
+        <li>(5)(★★★)读者-写者问题是什么？该问题中互斥、同步、并发三个子问题是如何体现的？该问题的解决方法需要用到几个共享对象？这些共享对象的作用是什么？读者函数和写者函数如何实现？该方法中谁的优先级更高？如果要限制写者的数量，该如何实现（获取mutex后，down(position)）？</li>
+        <br>
+        <li>(6)进程调度的意义是什么？（短期）进程调度的最核心内容是什么（或者说进程调度和进程状态之间的关系是什么）？进程调度的触发事件有哪些？进程调度的方法是什么（或者说让ready状态进程变为running的方法是）？</li>
+        <li>(6)(★)进程的生命周期分为哪几个状态？ready状态的意义是什么？什么情况下进程会处于ready状态？处于ready状态的进程会被内核用什么样的结构管理？waiting状态是不是不可中断的？</li>
+        <li>(6)(★★★)上下文(context)指什么？一个进程的上下文包括什么内容？上下文切换具体要做什么操作？为什么有的时候上下文切换的成本高昂？</li>
+        <li>(6)进程调度方法分为哪两类？它们的缺点和优点分别是什么？</li>
+        <li>(6)(★★)调度算法的衡量指标中CPU利用率指？吞吐量指？完成时间(turnaround time)指？等待时间指？响应时间指？</li>
+        <li>(6)进程调度算法的输入输出分别是什么？</li>
+        <li>(6)(★★★)进程调度算法有哪几种？FCFS算法的特点是什么（其是否对输入敏感？是否是可抢占的？等待时间、完成时间如何）？SJF算法的平均等待时间和完成时间为什么一般优于其他算法？抢占型和非抢占型SJF谁的平均等待、完成时间更短？
+          RR算法在哪方面优于SJF？其特点是（是否是可抢占的？）？优先级调度是否会造成饿死？为什么？怎么解决？多队列优先级调度是不是一定是可抢占的？其是否会造成饿死？反馈多队列优先级调度如何解决饿死问题？
+        </li>
+        <li>(6)(★★★)实时系统的进程调度有什么约束？实时系统的调度算法应该是优先权可抢占的还是不可抢占的？实时系统的进程调度算法有哪两种？速率单调算法的假设是什么？其中速率指？其缺点是什么？EDF算法是否需要速率单调算法的那些假设？其按照什么标准设定优先级？</li>
+        <li>(6)linux进程调度器的实现是什么样的？其中优先权队列使用什么调度算法？其中进程叫做什么？CFS依据什么来确定下一个调度的对象？</li>
+        <br>
+        <li>(7.1)内存管理的意义是什么？</li>
+        <li>(7.1)(★★★)什么是逻辑地址空间？逻辑地址空间地址布局的方式是什么？谁位于高地址？有哪些分段？逻辑地址空间与实际的物理存储空间的关系是什么？32位系统的进程地址空间大小为多少？32位系统和64位系统的进程地址空间大小一样么？用户地址空间最大能达到3GB么？</li>
+        <li>(7.1)(★)代码段存储的内容是什么？以C语言中字符串常量为例，"ABC"与指向"ABC"的指针有什么关系？代码段是只读的么？</li>
+        <li>(7.1)(★★★)数据段和BSS分为哪两部分？它们存储的内容有什么不同？它们的内存分配行为又有什么不同？静态变量和全局变量在内存管理的层面是相同的么？</li>
+        <li>(7.1)(★★★)栈存储的内容有哪些？其行为特征是什么样的？入栈和出栈的具体过程是什么样的？函数能否要求CPU访问不属于其局部变量的栈内内容？linux栈的默认大小是多少？递归深度过深会造成什么后果？如何解决递归深度过深的问题？</li>
+        <li>(7.1)(★★★)堆存储的内容有哪些？为什么说堆是动态的？C语言中分配和释放堆空间使用的函数是什么？它们实际上调用了什么系统调用？free()在对分配的中间块进行回收时，是怎么实现的？为什么free()的参数一定要是合法的地址（例如之前malloc得到的）？
+          malloc()分配空间如果发现有合适大小块怎么进行空间分配？如果没有足够大的呢？如果只有大于要分配空间的块，分配的空间位于高地址还是低地址？内存分配的具体实现有哪几种？其中对于隐式链表，分配算法有哪几种？回收时若要与前一块合并需要添加什么信息？
+          显式链表实现与隐式链表的不同是什么？
+        </li>
+        <li>(7.1)(★★)什么是内部碎片化和外部碎片化？</li>
+        <li>(7.1)(★★★)什么是段错误(segmentation fault)？按照只读段、已分配段、未分配段的分类，引发段错误的方式有哪些？为什么以下语句"char* ptr =NULL; char c = *ptr"会产生段错误？对未分配地址或者错误的分配地址使用free()为什么会产生段错误？使用
+        malloc()分配一段小于真正需求的空间，在对空间写入时是否会引发段错误（有时会有时不会）？为什么？
+        </li>
+        <li>(7.2)(★★★)虚拟内存是什么？为什么需要虚拟内存（虚拟内存解决了什么问题）？逻辑地址和物理地址之间的关系是什么？它们通过什么部件完成转换？CPU访问的是逻辑地址还是物理地址？</li>
+        <li>(7.2)(★★★)MMU是什么？MMU是如何实现地址转换的？CPU以及指令中所使用的地址是虚拟地址还是物理地址？</li>
+        <li>(7.2)(★★★)分页是什么？为什么需要分页机制？对于32bit地址，不采用分页和采用分页的机制，查找表分别多大？分页之后的查找表叫什么？在物理存储器上页与页之间是连续的么？页内呢？对于分页系统其分配空间的最小单位是什么？分页系统为什么会存在内部碎片化的问题？</li>
+        <li>(7.2)(★★)free()是否真正释放了逻辑页对应的物理页？空闲链表实际上连接的是逻辑空闲块还是物理空闲块？</li>
+
+        <li>(7.2)(★★★)TLB是什么？为什么TLB的访问很快？怎么计算带有TLB的MMU有效内存访问时间？</li>
+        <li>(7.2)(★★★)按需分配是什么？按需分配的流程是什么？</li>
+        <li>(7.2)(★★★)交换区的作用是什么？什么情况下会发生交换？交换为什么会导致内存分配开销变大(why page fault expensive)？对于某个OOM无限循环程序，程序在运行时，内存和交换区会发生什么？为什么在交换区满后OOM程序被杀死，依然会有一段时间进程访问自己地址空间内容比较缓慢？
+          交换分区的大小一般多大？位置在哪里？
+        </li>
+        <li>(7.2)(★)一个大进程在运行时需要的空间大于内存大小，它能够运行么？进程理论上最大的尺寸可以达到大约多大？</li>
+        <li>(7.2)(★★)写时复制（COW）是什么？为什么需要COW？</li>
+        <li>(7.2)(★)最优页面置换算法如何实现？</li>
+        <li>(7.2)(★★★)FIFO页面置换算法与LRU页面置换算法的区别在哪里？LRU算法基于什么样的原理？LRU算法的实现方法有哪些？</li>
       </ul>
 
       <h2 id="os-ref">Reference</h2>
