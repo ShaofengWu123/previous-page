@@ -17,6 +17,7 @@
     <!--[if lt IE 9]>
     <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
+    <script src="../../js/showhide.js"></script>
   </head>
 
   <body>
@@ -38,10 +39,298 @@
     <h1>Computer Organization and Design</h1>
       <p>This part inlcudes important topics in computer organization and design.</p>
       <ul>
-        <li><a href="">Questions</a></li>
+        <li><a href="#cod-content">Content</a></li>
+        <li><a href="#cod-question">Questions</a></li>
         <li>Reference</li>
       </ul>
-      <h2>Questions</h2>
+
+      <h2 id="cod-content">Content</h2>
+      <p>This part includes important content in COD. This is a simple outline.</p>
+      <ul>
+        <li>单周期CPU
+          <br>单周期CPU本质上是有限状态机
+          <br>注：图中未添加jal相关数据通路，其数据通路添加PC+4到寄存器写数据以及Jump到PCSrc控制
+          <img src="./cpu_single.png">
+          <br>典型问题
+          <ul>
+            <li>时钟周期(机器周期) = 指令周期</li>
+            <li>时钟周期确定/关键路径确定/主频计算</li>
+          </ul>
+        </li>
+      
+        <li>多周期CPU</li>
+        <li><a href="#" id="link2">流水线CPU</a>
+          <div id="thediv2" style="display:none">
+          <img src="./cpu_pipeline.png">
+          <ul>
+            <li>五段流水RISC-V CPU的基本结构</li>
+            <li>结构冒险
+              <ul>
+                <li>哈佛结构(数据和指令内存分离)</li>
+                <li>寄存器堆写优先</li>
+                <li>瓶颈段
+                  <br>虽然没有真正的结构冒险，但是会破坏流水段均匀性 -> 细分瓶颈/并行重复瓶颈段
+                </li>
+              </ul>
+            </li>
+            <li>数据冒险
+              <ul>
+              <li>分类：写后读(RAW)、写后写(WAW)、读后写(WAR)
+                <br>谁会出现？写后读  谁不会？写后写，读后写
+              </li>
+              <li>数据前递/forwarding
+                <ul>
+                  <li>前递路径
+                    <br>从 MEM,WB 前递到 EX，还有别的么？
+                    <ul>
+                      <li>可能有 MEM,WB 前递到 ID (分支提前)</li>
+                      <li>可能有 WB 前递到 MEM (lw-sw且rd和rs2冲突)</li>
+                    </ul>
+                  </li>
+                  <li>判断逻辑？
+                    <br>目标寄存器==要用的寄存器并且该段RegWrite有效</li>
+                </ul>
+                <br>
+              </li>
+              <li>一般的数据冒险
+                <br>由数据前递解决 -> forward unit判断数据冒险，前递MEM和WB段数据(两者同时冒险那么MEM优先) 
+              </li>
+              <li>load-use数据冒险
+                <br>发生在：load在EX段，use指令在ID段，那么将IF,ID段冻结一个周期(流水线互锁) -> 锁定PC和IF/ID.regs，清除ID/EX.regs -> 然后由前递处理
+                <br>load-use包括？
+                <ul>
+                  <li>load-R：例如lw rd,offset(rs1) -> add rd,rs1,rs2</li>
+                  <li>load-I：例如lw rd,offset(rs1) -> add rd,rs1,imm</li>
+                  <li><strong>lw-sw？？？</strong>
+                    <br>lw <strong>x1</strong>,offset(x2) -> sw x3,offset(<strong>x1</strong>) ？ 实际上是load-I，是load-use，要停顿流水线
+                    <br>lw <strong>x1</strong>,offset(x2) -> sw <strong>x1</strong>,offset(x3) ？ 可以是，也可以不是。认为是那么就是load-R,rs2冲突；认为不是，sw最晚MEM段才用，可以用数据前递解决，不用停顿流水线，不是真正意义上的load-use
+                  </li>
+                </ul>
+              </li>
+              </ul>
+            </li>
+            <li>控制冒险
+              <li>分支提前(降低分支的延迟)
+                <br>分支提前到IF -> 额外的前递
+              </li>
+              <li>延迟分支(编译调度)
+                <ul>
+                  <li>从前调度</li>
+                  <li>从目标处调度</li>
+                  <li>从失败处调度</li>
+                </ul>
+              </li>
+              <li>分支预测
+                <ul>静态</ul>
+                <li>动态</li>
+              </li>
+            </li>
+          </ul>
+        </div>
+        </li>
+        <li>中断<br>
+          <img src="./interrupt.png">
+        </li>
+
+
+        <li><a href="#" id="link1">存储系统</a>
+          <div id="thediv1" style="display:none">
+          <ul>
+            <li id="link1_1">存储器分类
+              <div id="thediv1_1" style="display:none">
+              <ul>
+                <li>按材料分：半导体、磁表面、光盘</li>
+                <li>按存取方式：随机存取、只读、串行访问</li>
+                <li>按作用：主存、辅存、缓存</li>
+              </ul>
+              <img src="./storage_device.png">
+            </div>
+            </li>
+          
+            <li id="link1_2">存储器层次结构
+              <div id="thediv1_2" style="display:none">
+            <br>存储空间、运行速度、成本之间的权衡<br>
+            <img src="./storage_hierarchy.png">
+            <img src="./storage_hierarchy2.png">
+          </div>
+            </li>
+          
+          <li id="link1_3">主存储器
+            <div id="thediv1_3" style="display:none">
+            <ul>
+              <li>指标
+                <br>访存周期
+              </li>
+              <li>访存速度提高策略
+                <br>由最初的单体单字到...
+                <ul>
+                  <li>单体多字</li>
+                  <li>多体并行
+                    <li>高位交叉：地址连续的数据放在同一存储体内
+                      <img src="./高位交叉多体.png"> 
+                      <br>连续读取n个字时间：nT
+                    </li>
+                    <li>低位交叉：地址连续的数据依次循环放入不同存储体内
+                      <img src="./低位交叉多体.png"> 
+                      <br>连续读取n个字时间：T+(n-1)t，t为完美流水工作情况下启动间隔或者也可以说是总线使用时间，非完美流水(T>nt)要另外考虑
+                      <img src= "./完美流水多体并行.png">
+                    </li>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          </li>
+          <li id="link1_4">高速缓冲存储器Cache
+            <div id="thediv1_4" style="display:none">
+            <ul>
+              <li>为什么需要Cache
+                <ul>
+                  <li>解决CPU运算速度和访存速度不匹配的局面</li>
+                  <li>解决CPU和IO访存冲突，让CPU在冲突时访问Cache</li>
+                </ul>
+              </li>
+              <li>原理：程序的局部性</li>
+              <li>组成：SRAM，片上的纯硬件实现，对用户透明</li>
+              <li>体系分类
+                <ul>
+                  <li><abbr title="只有一个片上Cache">单一Cache</abbr>和<abbr title="一个片上Cache加一个或多个片外Cache">多级Cache</abbr></li>
+                  <li><abbr title="指令和数据共用一个Cache">统一Cache</abbr>和<abbr title="指令和数据Cache分开">分离Cache</abbr></li>
+                </ul>
+              </li>
+              <li>指标
+                <br>块长、总容量、命中率、平均访问时间、访问效率<abbr title="Cache单次访问时间/平均访问时间"></abbr>
+              </li>
+              <li>工作流程
+                <br>地址映射、Cache命中、Cache替换
+                <img src="./cache_work_flow.png">
+              </li>
+              <li>Cache映射策略
+                <ul>
+                  <li>全相联映射
+                    <br>映射到任意块，将标记(地址块号)和内容一起写入，查找时利用比较器同时比较全部标记<br>
+                    Address = Tag + offset<br>
+                    Cache单元：valid + Tag + data<br>
+                    <img src="./全相联cache.png">
+                  </li>
+                  <li>直接映射
+                    <br>属于一个同余类的主存块映射到同一Cache块，将标记(地址块号)和内容一起写入，利用主存块号计算Cache块，将标记进行一次比较<br>
+                    Address = Tag + index + offset，行号=index mod 行数<br>
+                    Cache单元：valid + Tag + data （此时各行隐含index）<br>
+                    <img src="./直接映射cache.png">
+                  </li>
+                  <li>组相联映射
+                    <br>组间直接映射，组内全相联映射，组内有v块称为v路组相联<br>
+                    Address = Tag + index + offset，组号=index mod 组数<br>
+                    Cache单元：valid + 组号 + Tag + data<br>
+                    <img src="./组相联Cache.png">
+                  </li>
+                </ul>
+              </li>
+              <li>Cache替换策略
+                <ul>
+                  <li>FIFO</li>
+                  <li>随机</li>
+                  <li>LFU/least-frequently used</li>
+                  <li>LRU/least-recently used</li>
+                </ul>
+              </li>
+              <li>Cache读写策略
+                <ul>
+                  <li>读Cache流程(即Cache工作流程)
+                    <img src="./cache_read.png">
+                  </li>
+                  <li>写命中时写策略
+                    <ul>
+                      <li>写直达法：写入Cache和主存</li>
+                      <li>写回法：只写入Cache，块被调换时写入主存</li>
+                    </ul>
+                  </li>
+                  <li>写失效时写策略
+                    <ul>
+                      <li>按写分配(写时取)：先把块调入Cache，再执行写命中写Cache</li>
+                      <li>不按写分配(绕写法)：不把块调入Cache，直接写入下一级存储器</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          </li>
+          <li id="link1_5">虚拟存储器
+            <div id="thediv1_5" style="display:none">
+            <ul>
+            <li><abbr title="用户编程的空间，逻辑地址空间">虚地址</abbr>到<abbr title="实际的物理存储空间">实地址</abbr>：程序重定向
+            <br>逻辑地址空间可以远大于实地址空间 -> 用户编程时可以认为自己的程序运行的进程拥有很大的内存
+            <br>逻辑地址空间可以远大于实地址空间 -> 多个用户，限制单个任务的地址空间，并且逻辑地址位数小让页表/段表更小
+            </li>
+            <li>虚存与Cache
+              <br>内存 = 主存 + Cache ， 虚存 = 主存 + 辅存
+              <ul>
+                <li>不同：侧重点、与CPU数据通路、透明性、未命中代价</li>
+                <li>相同点：<strong>利用程序局部性，同时拥有近似高速存储器的速度和低速存储器的容量（如果命中率高）</strong></li>
+              </ul>
+            </li>
+            <li>虚存实现
+              <ul>
+                <li>页式虚存
+                  <li>页表：进程特定
+                    <br>逻辑地址 = 逻辑页面号 + 页内偏移
+                    <br>页表entry = valid + 虚拟页号 + 权限 + 物理页号
+                    <br>地址映射：(页表基址+逻辑页面号->物理页面号->物理页面起始地址) + 页内偏移->物理地址 ， 最多两次访存
+                  </li>
+                  <li>多级页表</li>
+                  <li>反向页表：用于物理页少于逻辑页的情况（一般情况各进程逻辑页小于总物理页数量）</li>
+                  <li>TLB/Translation Look-aside Buffer</li>
+                  <img src="./complete_memory_access.png">
+                </li>
+                <li>段式虚存
+                  <li>段表：程序特定
+                    <br>逻辑地址 = 逻辑段号 + 段内偏移
+                    <br>段表entry = valid + 段物理起始地址 + 段长
+                    <br>地址映射：(段表基址+逻辑段号->物理段起始地址) + 段内偏移->物理地址 ， 最多两次访存
+                  </li>
+                </li>
+                <li>段页式虚存
+                  <li>段表+页表：可重入段是程序特定的，局部变量等在执行时copy到各进程的局部数据段
+                    <br>逻辑地址 = 逻辑段号 + 逻辑页号 + 页内偏移
+                    <br>段表entry = valid + 页表起始地址 + 段长，页表entry = valid + 虚拟页号 + 权限 + 物理页号
+                    <br>地址映射：((段表基址+逻辑段号->页表起始地址) + 逻辑页号) + 页内偏移->物理地址 ， 最多三次访存
+                  </li>
+                </li>
+                <a href="https://blog.csdn.net/low5252/article/details/106075945">段页式存储参考</a>
+              </ul>
+              <p>三种虚存示意图实现对比
+                <br>页表<br>
+                <img src="./page_table.png">
+                <br>段表<br>
+                <img src="./segment_table.png">
+                <br>段页式<br>注：如果只有一个段表基址寄存器，且在切换程序时更新，那么基号可以省略
+                <br><img src="./seg_page.png">
+              </p>
+              
+            </li>
+            <li>虚存替换
+              <br>虚存未命中开销远大于Cache未命中
+              <ul>
+                <li>FIFO</li>
+                <li>LRU</li>
+                <li>LFU</li>
+              </ul>
+            </li>
+          </ul>
+        </div>
+          </li>
+          <li>辅助存储器</li>
+          </ul>
+        </div>
+        </li>
+
+        <li>总线</li>
+
+      </ul>
+      <hr>
+      <h2 id="cod-question">Questions</h2>
       <p>This part includes frequently-asked and important questions in COD.</p>
       <ul>
         <li>计算机系统由哪两部分组成？计算机系统的层次结构是什么样的？</li>
@@ -70,6 +359,15 @@
         <li>CISC和RISC分别指什么？指令数目、指令格式、寻址方式谁更多？其中哪一种指令字长固定？哪一种指令多为单机器周期？两种计算机的指令使用频率分布如何？可访存指令有什么区别？寄存器数目谁更多？CISC的缺点有哪些？</li>
         <li>RISCV采用大端还是小端模式？内存按什么编址？是否要求边界对齐？</li>
         <li>to do</li>
+        <br>
+        <h3>第六章、存储系统</h3>
+        <li>(☆)为什么要有Cache？Cache改善性能的原理是什么？为什么我们很少在编程时直接和Cache打交道，即使是在内核态编程也只是涉及到虚拟地址和物理地址？</li>
+        <li>(☆)Cache块或者说Cache行指什么？Cache和CPU数据交换的最小单位是？</li>
+        <li>(☆☆)Cache命中率怎么计算？是不是Cache容量越大，Cache命中率越高？如果Cache容量有限，Cache行越大，是否Cache命中率越高？</li>
+        <li>(☆☆☆)包含Cache的CPU一次完整的访存过程是什么样的？</li>
+        <li>(☆☆☆)Cache的映射策略有哪三种？哪种策略的相联度最高(即冲突率最小)？为什么冲突率越小，失效率越小？为什么对于直接相连和组相联策略，要把index放在地址中间几位，tag放在地址高位？（为了让同余类是均匀分布的）</li>
+        <li>(☆☆☆)读Cache的流程是什么样的？</li>
+        <li>(☆☆☆)写命中时写直达和写回有什么区别？它们花费的时间是多少？写失效时按写分配和绕写法有什么区别？以写直达+按写分配为例，写Cache时的工作流程是什么样的？</li>        
       </ul>
     <br>
     <hr>

@@ -42,12 +42,13 @@
         <li><a href="#os-content">Content outline</a></li>
         <li><a href="#os-question">Questions</a></li>
         <li><a href="#os-ref">Reference</a></li>
+        <li><a href="./study-OS-addition.html">考研扩充内容</a></li>
       </ul>
       <hr>
       <h2 id="os-content">Content outline</h2>
       <ul>
-        <li><a href="#" id="link1">操作系统服务</a>
-          <div id="thediv1" style="display:none">
+        <li><a href="#" id="link12">操作系统服务</a>
+          <div id="thediv12" style="display:none">
             <img src="./os_services.png" width="750"> 
             <ul>
             <li>方便用户的服务
@@ -69,10 +70,11 @@
             </li>
             <li>系统调用/System Calls
               <ul>
-                <li>概念：操作系统服务的编程接口</li>
+                <li>概念：操作系统服务的编程接口(程序接口)</li>
                 <li>具体实现：API(Application Programming Interface)
                   <p>注意：API不等于系统调用，可以认为API包含系统调用，它相较系统调用更容易使用（参数少），并且在支持相同API的系统上均可以编译执行</p>
                 </li>
+                <li>系统调用的本质：用户在用户态下执行访管/trap/陷入指令，从用户态转变为内核态，从而在内核态下执行(内)中断服务程序</li>
                 <li>系统调用类型
                   <ul>
                     <li>进程控制 / Process Control</li>
@@ -87,10 +89,11 @@
             </li>
             </ul>
           </div>
+          
         </li>
 
-        <li><a href="#" id="link2">操作系统结构</a>
-          <div id="thediv2" style="display:none">
+        <li><a href="#" id="link13">操作系统结构</a>
+          <div id="thediv13" style="display:none">
           <ul>
             <li>简单结构(Simple Structure)：MS-DOS
               <img src="./ms_dos.png">
@@ -113,6 +116,7 @@
             <li>混合式(Hybrid)：Mac OS X kernel, Windows, Linux</li>
           </ul>
           </div>
+
         </li>
         <li><a href="#" id="link3">操作系统设计与实现</a>
           <div id="thediv3" style="display:none">
@@ -130,6 +134,7 @@
             <li>具体实现：汇编、C、C++</li>
           </ul>
           </div>
+          <a href="#" id="link3_1"></a><div id="thediv3_1" style="display:none"><a href="#" id="link3_2"></a><div id="thediv3_2" style="display:none"><a href="#" id="link3_3"></a><div id="thediv3_3" style="display:none">
         </li>
         <li><a href="#" id="link4">进程的概念</a>
           <div id="thediv4" style="display:none">
@@ -175,6 +180,7 @@
             </li>
           </ul>
           </div>
+          <a href="#" id="link4_1"></a><div id="thediv4_1" style="display:none"><a href="#" id="link4_2"></a><div id="thediv4_2" style="display:none"><a href="#" id="link4_3"></a><div id="thediv4_3" style="display:none"></div>
         </li>
         <li><a href="#" id="link5">进程的用户时间和系统时间</a>
           <div id="thediv5" style="display:none">
@@ -1226,18 +1232,416 @@
                 </li>
               </ul>
             </div>
-          </li>      
+          </li> 
+          
+          <li><a href="#" id="link11">大容量存储</a>
+            <div id="thediv11" style="display:none">
+              <ul>
+                <li>存储层次
+                  <img src="./mass_storage.png">
+                </li>
+                <li>硬盘(磁盘)
+                  <ul>
+                    <li>内部结构
+                      <ul>
+                        <li>物理地址：<abbr title="半径相同的一组轨道">圆柱</abbr>+轨道+扇区(最小单位) (Cylinder+Track+Sector)</li>
+                        <li>访问方式：寻道+旋转 -> 毫秒量级，如果连续的I/O可访问连续扇区，减少寻道开销</li>
+                        <li>旋转的设计：
+                          <ul>
+                            <li>CLV：恒定线速度，不同轨道的数据密度相同，因此在不同轨道上角速度不同，保持相同的数据读取速度。</li>
+                            <li>CAV：恒定角速度，外侧轨道的数据密度更小，因此在不同轨道上线速度不同，保持相同的数据读取速度。（硬盘是这种实现）</li>
+                          </ul>
+                        </li>
+                        <li>硬盘的使用
+                          <ul>
+                            <li>寻址：地址映射
+                              <br>逻辑块编号 <-> (圆柱号,轨道号,扇区号)
+                            </li>
+                            <li>坏块管理：允许某些块由于各种原因不能访问
+                              <ul>
+                                <li>块冗余
+                                  <br>保留一部分空闲区，逻辑上将坏块替换成备用空闲块，每个柱面都有空闲快，若柱面中坏块太多，替换成空闲柱面 -> 不影响调度算法
+                                </li>
+                                <li>块滑移
+                                  <br>将坏块映射到下一扇区，需要后续的移动数据
+                                </li>
+                              </ul>
+                            </li>
+                            <li>格式化
+                              <ul>
+                                <li>物理格式化：将硬盘划分成扇区，从而硬盘控制器可以读写
+                                  <br>具体做法：用特殊的数据结构填充硬盘的每个扇区，每个扇区由头尾(包含扇区号和检验和，控制器读写时都会进行校验)和数据区组成
+                                  <br>意义：在工厂中用于初始化、测试硬盘、设定扇区大小
+                                </li>
+                                <li>逻辑格式化
+                                  <ul>
+                                    <li>文件系统：分盘（多个柱面组成一个盘）并存储初始的文件数据结构 -> 有利于I/O优化，更多的连续I/O</li>
+                                    <li>原始硬盘：将硬盘当做一连串连续的逻辑块使用，可以操控每一块block</li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>硬盘调度
+                      <br>硬盘访问速度慢 -> 对硬盘的访问请求可能排队 -> 需要调度这些请求以提高访问的总体性能(具体来说是降低寻道时间)
+                      <ul>
+                        <li>先到先服务/FCFS
+                          <br>特点：先服务先到的请求，容易造成磁头的大幅度摆动
+                        </li>
+                        <li>最短搜索时间优先/SSTF
+                          <br>特点：先服务待服务请求中轨道离当前磁头位置最近的，在重负载情况下会造成饿死，并且磁头移动距离不是最佳的（为什么？因为无论如何，只要扫描一趟绝对可以把所有请求都服务，此时磁头移动最短，SSTF可能绕路）
+                        </li>
+                        <li>扫描算法/scan scheduling
+                          <br>特点：在两个尽头来回扫描，扫描至需要服务的柱面即服务，但是普通的扫描假定请求所在轨道位置均匀（或者说均匀情况下scan比较好），在磁头来到一侧并折返的这段时间内，另一侧请求会聚集，这些请求在磁头移动过来前需要等很久
+                        </li>
+                        <li>C-扫描/circular-scan scheduling
+                          <br>特点：与scan类似，但是是只从一头出发向另一头扫描，这样避免磁头在一侧往返时间过长，这一侧请求短时间内扫描两次毫无意义，而另一侧请求堆积长时间等待，C-scan让等待时间变均匀
+                        </li>
+                        <li>LOOK
+                          <br>特点：与scan类似，但是一旦达到请求的尽头，就折返，不需要扫描到尽头轨道，这样可以避免磁头在无请求区域浪费时间
+                        </li>
+                        <li>C-LOOK
+                          <br>特点：与c-scan类似，但是一旦达到请求的尽头，就回到起点（请求的另一个尽头而不是0），不需要扫描到尽头轨道，这样可以避免磁头在无请求区域浪费时间
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>固态硬盘(SSDs)
+                  <ul>
+                    <li>结构
+                      <br>block:最小擦除单位(256pages) page:最小读写单位
+                    </li>
+                    <li>分类：NAND flash或者NOR flash</li>
+                    <li>特点：不能覆写，编程操作只能将flash cell的值由0变1，擦除操作将值由1变0，随着编程-擦除次数增加，门厚度变小，SSD可靠性下降（寿命有限）</li>
+                    <li>操作
+                      <ul>
+                        <li>写：page为单位</li>
+                        <li>擦除：block为单位</li>
+                        <li>删除：标记页为invalid</li>
+                        <li>覆盖/更新：只能进行异地更新，即数据只能被编程放入干净的page</li>
+                        <li>GC：垃圾回收</li>
+                        <li>Trim：解决OS标记文件被删除但SSD主控不知情的情况，在这种情况下SSD依然会把无效页当有效页，若OS和SSD同时支持Trim，删除页时OS向SSD发送Trim命令，SSD得知某页无效，删除页，之后通过GC处理。</li>
+                      </ul>
+                    </li>
+                    <li>Flash Translation Layer(略)：地址映射，回收，擦除等</li>
+                  </ul>
+                </li>
+                <li>独立硬盘冗余阵列/RAID
+                  <ul>
+                    <li>意义：更好的访存性能(顺序/随机I/O)，更高的可靠性(disk failure，MTTF:mean time to failure)，更大的存储空间</li>
+                    <li>RAID级别
+                      <ul>
+                        <li>RAID0：分硬盘存放同一份数据的不同部分
+                          <br>特点：提高数据传输速度，但无冗余因此无可靠性提升
+                        </li>
+                        <li>RAID1：数据镜像
+                          <br>特点：需要的存储空间是RAID0的n倍，但数据冗余提高了可靠性
+                        </li>
+                        <li>RAID10/RAID01
+                          <br>特点：需要的存储空间和RAID1相同，同时提高了数据传输速度和可靠性
+                          <ul>
+                            <li>RAID10：先做数据镜像，再做数据分条</li>
+                            <li>RAID01：先做数据分条，再做数据镜像</li>
+                          </ul>
+                        </li>
+                        <li>RAID4：引入冗余校验盘
+                          <br>特点：相比RAID1，存储空间减少，读取速度和RAID0相当，可靠性也有保证，但更新数据存在两个问题：额外的读写操作、校验盘平时并不使用(浪费带宽)但更新时成为瓶颈(因为更新一定涉及到校验盘写)
+                        </li>
+                        <li>RAID5：校验和均匀分布的RAID4
+                          <br>特点：依然存在更新时的额外读写，但相比RAID4，校验盘不再是瓶颈，每个盘均有一个来自某个数据条带的校验和
+                        </li>
+                        <li>RAID6：多个纠正码
+                          <br>特点：相比RAID5，使用纠正码而不是校验码，并且每个数据条带有两个计算方式不同的纠正码，从而可以容忍两个磁盘错误，但数据更新额外读写增加
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </li> 
+          <li><a href="#" id="link1">文件系统</a>
+            <div id="thediv1" style="display:none"> 
+              <ul>
+                <li id="link1_1">文件系统简介
+                  <div id="thediv1_1" style="display:none"> 
+                  <ul>
+                    <li>文件系统做什么？
+                      <br>FS = layout + operation = 怎么存 + 怎么读
+                    </li>
+                    <li>文件系统与操作系统的关系
+                      <br>OS supports FS -> 即OS使用FS操作与FS的layout进行交互
+                      <br>注意：一个OS可以有多个文件系统，一个文件系统可以与多个OS交互<br>
+                      <img src="./fs_os.png">
+                    </li>
+                    <li>文件系统与存储设备的关系
+                      <br>Storage Device stores FS -> 即FS的数据结构、文件、目录等存放在存储设备上，而layout决定了这些信息怎么存，存储设备不懂得也不需要懂得到底存了什么，OS指导其存储什么东西
+                      <br>注意：FS必须要存储在存储设备上，但是存储设备可能是裸的（无FS），对于某些设备可以存储多个文件系统
+                    </li>
+                  </ul>
+                  </div>
+                </li>
+                <li id="link1_2">文件/File
+                  <div id="thediv1_2" style="display:none"> 
+                  <ul>
+                    <li>定义
+                      <br>统一的、逻辑上的信息存储单元，是一种抽象数据类型，其独立于进程、用户、系统存在
+                    </li>
+                    <li>为什么需要？
+                      <br>持久性存储（与内存中的存储信息相对比，进程结束被回收），并且可以作为一种共享对象
+                    </li>
+                    <li>文件的子概念
+                      <ul>
+                        <li>文件类型
+                          <br>可执行文件(executable file),文本文件(text)...
+                        </li>
+                        <li>文件属性/Attributes
+                          <br>文件名、文件标识符、文件类型、文件大小、文件访问控制信息 -> 文件属性是文件自身的性质，而不取决于OS，但也取决于FS，不同FS有不同种类属性
+                        </li>
+                        <li>操作</li>
+                      </ul>
+                    </li>
+                    <li>文件内容
+                      <ul>
+                        <li>文件属性</li>
+                        <li>权限(以UNIX为例)<br>
+                          file/directory + owner(3bits for rwx) + file'group(3bits) + others(3bits)
+                          <br>例子：permission d775 -> 拥有者和文件群组可读可写可执行，其他人可读可执行
+                        </li>
+                        <li>文件名以及路径名
+                          <br>路径名 = 所在目录路径名/文件名，例如/home/shaofeng/test.txt是路径名，/home/shaofeng/是目录的路径名，test.txt是文件名
+                          <br>注意：
+                          <ul>
+                            <li>路径名在整个文件系统是唯一的，因为寻址过程为：OS将路径名(key)翻译成若干地址，从而访问文件</li>
+                            <li>文件名在其所在目录是唯一的，在整个FS不一定唯一</li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                  </div>
+                </li>
+                <li id="link1_3">文件系统操作
+                  <div id="thediv1_3" style="display:none">
+                  <ul>
+                    <li>打开文件
+                      <ul>
+                        <li>基本流程:
+                          <br>fopen() -> open() -> 迭代目录遍历查找文件 -> 找到文件，硬盘将文件将文件属性与fd关联(在打开文件表内) -> 为FILE结构体(包含fd和buffer)动态分配空间，并返回FILE*
+                          <br>注意：文件打开最后返回给OS的是目标文件的属性而不涉及到内容，原因是只需要属性来维持打开文件表即可
+                        </li>
+                        <li>FILE结构体
+                          <br>FILE = fd + buffer + ...，定义在stdio.h内
+                        </li>
+                        <li>打开文件表(Open-file Table)和文件描述符(fd)
+                          <br>打开文件表 -> fd与文件属性的对应表，多个进程共享但各自维护自己的fd数组，以记录自己打开的文件有哪些
+                        </li>
+                      </ul>
+                    </li>
+                    <li>读文件
+                      <ul>
+                        <li>基本流程：
+                          <br>将fd传递给内核 -> read()系统调用 -> 在打开文件表内查找fd对应的文件属性，利用文件属性定位文件并检查是否到达文件尾(比较属性size和运行时属性file seek) ->  硬盘返回所需的data，存入固定大小的内核Cache -> 内核将Cache内数据写入用户FILE提供的buffer
+                        </li>
+                      </ul>
+                    </li>
+                    <li>写文件
+                      <li>基本流程
+                        <br>write()系统调用 -> 将数据写入内核缓冲区 -> 根据数据大小改变size和file seek -> 函数调用返回 -> 每隔一段时间或手动将内核缓冲区数据刷入硬盘(暂时未讨论具体的磁盘空间分配与回收，因为这与layout有关)
+                      </li>
+                    </li>
+                  </ul>
+                </div>
+                </li>
+                <li id="link1_4">目录/Directory
+                  <div id="thediv1_4" style="display:none">
+                  <ul>
+                    <li>概念：目录就是文件</li>
+                    <li>目录内容
+                      <ul>
+                        <li>目录属性（可能有，取决于具体的文件系统）</li>
+                        <li>目录条目/directory entry（即目录文件真正包含的“内容”）
+                          <br>目录条目的数组，每个entry包含文件名和文件属性/文件属性的指针
+                        </li>
+                        <li>目录遍历
+                          <br>需要用到目录遍历的场景
+                          <ul>
+                            <li>打印当前目录所有文件(例如ls)</li>
+                            <li>定位/访问文件：迭代遍历查询 -> 在当前目录文件查找下一级目录名，找到后通过附带的文件属性获取下一级目录文件，重复遍历查询过程</li>
+                          </ul>
+                        </li>
+                        <li>文件创建 -> 更新目录文件
+                          <br>注意：创建文件 = 更新目录文件，即在目录文件内添加一条目录条目，但不涉及存储空间分配
+                        </li>
+                        <li>文件/目录删除 -> 更新目录文件 and more</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                </li>
+                <li id="link1_5">文件系统布局/Layout
+                  <div id="thediv1_5" style="display:none">
+                  <ul>
+                    <li>FS layout定义：FS如何存放数据</li>
+                    <li>连续存储(layout 1.0)
+                      <ul>
+                        <li>基本实现：“Book” -> 根目录 + 连续存放的文件 </li>
+                        <img src="./continugeous_layout.png">
+                        <li>优点：适合只读的系统(例如光盘)</li>
+                        <li>缺点：(虽然删除方便但)外部碎片化、文件增长受阻</li>
+                      </ul>
+                    </li>
+                    <li>链表分配(layout 2.0)
+                      <ul>
+                        <li>基本实现：将存储空间分块，每个文件占据多一个或多个最小块，根目录存放每一段连续空间的起始块号和结束块号(假链表)</li>
+                        <img src="./2.0_layout.png">
+                        <li>优点：解决外部碎片化、文件增长不再受阻</li>
+                        <li>缺点：根目录难以实现、内部碎片化(不严重)</li>
+                      </ul>
+                    </li>
+                    <li>链表分配：真正的链表(layout 2.1)
+                      <li>基本实现：在每个最小块头部(4 bytes)设置指针域，指向同一文件下一块(真链表)
+                        <br>注意：根目录需要存储文件的size，因为最后一个最小块可能没有填满
+                      </li>
+                      <img src="./2.1_layout.png">
+                      <li>优点：根目录容易实现、容易管理空闲块、解决外部碎片化、文件增长不再受阻</li>
+                      <li>缺点：随机I/O的代价为O(n)、内部碎片化(不严重)</li>
+                    </li>
+                    <li>FAT/File Allocation Table(layout 2.2)
+                      <li>基本实现：与2.1类似，但将块头部指针信息集中化，存放在FAT内</li>
+                      <img src="FAT.png">
+                      <li>优点：包括2.1的优点、随机I/O</li>
+                      <li>缺点/需求：可能需要缓存一部分FAT在内存中</li>
+                    </li>
+                    <li>The Index-Node Allocation(layout 3.0)/Extent
+                      <li>基本实现：将FAT按文件粒度切分成inode，根目录存放文件名和文件节点指针(inode)，文件节点大小固定，存放<abbr title="存放数据的块">直接块</abbr>和<abbr title="存放直接块或者间接块指针的块">间接块</abbr>的指针或下标，而直接块和间接块都当做数据存放
+                      <br>注意：目录也是文件，拥有自己的inode，inode指向的存储内容与根目录形式完全相同(entry=filename+inode pointer)，即目录条目表
+                      </li>
+                      <img src="./inode.png"><br>
+                      <img src="./ext_fs.png">
+                      <li>优点：包括2.2的优点、可以实现将一部分inode缓存到内存里(访问局部性)、inode大小固定但文件的大小可变并且很大(三级间接块对应文件大小2^4x-6 bytes，假设块大小2^x bytes而地址4bytes)</li>
+                      <li>缺点/需求：inode是额外开销、inode虽然可缓存但其指向的内容依然分布在各处</li>
+                    </li>
+                    <li>根目录和子目录
+                      <ul>
+                        <li>两者的关系：子目录可以是根目录里的一项(an entry)，子目录是一个和根目录存放内容等价(指形式相同)的文件
+                          <br>以EXT文件系统为例，所有的普通文件和目录文件(包括根目录)构成<strong>树状结构</strong>
+                          <br>遍历目录访问文件的过程是什么样的？ -> 查找当前级目录文件，找到下一级目录文件访问inode，递归直到找到最后要找的文件
+                        </li>
+                        <img src="./rootdir_subdir.png">
+                      </ul>
+                    </li>
+                    <li>存储布局 - 完整的盘数据布局
+                      <ul>
+                        <li>完整布局
+                          <br><strong><attr title = "文件系统特定信息">Super Block/Boot Sector</attr></strong> + Inode/FAT + FREE + Root DIR + Data Block + Free Blocks
+                        </li>
+                        <img src="./fslayout_complete.png">
+                        <li>分盘/Disk partitioning
+                          <ul>
+                            <li>概念：磁盘分区是磁盘上一块<strong>逻辑上</strong>的空间，一个分区对应一个文件系统，操作系统也必须存放在某个分区内</li>
+                            <li>意义：
+                              <ul>
+                                <li>限制文件系统大小，而小的文件系统更高效</li>
+                                <li>Multiboot：在一块磁盘上可以安装多个操作系统，可以安装多个文件系统</li>
+                                <li>数据管理，把操作系统相关的文件和用户的文件(例如电影，音频等)分开存放</li>
+                              </ul>
+                            </li>
+                            <li>分盘的方法：Master boot record
+                              <br>Master boot record(MBR)：磁盘分区的<strong><attr title="metadata，指记录基本信息的数据">元数据</attr></strong>，包括
+                              <ul>
+                                <li>Boot code：指定在哪个磁盘分区启动，实际上就是操作系统放在哪个盘</li>
+                                <li>partition table：存放各分区起始扇区，长度，种类等</li>
+                                <li>签名</li>
+                              </ul>
+                              <img src="./MBR.png">
+                            </li>
+                          </ul>
+                        </li>
+                        <li>完整的存储布局
+                          <br>MBR + Disk partion 1(FS) + Disk partion 2(FS) + ...
+                          <br>Disk partion = FS = Super Block/Boot Sector + Inode/FAT + FREE + Root DIR + Data Block + Free Blocks 
+                        </li>
+                        <img src="./storage_layout.png">
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+                </li>
+              </ul>
+            </div>
+          </li>
+          <li><a href="#" id="link2">FAT文件系统(FAT32)</a>
+            <div id="thediv2" style="display:none">
+              <ul>
+                <li id="link2_1">FAT32分区布局</li>
+              <div id="thediv2_1" style="display:none">
+                <p>注：Cluster0和Cluster1一般是保留的。Data area包含Root Sector,而Root Sector通常在Data area最前方,从Cluster2开始。</p>
+                <img src="./FAT.png">
+                <img src="./FAT_32.png">
+              </div>
+                <li id="link2_2">目录和文件属性 - 具体的目录条目包含内容
+                  <div id="thediv2_2" style="display:none">
+                  <ul>
+                    <li>目录条目 - 一个32bytes的结构体，存储所有广义的文件属性
+                      <br>包含内容：文件名("8+3")、文件属性、起始簇号、时间信息、文件大小...
+                      <br>注：按字节读取目录条目中内容计算时间、大小等数值要注意大/小尾端问题
+                    </li>
+                    <img src="./FAT_DIR_entry.png">
+                    <li><attr title="长文件名">LFN</attr>问题
+                      <br><attr title="按8+3截断">普通条目</attr> + 长文件名条目
+                      <br>注意：LFN entry的文件属性永远是0x0F，从而指示LFN；最后一个长文件条目其序列号与0x40与运算得到替换原序列号。
+                    </li>
+                    <img src="./LFN.png">
+                  </ul>
+                </div>
+                </li>
+                <li id="link2_3">文件操作具体流程
+                  <div id="thediv2_3" style="display:none">
+                  <ul>
+                    <li>读文件</li>
+                    <li>写文件</li>
+                    <li>删除文件</li>
+                    <li>删除文件恢复</li>
+                  </ul>
+                  </div>
+                </li>
+                <li id="link2_4"><div id="thediv2_4" style="display:none"></div></li><li id="link2_5"><div id="thediv2_5" style="display:none"></div></li>
+              </ul>
+            </div>
+          </li>
+
+          <li><a href="#" id="link14">EXT文件系统</a>
+            <div id="thediv14" style="display:none">
+              <ul>
+                <li>对比FAT和EXT文件系统：实现方式、根目录存放内容(FAT存放属性本身，EXT存放inode下标，属性在inode里)</li>
+              </ul>
+            </div>
+          </li>
+          <li>I/O</li>
       </ul>
 
       <h2 id="os-question">Questions</h2>
-      <p>此部分包含了一些经典的OS的问题以及部分参考回答，题目前标注了该问题知识点所处的章节</p>
+      <p>此部分包含了一些经典的OS的问题以及部分参考回答，题目前标注了该问题知识点所处的章节，题目前★数量表示重要性</p>
       <ul>
+        <li>(考研)操作系统是什么？</li>
+        <li>(考研)操作系统最基本的两个的特征是什么？怎么理解并发和并行的区别？</li>
+        <li>(考研)操作系统的接口分为哪两种？联机命令接口适用于什么样的系统？脱机命令接口又叫什么？适用于什么样的接口？程序接口本质上是什么？操作系统提供给编程者或者应用程序的接口是什么？系统调用的具体实现方式是？</li>
+        <li>(考研)批处理操作系统、分时操作系统、实时操作系统各自有什么特点？</li>
+        <li>(考研)访管指令运行于什么态？在用户态下执行特权指令会引起什么中断？</li>
+        <li>(考研)通道技术是什么？为什么说中断机制+通道技术让多道程序这个概念真正发挥作用？</li>
+        <li>(考研)当CPU响应中断时，中断隐指令完成什么工作？中断服务程序完成什么工作？中断向量表初始化是由谁完成的？</li>
         <li>(1)从用户的角度来看，操作系统的功能是什么？从系统的角度来看，操作系统的功能是什么？</li>
         <li>(1)操作系统提供的服务有哪九种？分别具体指什么？</li>
         <li>(1)用户空间和内核空间指什么？为什么要做这样的区分？</li>
         <li>(1)Dual mode是什么？为什么要区分用户模式和内核模式？进程的用户时间和系统时间指什么？</li>
         <li>(1)Multiprogramming和Multitasking分别指什么？它们的作用或者说目的是什么？</li>
         <li>(1)系统调用是什么？API与系统调用的关系是什么？</li>
+        <li>(1)系统调用的调用在什么态？系统调用的运行在什么态？</li>
         <li>(1)操作系统的结构有哪几种？它们各自的优缺点是什么？Linux,MacOS,Windows是什么类型的？</li>
         <li>(1)</li>
         <br>
@@ -1329,11 +1733,51 @@
         <li>(7.2)(★★)写时复制（COW）是什么？为什么需要COW？</li>
         <li>(7.2)(★)最优页面置换算法如何实现？</li>
         <li>(7.2)(★★★)FIFO页面置换算法与LRU页面置换算法的区别在哪里？LRU算法基于什么样的原理？LRU算法的实现方法有哪些？</li>
+        <br>
+        <li>(8)存储层次化各层次使用什么存储元件？存储层次化的意义是什么？</li>
+        <li>(8)(★★★)硬盘上物理地址由什么确定(或者说硬盘从物理上可以划分成哪三个层次)？硬盘上存储的最小单位是什么？硬盘的访问方式是什么？platter旋转的CLV和CAV有什么区别？硬盘的地址映射是怎么做的？坏块管理有哪两种方式？硬盘的物理格式化做什么，有什么意义？硬盘的逻辑格式化分为哪两种？</li>
+        <li>(8)(★★★)硬盘调度算法需要完成什么工作？FCFS调度是什么？它的缺点是什么？SSTF调度是什么？其性能与FCFS相比如何？其性能（指磁头总移动距离）是否达到最优？为什么？SSTF是否会造成饿死？SCAN,C-SCAN,LOOK,C-LOOK这四个算法之间有什么关系？SCAN相比C-SCAN的缺点体现在什么地方？SCAN相比LOOK缺点体现在什么地方？</li>
+        <li>(8)(★)SSD是什么？其与硬盘有什么区别？SSD的结构中最小的两个结构单元是什么？为什么SSD的寿命有限？为什么SSD不能进行一般意义的覆盖或更新而只能进行异地更新？SSD的操作有哪些？Trim是什么？</li>
+        <br>
+        <li>(9)(★★★)文件系统是什么？文件系统的两个最重要的要素是什么？文件系统与操作系统的关系是什么？文件系统和操作系统是不是一对一映射？文件系统和存储设备的关系是什么？存储设备是不是一定要存放一个或多个FS？</li>
+        <li>(9)(★★★)文件是什么？为什么需要文件？列举几个文件的属性？文件属性是不是OS-dependent的？对于UNIX而言，某文件权限为d775，表示什么？文件名和路径名分别是什么？文件名在什么情况下是唯一的？路径名在整个FS内唯一么？</li>
+        <li>(9)对文件的操作具体流程是不是独立于OS和FS的？为什么？</li>
+        <li>(9)(★★★)文件打开操作流程是什么样的？为什么打开文件不涉及到目标文件内容的访问？打开某个文件是否会涉及到其他文件内容的访问？FILE结构体是什么？fd是什么？打开文件表是什么？打开文件表对于读写的意义是什么？</li>
+        <li>(9)(★★★)读打开文件的工作流程是什么样的？</li>
+        <li>(9)(★★★)写文件的工作流程是什么样的？为什么在对文件写入之后不能随意按下重启或者拔出U盘？</li>
+        <li>(9)(★★★)目录是什么？目录的内容包含什么？目录和文件如何区分（对于UNIX来说）？定位一个文件需要进行什么样的操作？以EXT文件系统为例，遍历目录访问某个文件的流程是什么样的？创建一个文件实际上是在干什么？删除一个文件呢？根目录和子目录之间有什么样的关系？子目录存放什么内容？</li>
+        <li>(9)(★)连续分配文件系统布局是如何实现的？其有什么缺点？这种layout适合什么样的存储设备或者说系统？</li>
+        <li>(9)(★★)链表分配的所谓2.0和2.1版本有什么区别？对于2.1版本，根目录是否需要存储文件的属性？为什么？链表分配2.1相比连续分配解决了什么问题？有什么缺点？</li>
+        <li>(9)(★★★)FAT是什么？为什么要使用FAT(对比链表分配2.1)？FAT存放的位置在哪里？为什么要缓存一部分FAT在内存里？FAT里是否要存储文件的属性？</li>
+        <li>(9)(★★★)什么是Index node？为什么说inode实际上是FAT按文件粒度切分的结果？相比FAT，index node解决了什么问题？为什么缓存index node对于访问性能有提升？对于三级间接块，其对应的存储空间有多大？使用Index node的目录文件存放什么内容?文件属性存放在目录文件内容里还是该文件的Index node结构体内？Index node存在什么样的缺点？</li>
+        <li>(9)(★★★)文件系统特定的信息为什么存放在存储设备上而不是编程到kernel代码内？FAT和EXT文件系统的文件系统特定信息叫什么？一个完整的文件系统包含哪些部分？</li>
+        <li>(9)(★★★)磁盘分区的概念是什么？为什么一块硬盘上可以有多个文件系统或者操作系统？磁盘分区为什么可以提高文件系统的性能？磁盘分区的意义是什么？</li>
+        <br>
+        <li>(9)(★★★)FAT16、FAT32文件系统的数字代表什么？扇区(sector)和簇(cluster)之间的大小关系一般是什么样的？FAT文件系统分区包含哪五个部分？为什么FAT文件系统要设置两个FAT？</li>
       </ul>
+
+      <h2 id="os-lab">Labs</h2>
+      <p>此部分包含操作系统的实验和一些在操作系统实验中涉及到的知识</p>
+      <ul>
+      <li>实验</li>
+      <ul>
+        <li>编译运行Linux内核并通过QEMU+GDB调试</li>
+        <li>添加Linux系统调用，实现shell与ps</li>
+        <li>Linux内核模块与内存管理</li>
+      </ul>
+      <li>实验中涉及到的知识</li>
+      <ul>
+        <li>Linux系统调用的添加</li>
+        <li>Linux模块的编写</li>
+        <li>Linux中task_struct</li>
+        <li>Linux四级页表</li>
+      </ul>
+    </ul>
 
       <h2 id="os-ref">Reference</h2>
       <ul>
         <li>中科大操作系统课程ppt</li>
+        <li>Linux源码阅读查找网站：<a href="https://elixir.bootlin.com/linux/v5.9/source">Bootlin</a></li>
       </ul>
     <br>
     <hr>
