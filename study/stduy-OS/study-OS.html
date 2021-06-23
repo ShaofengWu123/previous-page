@@ -118,8 +118,8 @@
           </div>
 
         </li>
-        <li><a href="#" id="link3">操作系统设计与实现</a>
-          <div id="thediv3" style="display:none">
+        <li><a href="#" id="link14">操作系统设计与实现</a>
+          <div id="thediv14" style="display:none">
           <ul>
             <li>设计目标 → 没有唯一解决方案
               <ul>
@@ -134,10 +134,9 @@
             <li>具体实现：汇编、C、C++</li>
           </ul>
           </div>
-          <a href="#" id="link3_1"></a><div id="thediv3_1" style="display:none"><a href="#" id="link3_2"></a><div id="thediv3_2" style="display:none"><a href="#" id="link3_3"></a><div id="thediv3_3" style="display:none">
         </li>
-        <li><a href="#" id="link4">进程的概念</a>
-          <div id="thediv4" style="display:none">
+        <li><a href="#" id="link15">进程的概念</a>
+          <div id="thediv15" style="display:none">
           <ul>
             <li>进程(Process)与程序(Program)
               <ul>
@@ -180,10 +179,9 @@
             </li>
           </ul>
           </div>
-          <a href="#" id="link4_1"></a><div id="thediv4_1" style="display:none"><a href="#" id="link4_2"></a><div id="thediv4_2" style="display:none"><a href="#" id="link4_3"></a><div id="thediv4_3" style="display:none"></div>
         </li>
-        <li><a href="#" id="link5">进程的用户时间和系统时间</a>
-          <div id="thediv5" style="display:none">
+        <li><a href="#" id="link11">进程的用户时间和系统时间</a>
+          <div id="thediv11" style="display:none">
           <p>系统运行总时间（性能）= 用户时间 + 系统时间<br>
           注意：
           <ul>
@@ -1234,13 +1232,17 @@
             </div>
           </li> 
           
-          <li><a href="#" id="link11">大容量存储</a>
-            <div id="thediv11" style="display:none">
+          <li><a href="#" id="link5">大容量存储</a>
+            <div id="thediv5" style="display:none">
               <ul>
-                <li>存储层次
+                <li><a href="#" id="link5_1">存储层次</a>
+                  <div id="thediv5_1" style="display:none">
+                  <br>在存储容量和访问速度之间的权衡
                   <img src="./mass_storage.png">
+                  </div>
                 </li>
-                <li>硬盘(磁盘)
+                <li><a href="#" id="link5_2">硬盘(磁盘)</a>
+                  <div id="thediv5_2" style="display:none">
                   <ul>
                     <li>内部结构
                       <ul>
@@ -1309,8 +1311,10 @@
                       </ul>
                     </li>
                   </ul>
+                  </div>
                 </li>
-                <li>固态硬盘(SSDs)
+                <li><a href="#" id="link5_3">固态硬盘(SSDs)</a>
+                  <div id="thediv5_3" style="display:none">
                   <ul>
                     <li>结构
                       <br>block:最小擦除单位(256pages) page:最小读写单位
@@ -1329,8 +1333,10 @@
                     </li>
                     <li>Flash Translation Layer(略)：地址映射，回收，擦除等</li>
                   </ul>
+                  </div>
                 </li>
-                <li>独立硬盘冗余阵列/RAID
+                <li><a href="#" id="link5_4">独立硬盘冗余阵列/RAID</a>
+                  <div id="thediv5_4" style="display:none">
                   <ul>
                     <li>意义：更好的访存性能(顺序/随机I/O)，更高的可靠性(disk failure，MTTF:mean time to failure)，更大的存储空间</li>
                     <li>RAID级别
@@ -1353,16 +1359,30 @@
                         </li>
                         <li>RAID5：校验和均匀分布的RAID4
                           <br>特点：依然存在更新时的额外读写，但相比RAID4，校验盘不再是瓶颈，每个盘均有一个来自某个数据条带的校验和
+                          <br>更新方式：(以更新A1为例,假设有5个磁盘)
+                          <ul>
+                            <li>read-modify-write/RMW
+                              <br>A<sub>p</sub><sup>’</sup> = A<sub>p</sub>⊕A<sub>1</sub>⊕A<sub>1</sub><sup>’</sup>
+                            </li>
+                            <li>read-reconstruction-write/RRW
+                              <br>A<sub>p</sub><sup>’</sup> = A<sub>1</sub><sup>’</sup>⊕A<sub>2</sub>⊕A<sub>3</sub>⊕A<sub>4</sub>
+                              <br>注意：读重构写由于使用的是块的新值，因此没必要更新块之后再去读取值，直接使用就可以了
+                            </li>
+                            <img src="./raid5.png">
+                          </ul>
                         </li>
                         <li>RAID6：多个纠正码
                           <br>特点：相比RAID5，使用纠正码而不是校验码，并且每个数据条带有两个计算方式不同的纠正码，从而可以容忍两个磁盘错误，但数据更新额外读写增加
                         </li>
+                        <img src="./raid6.png">
                       </ul>
                     </li>
                   </ul>
+                  </div>
                 </li>
               </ul>
             </div>
+            <a href="#" id="link5_5"></a><div id="thediv5_5" style="display:none"></div><a href="#" id="link5_6"></a><div id="thediv5_6" style="display:none"></div>
           </li> 
           <li><a href="#" id="link1">文件系统</a>
             <div id="thediv1" style="display:none"> 
@@ -1504,20 +1524,25 @@
                       </ul>
                     </li>
                     <li>链表分配：真正的链表(layout 2.1)
+                    <ul>
                       <li>基本实现：在每个最小块头部(4 bytes)设置指针域，指向同一文件下一块(真链表)
                         <br>注意：根目录需要存储文件的size，因为最后一个最小块可能没有填满
                       </li>
                       <img src="./2.1_layout.png">
                       <li>优点：根目录容易实现、容易管理空闲块、解决外部碎片化、文件增长不再受阻</li>
                       <li>缺点：随机I/O的代价为O(n)、内部碎片化(不严重)</li>
+                    </ul>
                     </li>
                     <li>FAT/File Allocation Table(layout 2.2)
+                    <ul>
                       <li>基本实现：与2.1类似，但将块头部指针信息集中化，存放在FAT内</li>
                       <img src="FAT.png">
                       <li>优点：包括2.1的优点、随机I/O</li>
                       <li>缺点/需求：可能需要缓存一部分FAT在内存中</li>
+                    </ul>
                     </li>
                     <li>The Index-Node Allocation(layout 3.0)/Extent
+                      <ul>
                       <li>基本实现：将FAT按文件粒度切分成inode，根目录存放文件名和文件节点指针(inode)，文件节点大小固定，存放<abbr title="存放数据的块">直接块</abbr>和<abbr title="存放直接块或者间接块指针的块">间接块</abbr>的指针或下标，而直接块和间接块都当做数据存放
                       <br>注意：目录也是文件，拥有自己的inode，inode指向的存储内容与根目录形式完全相同(entry=filename+inode pointer)，即目录条目表
                       </li>
@@ -1525,6 +1550,7 @@
                       <img src="./ext_fs.png">
                       <li>优点：包括2.2的优点、可以实现将一部分inode缓存到内存里(访问局部性)、inode大小固定但文件的大小可变并且很大(三级间接块对应文件大小2^4x-6 bytes，假设块大小2^x bytes而地址4bytes)</li>
                       <li>缺点/需求：inode是额外开销、inode虽然可缓存但其指向的内容依然分布在各处</li>
+                    </ul>
                     </li>
                     <li>根目录和子目录
                       <ul>
@@ -1538,7 +1564,7 @@
                     <li>存储布局 - 完整的盘数据布局
                       <ul>
                         <li>完整布局
-                          <br><strong><attr title = "文件系统特定信息">Super Block/Boot Sector</attr></strong> + Inode/FAT + FREE + Root DIR + Data Block + Free Blocks
+                          <br><strong><attr title = "文件系统特定信息">Super Block/Boot Sector</attr></strong> + Inode/FAT + FREE + Root DIR + Data Block + Free Blocks(GDT/FSINFO)
                         </li>
                         <img src="./fslayout_complete.png">
                         <li>分盘/Disk partitioning
@@ -1580,7 +1606,7 @@
               <ul>
                 <li id="link2_1">FAT32分区布局</li>
               <div id="thediv2_1" style="display:none">
-                <p>注：Cluster0和Cluster1一般是保留的。Data area包含Root Sector,而Root Sector通常在Data area最前方,从Cluster2开始。</p>
+                <p>注：不存在Cluster0和Cluster1，也可以认为它们被保留。<br>Boot Sector、FSINFO、保留扇区可统称为保留扇区，它们的总长度为Boot Sector内指明的保留扇区数<br>Data area包含Root Sector,而Root Sector通常在Data area最前方,从Cluster2开始。</p>
                 <img src="./FAT.png">
                 <img src="./FAT_32.png">
               </div>
@@ -1588,13 +1614,13 @@
                   <div id="thediv2_2" style="display:none">
                   <ul>
                     <li>目录条目 - 一个32bytes的结构体，存储所有广义的文件属性
-                      <br>包含内容：文件名("8+3")、文件属性、起始簇号、时间信息、文件大小...
+                      <br>包含内容：文件名("8+3")、文件属性、起始簇号、时间信息、文件大小... <strong>所有的文件属性</strong>
                       <br>注：按字节读取目录条目中内容计算时间、大小等数值要注意大/小尾端问题
                     </li>
                     <img src="./FAT_DIR_entry.png">
                     <li><attr title="长文件名">LFN</attr>问题
                       <br><attr title="按8+3截断">普通条目</attr> + 长文件名条目
-                      <br>注意：LFN entry的文件属性永远是0x0F，从而指示LFN；最后一个长文件条目其序列号与0x40与运算得到替换原序列号。
+                      <br>注意：LFN entry的文件属性部分永远是0x0F，从而指示LFN；最后一个长文件条目其序列号与0x40与运算得到替换原序列号。
                     </li>
                     <img src="./LFN.png">
                   </ul>
@@ -1603,26 +1629,372 @@
                 <li id="link2_3">文件操作具体流程
                   <div id="thediv2_3" style="display:none">
                   <ul>
-                    <li>读文件</li>
-                    <li>写文件</li>
-                    <li>删除文件</li>
-                    <li>删除文件恢复</li>
+                    <li>读文件：迭代读取簇
+                      <ul>
+                        <li>流程：目录遍历->找到entry->找到首簇簇号->迭代读取直到到达文件size限制</li>
+                        <br>迭代读取：即由FAT项知道下一数据簇的簇号(28bit for FAT32)
+                        <li>读取过程中FAT特殊的标志
+                          <ul>
+                            <li>特殊的FAT项：0号项存放介质类型；1号簇存放文件系统肮脏标志，表明文件系统被非法卸载或者磁盘表面存在错误</li>
+                            <li>特殊的FAT项内容：EOF、空闲、坏簇
+                            </li>
+                            <img src="./fat_entry_content.png">
+                          </ul>
+                        </li>
+                      </ul> 
+                    </li>
+                    <li>写文件：更新data内容和元数据
+                      <ul>
+                        <li>流程：找到文件最后簇并在后面接着写入->若需要更多簇，由FSINFO得到下一空闲簇簇号，在空闲簇写入->更新FAT1、FAT2和FSINFO(空闲簇)和文件大小</li>
+                        <li>FSINFO的下一空闲簇(next free cluster #)
+                          <br>更新时从分配簇处循环搜索下一空闲簇 -> 好处：程序的局部性、不会遗漏空闲簇
+                        </li>
+                      </ul>
+                    </li>
+                    <li>删除文件：更新元数据
+                      <ul>
+                        <li>流程：更新FAT项为0x00000000，可能更新FSINFO下一空闲簇(如果文件处在下一空闲簇前面) ->  更新父目录entry，首字节变为0xE5，表示目录项已删除</li>
+                      </ul>
+                    </li>
+                    <li>删除文件恢复：迅速避免数据覆盖
+                      <ul>
+                        <li>流程：迅速避免数据覆盖(例如关机)->目录遍历找到已删除entry->从起始簇搜索，文件簇大概率是连续分配，也可用size和checksum协助确认</li>
+                      </ul>
+                    </li>
                   </ul>
                   </div>
                 </li>
-                <li id="link2_4"><div id="thediv2_4" style="display:none"></div></li><li id="link2_5"><div id="thediv2_5" style="display:none"></div></li>
+                <a id="link2_4"><div id="thediv2_4" style="display:none"></div></ai><a id="link2_5"><div id="thediv2_5" style="display:none"></div></a>
               </ul>
             </div>
           </li>
 
-          <li><a href="#" id="link14">EXT文件系统</a>
-            <div id="thediv14" style="display:none">
+          <li><a href="#" id="link3">EXT文件系统</a>
+            <div id="thediv3" style="display:none">
               <ul>
-                <li>对比FAT和EXT文件系统：实现方式、根目录存放内容(FAT存放属性本身，EXT存放inode下标，属性在inode里)</li>
+                <li><a href="#" id="link3_1">系统布局(EXT专有)</a>
+                  <div id="thediv3_1" style="display:none">
+                  <ul>
+                    <li>分组
+                      <br>实际的EXT文件系统是将相同的布局以组的形式重复
+                      <ul>
+                        <li>相同内容：Superblock(Primary superblock + Backup superblock + Backup ....)</li>
+                        <li>不同内容：余下内容</li>
+                      </ul>
+                    </li>
+                    <img src="./ext_group.png">
+                    <li>组内布局
+                      <ul>
+                        <li>Super block：FS全局的信息</li>
+                        <li>GDT/Group Descriptor Table：组内的信息，包括：Block Bitmap、Inode Bitmap、Inode Table<strong>开始的块号</strong>、空余块/inode统计</li>
+                        <li>Block Bitmap：表示块是否被分配的比特串</li>
+                        <li>Inode Bitmap：表示inode是否被分配的比特串</li>
+                        <li>Inode Table：inode数组</li>
+                        <li>Data Blocks(包含根目录)：块的数组</li>
+                      </ul>
+                    </li>
+                    <li>意义
+                      <ul>
+                        <li>可靠性：多份Super block存储文件系统的信息</li>
+                        <li>程序局部性：某组的inode一般是指向同组的数据块的</li>
+                      </ul>
+                    </li>
+                  </ul>
+                  </div>
+                </li>
+                <li><a href="#" id="link3_2">Inode结构</a>
+                  <div id="thediv3_2" style="display:none">
+                    <ul>
+                      <li>Inode结构体：具体内容可见图示，需要注意其<strong>不包含</strong>文件名和inode#</li>
+                      <li>Inode支持<strong>文件大小</strong>计算
+                      <br>数据块的大小：2<sup>x</sup>Bytes，指针长度4Bytes
+                      <br>12个直接块：12 * 2<sup>x</sup>，1个间接块：2<sup>2x-2，一个二级间接块：2<sup>3x-4，一个三级间接块：<strong>2<sup>4x-6</sup></strong>
+                      </li>
+                    </ul>
+                    <img src="./inode_structure.png">
+                  </div>
+                </li>
+                <li><a href="#" id="link3_3">目录文件结构</a>
+                  <div id="thediv3_3" style="display:none">
+                    <ul>
+                      <li>目录条目内容：文件名、inode#等</li>
+                      <li>目录条目存储结构：链表</li>
+                    </ul>
+                    <img src="./ext_dir.png">
+                  </div>
+                </li>
+                <li><a href="#" id="link3_4"><strong><abbr title="即文件访问的shortcuts">链接文件/Link file</abbr></strong></a>
+                <div id="thediv3_4" style="display:none">
+                <ul>
+                  <li>相关Linux命令
+                    <br><strong>ln/ln -s /dir1/test.txt /my_link</strong> -> 创建硬链接/符号链接
+                  </li>
+                  <li>Link count/链接计数
+                    <ul>
+                      <li>定义：inode里的一个域，记录有多少个路径指向本文件</li>
+                      <li>特殊的文件Link count
+                        <br>刚刚创建的文件/目录：link count = 1/2，其父目录的link count++
+                        <br>某个link count很大的目录：这个目录有很多子目录
+                      </li>
+                      <li>删除文件和link count的关系
+                        <ul>
+                          <li>删除文件系统调用：unlink() -> 这表示删除文件实际上是在移除目录条目并减少该文件link count</li>
+                          <li>父目录link count：<strong>可能</strong>父目录link count-- -> 若删除一个目录，其中指向父目录的double dot条目被删除</li>
+                          <li>本文件link count：删除文件时父目录里指向这个文件的目录条目也被删除，因此link count--</li>
+                          <li>数据块回收：发生在link count==0的时候，因此如果某文件有多个硬链接，要移除多次才会导致其内容和inode被回收</li>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>硬链接/hard link
+                    <ul>
+                      <li>创建方法：在指定目录文件内添加一个新条目指向目标文件，导致一个文件有多个路径
+                        <br>注意：<strong>没有</strong>创建新的文件，当然也没有创建新的inode
+                      </li>
+                      <li>特殊的硬链接：dot/double dot -> 指向自身/指向父目录</li>
+                    </ul>
+                  </li>
+                  <li>符号链接
+                    <ul>
+                      <li>创建方法：创建一个新的<strong>文件</strong>(注意不是目录文件，是一个特殊的文件)，其中的内容为目标文件的路径</li>
+                      <br>注意：创建<strong>新的文件</strong>，当然也分配了新的inode
+                      <li>符号链接文件内容
+                        <br>存放内容：文件的路径名
+                        <ul>
+                          <li>小于60个字：替换15个块指针用预存放</li>
+                          <li>大于60个字：分配一个数据块存放</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+                </div>
+                </li>
+                <li><a href="#" id="link3_5">内核数据缓存/Kernel Buffer Cache</a>
+                  <div id="thediv3_5" style="display:none">
+                  <ul>
+                    <li>原理：程序局部性</li>
+                    <li>作用：提高访问速度，减少数据读取时间</li>
+                    <li>缓存分类
+                      <br>注意：即使文件被close，原本在缓存内数据依然存放在内核里，按照类LRU的方式调入/出
+                      <ul>
+                        <li>Page Cache：存放打开文件数据块</li>
+                        <li>Directory Cache/Dcache：存放目录条目</li>
+                        <li>Inode Cache：存放inode</li>
+                      </ul>
+                    </li>
+                    <li>带Cache读写
+                      <ul>
+                        <li>带Cache读模式
+                          <li>基本思想：读取文件时，将文件数据缓存</li>
+                          <li>具体实现：readahead() -> 阻塞地预读，读x时取x+1，之后的read()调用若读缓存区域则不用阻塞</li>
+                          <li>对访问开销的影响：
+                            <br>顺序访问(SSD/DISK)非常有利，随机访问并无提升
+                          </li>
+                        </li>  
+                        <li>带Cache写模式
+                          <ul>
+                            <li>写穿透模式/write through：缓存与盘上数据一起更新</li>
+                            <li>写回模式/write back：缓存立刻更新，延迟地按需写回脏块(周期性或者手动落盘) -> sync(),fsync()</li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                  </div>
+                </li>
+                <li><a href="#" id="link3_6">日志/journaling</a>
+                  <div id="thediv3_6" style="display:none">
+                  <ul>
+                    <li>基本思想
+                      <br>每次要修改磁盘上数据前，首先记录一下即将要做的操作，完成磁盘修改之后，把记录过的操作删掉(可以类比log book/记事本)
+                    </li>
+                    <li>意义/解决的问题：系统的不连续，例如缓存与磁盘之间的不一致(掉电等)、更新多个磁盘的扇区(每个扇区更新是原子的，但连续更新多个就不是)</li>
+                    <li>Data journaling/数据日志
+                      <ul>
+                        <li>思想：更新inode、bitmap(metadata)、数据块(data)前把<strong>这些都</strong>写入日志</li>
+                        <li>执行顺序
+                          <ul>
+                            <li>journal write：写TxB、metadata、data</li>
+                            <li>journal commit：<strong>原子</strong>写TxE</li>
+                            <li>checkpoint：落盘</li>
+                          </ul>
+                        </li>
+                        <img src="./data_journaling.png">
+                      </ul>
+                    </li>
+                    <li>Metadata journaling/元数据日志
+                      <ul>
+                        <li>思想：更新inode、bitmap(metadata)、数据块(data)前<strong>只将metadata</strong>写入日志</li>
+                        <li>两种模式：data与metadata先后顺序
+                          <ul>
+                            <li>write-back mode：data与journal写没有顺序要求
+                              <br>问题：如果metadata已落盘，data未落盘，此时系统崩溃会造成文件系统不连续，metadata指向垃圾数据
+                            </li>
+                            <li>ordered mode：data在journal commit前落盘
+                              <br>本质：在指向A的对象更新前先把A更新好,这种方式在EXT3、NTFS中广泛部署
+                            </li>
+                          </ul>
+                        </li>
+                        <li>执行顺序
+                          <ul>
+                            <li>journal write：在日志里写TxB、metadata与在磁盘上更新data并行进行</li>
+                            <li>journal commit：<strong>原子</strong>写TxE</li>
+                            <li>metadata checkpoint：metadata落盘</li>
+                          </ul>
+                        </li>
+                        <img src="./metadata_journaling.png">
+                        <li>崩溃情况和日志满的处理
+                          <ul>
+                            <li>情况一：commit前发生崩溃 -> 撤销更新</li>
+                            <li>情况二：commit后发生崩溃 -> 重放记录/redo logging
+                              <br>注意：元数据日志虽然不保存数据，但是commit前数据已经落盘，因此如果commit后崩溃，只需要解决metadata的不连续即可
+                            </li>
+                            <li>情况三：日志满了 -> 循环日志，把前面完成的事务覆盖
+                              <br>checkpoint后free的含义即这个事务完成了，可以“划掉”了，即当日志循环回来的时候直接覆盖掉即可
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                  </div>
+                </li>
+                <li>Virtual File System/VFS
+                  <ul>
+                    <li>重要性：定义了一套接口，而不同文件系统来具体实现这一组接口，透明地、均一地支持多个文件系统共存</li>
+                  </ul>
+                </li>
+                <li>EXT文件系统和FAT文件系统对比
+                  <table>
+                    <thead>
+                      <tr>
+                        <th style="text-align: left">对比项</th>
+                        <th style="text-align: left">EXT文件系统</th>
+                        <th style="text-align: left">FAT文件系统</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="text-align: left">分配方式</td>
+                        <td style="text-align: left">Inode分配</td>
+                        <td style="text-align: left">链表分配FAT</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: left">文件系统布局</td>
+                        <td style="text-align: left">分组，每一组中：Super Block+GDT+Block Bitmap+Inode Bitmap+Inode+Root Dir+Data</td>
+                        <td style="text-align: left">Boot Sector+FSINFO+(some reserved sectors)+FAT1+FAT2+Root Dir+Data</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: left">目录条目</td>
+                        <td style="text-align: left">文件名+inode#，不包含文件属性，链表组织</td>
+                        <td style="text-align: left">包含所有文件属性，数组组织</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </li>
               </ul>
             </div>
           </li>
-          <li>I/O</li>
+          <li><a href="#" id="link4">I/O系统</a>
+            <div id="thediv4" style="display:none">
+            <ul>
+              <li><a href="#" id="link4_1">I/O设备分类</a>
+                <div id="thediv4_1" style="display:none">
+                  <ul>
+                    <li>按用途分类
+                      <ul>
+                        <li>存储/storage</li>
+                        <li>传输/transmission</li>
+                        <li>人机交互/human-interface</li>
+                      </ul>
+                    </li>
+                    <li>按传输模式分类
+                      <ul>
+                        <li>块设备：如硬盘</li>
+                        <li>字符设备：鼠标、键盘</li>
+                        <li>网络设备：socket</li>
+                        <li>可编程间隔定时器和时钟</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li><a href="#" id="link4_2">I/O设备共同概念</a>
+                <div id="thediv4_2" style="display:none">
+                  <br>不同I/O差异很大，但有一些共同拥有的概念
+                  <ul>
+                    <li>端口/port</li>
+                    <li>总线/bus</li>
+                    <li>控制器/controller</li>
+                  </ul>
+                  <img src="./io_structure.png">
+                </div>
+              </li>
+              <li><a href="#" id="link4_3">I/O控制、沟通方法</a>
+                <div id="thediv4_3" style="display:none">
+                  <ul>
+                    <li>相关寄存器：data-in registers,data-out registers,status registers,control registers</li>
+                    <li>沟通方法
+                      <ul>
+                        <li>直接I/O指令</li>
+                        <li>地址映射I/O</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li><a href="#" id="link4_4">I/O访问方式</a>
+                <div id="thediv4_4" style="display:none">=
+                  <ul>
+                    <li>轮询/polling
+                      <ul>
+                        <li>过程：忙等与握手</li>
+                        <img src="./polling.png">
+                        <li>优缺点：浪费CPU资源，但是适合比较快的I/O</li>
+                      </ul>
+                    </li>
+                    <li>中断/interrupt
+                      <ul>
+                        <li>过程：设备发出中断，由中断向量找到终端处理程序，服务中断</li>
+                        <li>一些概念：屏蔽/不可屏蔽中断、中断服务例程、中断向量、多重中断(详见COD)</li>
+                        <li>例子：异常、page fault、系统调用(软件中断或者陷阱)</li>
+                      </ul>
+                    </li>
+                    <li>DMA
+                      <ul>
+                        <li>过程：CPU把DMA命令写入内存，把命令地址写入DMA，然后CPU执行自己任务；DMA得到DMA命令，与设备控制器交互，并向CPU申请总线使用权，从而完成I/O过程</li>
+                        <li>优点：DMA相当于一个小的处理器，它代替CPU负责与内存、I/O设备交互，节省CPU资源</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </div>
+              </li>
+              <li><a href="#" id="link4_5">应用I/O接口</a>
+                <div id="thediv4_5" style="display:none">
+                  <br>不同I/O差异很大，如何提供标准、统一I/O接口？
+                  <ul>
+                    <li>抽象/abstraction</li>
+                    <li>封装/encapsulation</li>
+                    <li>分层/layering</li>
+                  </ul>
+                  <img src="./io_interface.png">
+                </div>
+              </li>
+              <li><a href="#" id="link4_6">内核I/O子系统服务</a>
+                <div id="thediv4_6" style="display:none">
+                  <ul>
+                    <li><attr title="管理I/O队列，提高I/O性能">I/O调度</attr></li>
+                    <li><arttr title="解决设备速度、数据大小不匹配问题；维持复制语义，例如不管在写入磁盘过程中应用缓冲区内容的更改，使用之前复制到内核缓冲区的内容">缓冲</arttr></li>
+                    <li><attr title="数据副本，为了提高I/O效率，例如磁盘访问">高速缓存</attr></li>
+                    <li><attr title="暂时保存给某设备的输出,防止设备数据流交叉，例如打印机有多个任务，内核暂时保存给打印机的任务，等待打印机空闲">假脱机</attr></li>
+                    <li><attr title="预防小的机械失灵导致系统崩溃，例如让OS从磁盘错误等恢复，并且I/O操作都是特权模式，由操作系统执行，防止用户程序调用非法I/O指令导致系统崩溃">错误处理和I/O保护</attr></li>
+                    <li>电源管理</li>
+                  </ul>
+                </div>
+              </li>
+            </ul>
+            </div>
+          </li>
       </ul>
 
       <h2 id="os-question">Questions</h2>
@@ -1753,7 +2125,31 @@
         <li>(9)(★★★)文件系统特定的信息为什么存放在存储设备上而不是编程到kernel代码内？FAT和EXT文件系统的文件系统特定信息叫什么？一个完整的文件系统包含哪些部分？</li>
         <li>(9)(★★★)磁盘分区的概念是什么？为什么一块硬盘上可以有多个文件系统或者操作系统？磁盘分区为什么可以提高文件系统的性能？磁盘分区的意义是什么？</li>
         <br>
-        <li>(9)(★★★)FAT16、FAT32文件系统的数字代表什么？扇区(sector)和簇(cluster)之间的大小关系一般是什么样的？FAT文件系统分区包含哪五个部分？为什么FAT文件系统要设置两个FAT？</li>
+        <li>(9)(★★★)FAT16、FAT32文件系统的数字代表什么？扇区(sector)和簇(cluster)之间的大小关系一般是什么样的？FAT文件系统分区包含哪五个部分？为什么FAT文件系统要设置两个FAT？FAT表中有表项和表项内容是特殊的？FAT文件系统的数据簇首簇簇号是多少？为什么？</li>
+        <li>(9)(★★★)FAT文件系统中目录文件的目录项大小为多少字节？其包含什么内容？大/小尾端对于读取entry内的内容有什么影响？对于短文件名，目录项中如何存储？长文件名如何解决？LFN entry与普通entry的区别在哪里？</li>
+        <li>(9)(★★★)FAT文件系统中读取一个文件的流程是什么样的？为什么文件包含的簇不会出现Cluster0或Cluster1？怎么确定已经读到了文件尾？FAT32的FAT表项中内容表示的簇号是多少位的？有哪些特殊的FAT表项内容？</li>
+        <li>(9)(★★★)FAT文件系统中写文件除了接着文件尾写入数据外还需要更新哪些内容？如果文件已分配簇不够该从哪里获取可用的簇号？如何更新FSINFO中下一个可用簇？为什么FSINFO要保存的是“下一个”可用簇而不是随机的一个可用簇？</li>
+        <li>(9)(★★★)在FAT文件系统内删除一个文件是否需要修改文件的数据内容？需要修改哪些元数据？只修改元数据的<abbr title="速度快，数据可恢复">好处</abbr>是什么？如何做有利于删除文件的恢复？恢复文件应该如何找到文件的数据簇在哪里？</li>
+      
+        <li>(9)(★★★)对于EXT2/3文件系统，其实际的布局是什么样的？分组的意义是什么？</li>
+        <li>(9)(★★★)Ext文件系统的inode结构体包含什么？是否包含文件名和inode号？假设每个数据块大小为8KB，每个指针4字节，那么对于一个有12个直接块域以及1个一级块域、一个二级块域、一个三级块域的inode，文件最大的<abbr title="64TB">大小</abbr>为多少？</li>
+        <li>(9)(★★★)Ext文件系统的目录文件中目录条目包含什么内容？目录条目是以什么形式组织的？</li>
+        <li>(9)(★★★)Block Bitmap和Inode Bitmap指什么？它们俩一样大么？为什么说文件系统能存放的文件数量是固定的？</li>
+        <li>(9)(★★★)硬链接和符号链接有什么区别？在linux下使用什么指令可以创建硬/符号链接？创建硬链接是否会导致新文件被创建？符号链接呢？link count是什么？新创建的文件/目录，其link count为多少？目录文件内的dot和double dot是硬链接还是符号链接？
+          删除文件的系统调用为什么叫unlink()（该系统调用与链接的关系）？删除一个文件是不是一定会引起其数据块被回收？为什么？能否制作一个指向符号链接的硬链接？反过来呢？
+        </li>
+
+        <li>(9)(★★★)内核缓存的意义是什么？其原理是什么？需要存放到内核缓存的数据有哪些？对应的三种内核缓存叫什么？带有内核缓存的读与普通的读有什么不同？顺序访问和随机访问谁能从预读获益？带有内核缓存的写有哪两种模式？</li>
+
+        <li>(9)(★★★)数据日志和元数据日志有什么区别？它们的执行顺序和每一步做的事情是什么？为什么元数据日志中只存储了元数据而没有存储数据，但是当系统在commit后、checkpoint前崩溃时，仍然能够保持文件系统的连续性，这个时候日志里不是<abbr title="因为按照ordered mode要求，数据在commit前已落盘，这个时候恢复metadata即可">没有数据</abbr>么？
+        如果系统在journal commit前发生崩溃怎么办？在commit之后呢？日志满了如何解决？当一个事务完成后(checkpoint后)，其占用的日志空间<attr title="不处理，当日志循环回来的时候可以覆盖">怎么处理</attr>？</li>
+
+        <li>(9)(★★)VFS的意义是什么？</li>
+        <br>
+        <li>(10)(★★★)I/O设备可以分为哪几类(按照数据传输模式)？如何为多种多样的I/O设备提供统一、标准应用接口？</li>
+        <li>(10)(★)一般而言，用于控制I/O的寄存器有哪些？根据I/O设备地址访问I/O的方式有什么？</li>
+        <li>(10)(★★★)I/O访问方式有哪三种？</li>
+        <li>(10)(★★★)内核I/O子系统的服务有哪些(主要的6个)？</li>
       </ul>
 
       <h2 id="os-lab">Labs</h2>

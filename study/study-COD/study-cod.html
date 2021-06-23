@@ -47,96 +47,833 @@
       <h2 id="cod-content">Content</h2>
       <p>This part includes important content in COD. This is a simple outline.</p>
       <ul>
-        <li>单周期CPU
-          <br>单周期CPU本质上是有限状态机
-          <br>注：图中未添加jal相关数据通路，其数据通路添加PC+4到寄存器写数据以及Jump到PCSrc控制
-          <img src="./cpu_single.png">
-          <br>典型问题
-          <ul>
-            <li>时钟周期(机器周期) = 指令周期</li>
-            <li>时钟周期确定/关键路径确定/主频计算</li>
-          </ul>
-        </li>
-      
-        <li>多周期CPU</li>
-        <li><a href="#" id="link2">流水线CPU</a>
+        <li><a href="#" id="link2">计算机系统概论</a>
           <div id="thediv2" style="display:none">
-          <img src="./cpu_pipeline.png">
           <ul>
-            <li>五段流水RISC-V CPU的基本结构</li>
-            <li>结构冒险
-              <ul>
-                <li>哈佛结构(数据和指令内存分离)</li>
-                <li>寄存器堆写优先</li>
-                <li>瓶颈段
-                  <br>虽然没有真正的结构冒险，但是会破坏流水段均匀性 -> 细分瓶颈/并行重复瓶颈段
-                </li>
-              </ul>
-            </li>
-            <li>数据冒险
-              <ul>
-              <li>分类：写后读(RAW)、写后写(WAW)、读后写(WAR)
-                <br>谁会出现？写后读  谁不会？写后写，读后写
-              </li>
-              <li>数据前递/forwarding
+            <li><a href="#" id="link2_1">计算机系统概述</a>
+            <div id="thediv2_1" style="display:none">
+            <ul>
+              <li>计算机系统简介
                 <ul>
-                  <li>前递路径
-                    <br>从 MEM,WB 前递到 EX，还有别的么？
+                  <li>计算机的简单分类：专用机(嵌入式)、通用机(包括工作站、...)</li>
+                  <li>计算机系统：由软件+硬件构成的复杂的自动化电子设备</li>
+                  <li>软、硬件关系：逻辑等价性
                     <ul>
-                      <li>可能有 MEM,WB 前递到 ID (分支提前)</li>
-                      <li>可能有 WB 前递到 MEM (lw-sw且rd和rs2冲突)</li>
+                      <li>硬件软化</li>
+                      <li>软件硬化</li>
+                      <li><attr title="将一些功能固化地保存在只读存储器中">软件固化</attr></li>
                     </ul>
                   </li>
-                  <li>判断逻辑？
-                    <br>目标寄存器==要用的寄存器并且该段RegWrite有效</li>
                 </ul>
-                <br>
               </li>
-              <li>一般的数据冒险
-                <br>由数据前递解决 -> forward unit判断数据冒险，前递MEM和WB段数据(两者同时冒险那么MEM优先) 
-              </li>
-              <li>load-use数据冒险
-                <br>发生在：load在EX段，use指令在ID段，那么将IF,ID段冻结一个周期(流水线互锁) -> 锁定PC和IF/ID.regs，清除ID/EX.regs -> 然后由前递处理
-                <br>load-use包括？
+              <li>计算机层次结构</li>
+              <img src="./layers.png">
+            </ul>
+            </div>
+            </li>
+            <li><a href="#" id="link2_2">☆计算机基本组成</a>
+              <div id="thediv2_2" style="display:none">
+              <ul>
+                <li>硬件组成
+                  <ul>
+                    <li>五大部件
+                      <ul>
+                        <li>运算器/ALU：<attr title="累加寄存器(结果和第二个操作数)、乘商寄存器、操作数寄存器"></attr>ACC、MQ、X</li>
+                        <li>存储器：MAR、MDR</li>
+                        <li>控制器：PC、IR、CU</li>
+                        <li>输入/输出设备</li>
+                      </ul>
+                      <img src="./计算机结构简图.png">
+                    </li>
+                    <li>冯诺依曼结构、哈佛结构、现代计算机结构
+                      <ul>
+                        <li>冯诺依曼结构：运算器为中心的</li>
+                        <img src="./冯诺依曼结构.png">
+                        <li>哈佛结构：指令与数据分开存放，并使用独立的总线</li>
+                        <img src="./哈佛结构.png">
+                        <li>现代计算机结构：存储器为中心的</li>
+                        <img src="./现代计算机.png">
+                      </ul>
+                    </li>
+                    <li>计算机组成与计算机体系结构
+                      <ul>
+                        <li>计算机体系结构：概念性的机器结构与功能特性</li>
+                        <li>计算机组成原理：计算机体系结构的逻辑实现</li>
+                        <li>举例：计算机有哪些指令属于计算机体系结构问题，指令如何实现属于计算机组成原理问题</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>软件组成
+                  <ul>
+                    <li>系统软件</li>
+                    <li>应用软件</li>
+                  </ul>
+                </li>
+              </ul>
+              </div>
+            </li>
+            <li><a href="#" id="link2_3"><strong>☆计算机硬件性能指标</strong></a>
+              <div id="thediv2_3" style="display:none">
+              <ul>
+                <li><attr title="CPU一次能处理的数据位数，一般和CPU内寄存器、运算部件、数据总线宽度一样">机器字长</attr></li>
+                <li>存储容量相关
+                  <br>存储字长、存储地址位数、存储容量、<attr title="数据总线宽度">数据字长</attr>、存储器带宽、<attr title="只是表示固定位数的单位，即存储器按字/字节寻址中提到的字、字节">字、字节</attr>
+                </li>
+                <li>运行速度相关
+                  <br>CPI、MIPS、MFLOPS、IC、<attr title="主频、时钟频率">f</attr>、<attr title="时钟周期">T<sub>CLK</sub></attr>、<attr title="程序总时钟周期数">CLK</attr>、<attr title="程序运行消耗总的CPU时间">T<sub>CPU</sub></attr>
+                  、响应时间、吞吐率、可靠性、可用率
+                  <ul>
+                    <li>f、CPI、IC反映的问题
+                      <ul>
+                        <li>f：制作工艺、硬件实现逻辑</li>
+                        <li>CPI：硬件实现逻辑、指令集结构</li>
+                        <li>IC：指令集结构、编译技术</li>
+                      </ul>
+                    </li>
+                    <li>注意
+                      <ul>
+                        <li>MIPS和MFLOPS计算都使用程序运行的总时间，对于MFLOPS不是只用浮点运算时间</li>
+                        <li>当有多种指令，每种指令有自己的CPI时，加权平均计算总的CPI；当指令系统经过修改之后，计算平均CPI时要注意这个时候IC是否变化</li>
+                      </ul>
+                    </li>
+                  </ul>
+                  
+                </li>
+              </ul>
+              </div>
+            </li>
+            <li><a href="#" id="link2_4">计算机/CPU发展历史</a>
+              <div id="thediv2_4" style="display:none">
+              <ul>
+                <li>计算机分代</li>
+                <li>计算机设计面临挑战
+                  <ul>
+                    <li>线延迟墙、频率墙、功耗墙等：与制作工艺越来越精密有关</li>
+                    <li>存储墙、I/O墙：CPU频率与存储设备、I/O设备不匹配</li>
+                    <li>解决的技术</li>
+                    <img src="./计算机发展挑战.png">
+                  </ul>
+                </li>  
+              </ul>
+              </div>
+            </li>
+            <li><a href="#" id="link2_5"><strong>☆性能评估方法</strong></a>
+              <div id="thediv2_5" style="display:none">
+              <ul>
+                <li>芯片制作成本
+                  <ul>
+                    <li>芯片制作流程
+                      <br>版图设计 -> 备片 -> 光刻成像 -> 掺杂、金属化、钝化 -> 切割 -> 测试 -> 封装
+                    </li>
+                    <li>芯片成本 = (NRE+单片集成电路成本*芯片数)/芯片数
+                      <br>注：NRE费用为单次投片费用，芯片销量高，则成本下降
+                      <ul>
+                        <li>单片集成电路成本 = (晶片成本 + 晶片测试成本 + 封装成本)/最终成品率
+                          <ul>
+                            <li>晶片成本 = 晶圆成本 / (每块晶圆上晶片数 * 晶片成品率)
+                              <ul>
+                                <li>每块晶圆上晶片数 = 晶圆面积/晶片面积 - π*晶圆直径/(2*晶片面积)<sup>0.5</sup>
+                                <br>注：即全部的减去边沿上的
+                                </li>
+                                <li>晶片成品率 = 晶圆成品率*(1+(疵点密度*晶片面积/a))<sup>-a</sup></li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>CPU时间计算：T<sub>CPU</sub> = T<sub>CLK</sub>*CLK = T<sub>CLK</sub>*CPI*IC</li>
+                <li>Amdahl定律
+                  <br>可改进比例f<sub>e</sub>、部件加速比S<sub>e</sub>与总加速比S的关系 -> 只对计算机系统一部分做性能改进，则改进越多效果越小，系统加速比不超过1/(1-f<sub>e</sub>)
+                  <br>S = 1/(1-f<sub>e</sub> + (f<sub>e</sub>/S<sub>e</sub>))
+                </li>
+              </ul>
+              </div>
+            </li>
+          </ul>
+          </div>  
+        </li>
+
+        <li><a href="#" id="link3">指令系统</a>
+          <div id="thediv3" style="display:none">
+          <ul>
+            <li><a href="#" id="link3_1">指令系统概述</a>
+            <div id="thediv3_1" style="display:none">
+            <ul>
+              <li>指令系统发展
                 <ul>
-                  <li>load-R：例如lw rd,offset(rs1) -> add rd,rs1,rs2</li>
-                  <li>load-I：例如lw rd,offset(rs1) -> add rd,rs1,imm</li>
-                  <li><strong>lw-sw？？？</strong>
-                    <br>lw <strong>x1</strong>,offset(x2) -> sw x3,offset(<strong>x1</strong>) ？ 实际上是load-I，是load-use，要停顿流水线
-                    <br>lw <strong>x1</strong>,offset(x2) -> sw <strong>x1</strong>,offset(x3) ？ 可以是，也可以不是。认为是那么就是load-R,rs2冲突；认为不是，sw最晚MEM段才用，可以用数据前递解决，不用停顿流水线，不是真正意义上的load-use
+                  <li>指令与指令系统
+                    <ul>
+                      <li>指令：计算机执行某种操作的命令
+                        <ul>
+                          <li>微指令：微程序级命令，例如取地址、译码，属于硬件</li>
+                          <li>宏指令：机器指令集合，属于软件</li>
+                          <li>机器指令：通常所说的指令，介于微指令和宏指令之间</li>
+                        </ul>
+                      </li>
+                      <li>指令系统：某计算机所有机器指令的集合</li>
+                    </ul>
+                  </li>
+                  <li>指令系统发展的兼容性
+                    <ul>
+                      <li>向前兼容和向后兼容：某时期机器编制的程序可以不加修改地运行于早于/晚于它出现的机器</li>
+                      <li>向上兼容和向下兼容：某时期机器编制的程序可以不加修改地运行于比它高档/比他低档的机器</li>
+                      <li>兼容的方法：
+                        <br>多数指令集是向后兼容的，方法是新的指令系统包含旧机器所有指令
+                      </li>
+                    </ul>
+                  </li>
+                  <a href="https://zhuanlan.zhihu.com/p/28195702">兼容性参考</a>
+                  <li>指令系统复杂化与精简
+                    <ul>
+                      <li>CISC</li>
+                      <li>RISC</li>
+                    </ul>
                   </li>
                 </ul>
               </li>
-              </ul>
-            </li>
-            <li>控制冒险
-              <li>分支提前(降低分支的延迟)
-                <br>分支提前到IF -> 额外的前递
-              </li>
-              <li>延迟分支(编译调度)
+              <li>指令系统性能要求
                 <ul>
-                  <li>从前调度</li>
-                  <li>从目标处调度</li>
-                  <li>从失败处调度</li>
+                  <li>完备性</li>
+                  <li>有效性：访存、执行高效</li>
+                  <li>规整性</li>
+                  <li>兼容性：向上、后兼容</li>
                 </ul>
               </li>
-              <li>分支预测
-                <ul>静态</ul>
-                <li>动态</li>
+              <li>编程语言与硬件关系
+                <ul>
+                  <li>高级语言：与指令集无关，硬件结构对其透明，不能直接访问硬件(C,C++...)</li>
+                  <li>低级语言：与指令系统密切相关，需要借助汇编器转化为机器语言以运行(机器只能识别运行机器语言)</li>
+                </ul>
               </li>
+            </ul>
+            </div>
+            </li>
+            <li><a href="#" id="link3_2">指令格式</a>
+              <div id="thediv3_2" style="display:none">
+              <ul>
+                <li>指令格式：操作码字段+地址码字段
+                  <ul>
+                    <li>操作码：指明指令要完成的操作
+                      <br>操作码长度：反映机器操作种类数量
+                      <ul>
+                        <li>定长操作码
+                          <ul>
+                            <li>设计方法：操作码长度固定，集中在某一字段</li>
+                            <li>优点：便于硬件设计，便于译码</li>
+                          </ul>
+                        </li>
+                        <li>变长操作码/扩展操作码
+                          <ul>
+                            <li>设计方法：操作码长度随指令中地址数变化</li>
+                            <li>优点：有利于压缩操作码长度</li>
+                            <li>设计原则：使用频率高的指令应安排在操作码短的指令，有利于译码</li>
+                            <li>注意事项：
+                              <br>短操作码可能会占用长操作码的前几位，导致可用的长操作码减少（防止混淆）
+                            </li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>地址码：指明源操作数地址、结果地址、下一条指令地址
+                      <ul>
+                        <li>零地址指令</li>
+                        <li>一地址指令</li>
+                        <li>二地址指令</li>
+                        <li>三地址指令</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>指令字长
+                  <ul>
+                    <li>概念：指令中二进制位位数</li>
+                    <li>按与机器字长关系分
+                      <ul>
+                        <li>单字长指令</li>
+                        <li>半字长指令</li>
+                        <li>双/多字长指令：为了增加地址位，但是CPU需要多次访存</li>
+                      </ul>
+                    </li>
+                    <li>按指令字长本身是否可变
+                      <ul>
+                        <li>等长指令结构</li>
+                        <li>变长指令结构：例如有普通指令和压缩指令</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                <li>指令助记符
+                  <br>用字母表示指令，可以认为是汇编代码，利用汇编器从助记符到二进制操作码
+                </li>
+              </ul></div>
+            </li>
+            <li><a href="#" id="link3_3">操作数与操作类型</a>
+              <div id="thediv3_3" style="display:none">
+              <ul>
+                <li>操作数类型：地址、数值、字符、逻辑数据等</li>
+                <li><strong>数据在存储器内存放方式</strong>
+                <ul>
+                  <li>基本存储单元：字节</li>
+                  <li>访问方式：按字节访问、按字访问、按半字访问、按双字访问</li>
+                  <li>边界对齐
+                    <ul>
+                      <li>问题：某多字节数据存储时，如何选择存放区域？</li>
+                      <li>对齐方式：原则是保证该数据之前和之后的地址空间都能正好完整存放同一长度的数据即可(例子如下图)，另外如果不满字节、半字、字、双字，那么要填充空白字节</li>
+                      <img src="./地址对齐.png">
+                      <li>意义：确保CPU访存速度</li>
+                    </ul>
+                  </li>
+                  <li>字节顺序
+                    <ul>
+                      <li>问题：多字节数据按字节存储，各字节顺序如何？</li>
+                      <li>存放方式：大/小尾端 -> 低位字节在高/低地址，尾即指低位字节(0x0123例子如下图)</li>
+                      <img src="./小尾端.png">
+                    </ul>
+                  </li>
+                </ul>
+                </li>
+                <li>操作类型
+                  <ul>
+                    <li>数据传送操作：LOAD,STORE,MOVE,PUSH,POP...</li>
+                    <li>算数逻辑操作</li>
+                    <li>移位操作：可代替简单的乘除法</li>
+                    <li>转移跳转操作
+                      <ul>
+                        <li>无条件跳转</li>
+                        <li>条件转移</li>
+                        <li>过程调用与返回：调用者保存、被调用者保存</li>
+                        <li>陷阱：中断，可能是CPU隐含指令，在意外发生时执行；也有提供给用户使用的，用于完成系统调用等</li>
+                        <li>输入输出操作：适用于I/O独立编址机器</li>
+                        <li>其他指令：停机、NOP等</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              </div>
+            </li>
+            <li><a href="#" id="link3_4">寻址方式</a>
+              <div id="thediv3_4" style="display:none">
+              <ul>
+                <li>指令/数据寻址关系
+                  <br>冯诺依曼结构两者交替(数据和指令放在一起)，哈佛结构可同时
+                </li>
+                <li>指令寻址
+                  <ul>
+                    <li>顺序寻址：PC+1</li>
+                    <li>跳跃寻址：转移类指令执行</li>
+                  </ul>
+                </li>
+                <li>数据寻址
+                  <ul>
+                    <li>基本概念
+                      <ul>
+                        <li>形式地址A：指令地址码字段所表示地址，通常不是真实地址</li>
+                        <li>有效地址EA：相对于形式地址，是真实地址</li>
+                        <li>寻址特征：指示寻址方式</li>
+                        <li>数据寻址：由形式地址，通过寻址特征变换成有效地址</li>
+                      </ul>
+                    </li>
+                    <li>寻址方式
+                      <br>注意，其中偏移寻址分为三种
+                      <ul>
+                        <li>相对寻址：EA = A + (PC) -> 程序时间空间局部性以及程序相对位置与绝对位置无关</li>
+                        <li>基址寻址：
+                          <ul>
+                            <li>方法：寄存器中含有一个主存地址，指令中的形式地址A表示相对于该地址的偏移量</li>
+                            <li>特点：基址寄存器的内容通常由操作系统或管理程序确定，在程序执行过程中<strong>不可变</strong>，可变的是形式地址A</li>
+                            <li>用途：扩大基址寄存器位数从而扩大寻址范围、为程序透明地分配空间、实现段寻址</li>
+                          </ul>
+                        </li>
+                        <li>变址寻址
+                          <ul>
+                            <li>方法：指令中的形式地址A表示一个主存地址，寄存器中含有相对于该地址的偏移量</li>
+                            <li>特点：变址寄存器的内容由用户设定，在程序执行过程中可变，但形式地址A的内容是<strong>不可变</strong>的</li>
+                            <li>用途：数字操作、循环等</li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <br><img src="./寻址方式1.png"><br><img src="./寻址方式2.png">
+                    <li>寻址方式研究意义：硬件和指令系统设计、汇编程序效率的提高...</li>
+                  </ul>
+                </li>
+              </ul>
+              </div>
+            </li>
+            <li><a href="#" id="link3_5">CISC和RISC</a>
+              <div id="thediv3_5" style="display:none">
+              <ul>
+                <li>CISC与RISC对比</li>
+                <img src="RISC-CISC.png">
+                <br>其他的一些对比
+                <table>
+                  <thead>
+                    <tr>
+                      <th style="text-align: left">对比项</th>
+                      <th style="text-align: left">CISC</th>
+                      <th style="text-align: left">RISC</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="text-align: left">全称</td>
+                      <td style="text-align: left">Complicated Instruction Set Computer</td>
+                      <td style="text-align: left">Reduced Instruction Set Computer</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: left">采用的技术</td>
+                      <td style="text-align: left">扩展操作码、变长指令、多种寻址方式</td>
+                      <td style="text-align: left">流水线、超标量</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: left">寄存器数量</td>
+                      <td style="text-align: left">少</td>
+                      <td style="text-align: left">多</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: left">缺点</td>
+                      <td style="text-align: left">指令集庞大，设计新一代指令考虑兼容不方便；硬件设备复杂，处理器设计周期长；大部分指令只有很少的时候会用到</td>
+                      <td style="text-align: left">汇编程序编写复杂，完成特殊功能比较慢</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: left">出现原因</td>
+                      <td style="text-align: left">早期计算机主频低，元件昂贵，运算慢</td>
+                      <td style="text-align: left">集成电路技术发展，并且简单指令实际上占程序的大部分</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <li><a href="https://zhuanlan.zhihu.com/p/346864380">参考</a></li>
+              </ul>
+              </div>
+            </li>
+            <li><a href="#" id="link3_6">指令系统设计与举例</a>
+              <div id="thediv3_6" style="display:none">
+              <ul>
+                <li>MIPS</li>
+                <li>x86(CISC)</li>
+                <li>RISC-V</li>
+                <img src="./RISC-V_ISA.png">
+                <img src="RISC-V1.png"><img src="RISC-V2.png">
+              </ul>
+              </div>
             </li>
           </ul>
-        </div>
-        </li>
-        <li>中断<br>
-          <img src="./interrupt.png">
+          </div>  
         </li>
 
+
+        <li><a href="#" id="link4">RISC-V处理器设计</a>
+          <div id="thediv4" style="display:none">
+          <ul>
+            <li><a href="#" id="link4_1">单周期CPU</a>
+              <div id="thediv4_1" style="display:none">
+              <br>单周期CPU本质上是有限状态机
+              <br>注：图中未添加jal相关数据通路，其数据通路添加PC+4到寄存器写数据以及Jump到PCSrc控制
+              <img src="./cpu_single.png">
+              <br>典型问题
+              <ul>
+                <li>时钟周期(机器周期) = 指令周期</li>
+                <li>时钟周期确定/关键路径确定/主频计算</li>
+              </ul>
+              </div>
+            </li>
+            <li><a href="#" id="link4_2">多周期CPU</a>
+              <div id="thediv4_2" style="display:none">
+              <ul>
+                <li></li>
+              </ul>
+              </div>
+            </li>
+            <li><a href="#" id="link4_3">流水线CPU</a>
+              <div id="thediv4_3" style="display:none">
+              <img src="./cpu_pipeline.png">
+              <ul>
+                <li>流水线性能评价：吞吐率、加速比、效率</li>
+                <li>五段流水RISC-V CPU的基本结构</li>
+                <li>结构冒险
+                  <ul>
+                    <li>哈佛结构(数据和指令内存分离)</li>
+                    <li>寄存器堆写优先</li>
+                    <li>瓶颈段
+                      <br>虽然没有真正的结构冒险，但是会破坏流水段均匀性 -> 细分瓶颈/并行重复瓶颈段
+                    </li>
+                  </ul>
+                </li>
+                <li>数据冒险
+                  <ul>
+                  <li>分类：写后读(RAW)、写后写(WAW)、读后写(WAR)
+                    <br>谁会出现？写后读  谁不会？写后写，读后写
+                  </li>
+                  <li>数据前递/forwarding
+                    <ul>
+                      <li>前递路径
+                        <br>从 MEM,WB 前递到 EX，还有别的么？
+                        <ul>
+                          <li>可能有 MEM,WB 前递到 ID (分支提前)</li>
+                          <li>可能有 WB 前递到 MEM (lw-sw且rd和rs2冲突)</li>
+                        </ul>
+                      </li>
+                      <li>判断逻辑？
+                        <br>目标寄存器==要用的寄存器并且该段RegWrite有效</li>
+                    </ul>
+                    <br>
+                  </li>
+                  <li>一般的数据冒险
+                    <br>由数据前递解决 -> forward unit判断数据冒险，前递MEM和WB段数据(两者同时冒险那么MEM优先) 
+                  </li>
+                  <li>load-use数据冒险
+                    <br>发生在：load在EX段，use指令在ID段，那么将IF,ID段冻结一个周期(流水线互锁) -> 锁定PC和IF/ID.regs，清除ID/EX.regs -> 然后由前递处理
+                    <br>load-use包括？
+                    <ul>
+                      <li>load-R：例如lw rd,offset(rs1) -> add rd,rs1,rs2</li>
+                      <li>load-I：例如lw rd,offset(rs1) -> add rd,rs1,imm</li>
+                      <li><strong>lw-sw？？？</strong>
+                        <br>lw <strong>x1</strong>,offset(x2) -> sw x3,offset(<strong>x1</strong>) ？ 实际上是load-I，是load-use，要停顿流水线
+                        <br>lw <strong>x1</strong>,offset(x2) -> sw <strong>x1</strong>,offset(x3) ？ 可以是，也可以不是。认为是那么就是load-R,rs2冲突；认为不是，sw最晚MEM段才用，可以用数据前递解决，不用停顿流水线，不是真正意义上的load-use
+                      </li>
+                    </ul>
+                  </li>
+                  </ul>
+                </li>
+                <li>控制冒险
+                  <ul>
+                  <li>分支提前(降低分支的延迟)
+                    <br>分支提前到IF -> 新的数据相关，额外的前递
+                  </li>
+                  <li>延迟分支(编译调度)
+                    <ul>
+                      <li>从前调度</li>
+                      <li>从目标处调度</li>
+                      <li>从失败处调度</li>
+                    </ul>
+                  </li>
+                  <li>分支预测
+                    <li>动态分支预测</li>
+                  </li>
+                  </ul>
+                </li>
+                <li>流水线多发技术
+                  <br>目标：简单标量流水线，通过减少流水线停顿 -> IPC=1(CPI=1) &nbsp &nbsp 多发技术 -> IPC>1
+                  <ul>
+                    <li>超标量技术</li>
+                    <li>超流水线/深度流水线</li>
+                    <li>超长指令字</li>
+                  </ul>
+                  <img src="./流水线多发技术.png">
+                </li>
+              </ul>
+            </div>
+            </li>
+            <li> <a href="#" id="link4_4">三种CPU实现的对比</a>
+              <div id="thediv4_4" style="display:none">
+                <img src="CPU对比.png">
+              </div>
+            </li>
+          </ul>
+          </div>
+          <a href="#" id="link4_5"></a> <div id="thediv4_5" style="display:none"></div><a href="#" id="link4_6"></a> <div id="thediv4_6" style="display:none"></div>
+        </li>
+       
+      
+        <li><a href="#" id="link5">中断</a>
+          <div id="thediv5" style="display:none">
+            <ul>
+            <li><a href="#" id="link5_1">中断的基本概念</a>
+              <div id="thediv5_1" style="display:none">
+              <ul>
+                <li>中断：暂停当前程序执行，转而执行其他程序，执行完成后恢复被中断程序执行</li>
+                <li>中断的作用
+                  <ul>
+                    <li>异常</li>
+                    <li>I/O</li>
+                    <li>并发</li>
+                    <li>服务：用户与OS交互，trap</li>
+                  </ul>
+                </li>
+                <li>中断管理：ISR->中断服务程序</li>
+                <li>中断发生时机
+                  <ul>
+                    <li>I/O中断：随时发生，延迟处理</li>
+                    <li>异常：随时发生，随时处理</li>
+                    <li>陷阱：专用指令，特殊处理</li>
+                  </ul>
+                </li>
+                <li>引起中断的因素
+                  <ul>
+                    <li>人为因素：例如转管指令、trap等</li>
+                    <li>程序异常：溢出、非法指令</li>
+                    <li>硬件故障</li>
+                    <li>I/O设备发起的中断请求</li>
+                    <li>外部事件，例如用键盘中断现行程序</li>
+                  </ul>
+                </li>
+              </ul>
+              </div>
+            </li>
+            <li><a href="#" id="link5_2">中断要解决的7个问题</a>
+              <div id="thediv5_2" style="display:none">
+                <ul>
+                  <li>各中断源如何向CPU提出请求：中断请求标记触发器INTR
+                    <br>通过对INTR置位向CPU提出中断请求
+                    <br>分布位置
+                    <ul>
+                      <li>分布在各中断源接口电路</li>
+                      <li>集中在CPU中断机构内，即由CPU连接到各外设</li>
+                    </ul>
+                  </li>
+                  <li>各中断源同时提出请求怎么响应，即中断判优逻辑
+                    <ul>
+                      <li>硬件排队：原理为高优先级请求封锁低优先级请求
+                        <ul>
+                          <li>分散在各中断源接口电路链式排队器</li>
+                          <img src="./链式排队1.png">
+                          <li>集中在CPU内链式排队器</li>
+                          <img src="./链式排队2.png">
+                        </ul>
+                      </li>
+                      <li>软件实现(程序查询)</li>
+                      <br>例如可以先查优先级较高的是否掉电
+                      <img src="./优先级降序查询.png">
+                    </ul>
+                  </li>
+                  <li>CPU什么条件、时间、方式响应中断
+                    <ul>
+                      <li>响应条件：
+                        <ul>
+                          <li>CPU允许中断：EINT，允许中断触发器</li>
+                          <li>中断请求：INTR=1</li>
+                          <li>其他：主要是以上两项，其他例如I/O设备是否准备好(D)、中断是否被屏蔽MASK等</li>
+                        </ul>
+                      </li>
+                      <li>响应时间：指令执行周期结束，CPU发出查询信号</li>
+                      <img src="中断查询.png">
+                      <li>响应方式：<strong><attr title="CPU中断周期内由硬件自动完成的指令，不在指令系统内"></attr>中断隐指令</strong>在中断周期完成操作，包括：
+                        <ul>
+                          <li>保存断点：主要是将PC和PSW入栈或存入特殊位置</li>
+                          <li>寻找ISR入口
+                            <ul>硬件向量法：向量地址->PC</ul>
+                            <li>软件查询法：中断识别程序地址入口 -> PC</li>
+                          </li>
+                          <li>硬件关中断：S-R触发器自动EINT=0,INTR=1 -> 为了防止保护现场被打断，与是否允许多重中断无关
+                            <img src="./硬件关中断.png">
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>如何保护现场，如何恢复现场，如何返回
+                    <ul>
+                      <ul>
+                        <li>保护现场：在ISR开头各寄存器内容入栈(断点、PSW由隐指令完成)</li>
+                        <li>恢复现场：在ISR结尾各寄存器内容出栈</li>
+                        <li>返回：在ISR最后，用一条中断返回指令返回</li>
+                      </ul>
+                    </ul>
+                  </li>
+                  <li>如何寻找入口地址
+                    <ul>
+                      <li>硬件向量法：
+                        <ul>
+                          <li>step1.向量地址产生
+                            <ul>
+                              <li>设备编码器：分布在各设备接口</li>
+                              <li>集中在CPU的向量地址形成部件
+                                <img src="向量地址形成.png">
+                              </li>
+                            </ul>
+                          </li>
+                          <li>step2.转向ISR
+                            <ul>
+                              <li>无条件跳转：向量地址->PC，向量地址存放的是一条无条件跳转指令，直接跳到ISR</li>
+                              <li>向量地址表：向量地址存放ISR入口地址而不是指令，处理程序负责用这个地址跳到ISR</li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                      <li>软件查询法
+                        <br>由程序员安排跳转指令，并指定跳转地址
+                      </li>
+                    </ul>
+                  </li>
+                  <li>处理中断过程中又出现中断怎么办？ -> 多重中断
+                    <ul>
+                      <li>单重中断：CPU执行ISR时不允许新的中断</li>
+                      <li>多重中断/中断嵌套：
+                        <ul>
+                          <li>概念：CPU执行ISR时允许响应新的中断
+                            <br>如下图，每发生一次中断嵌套，断点都会入栈以保证能正常返回被打断的ISR
+                          </li>
+                          <img src="./多重中断.png">
+                          <li>多重中断条件
+                            <ul>
+                              <li>提前开中断
+                                <br>中断隐指令通过硬件自动关中断，需要开中断指令将EINT置1
+                              </li>
+                              <li>优先级
+                                <br>优先级高中断源有权中断中断优先级(这里指处理优先级还是响应优先级要看是否使用了屏蔽字的技术，没有的话两者是相同的)低的中断源
+                              </li>
+                            </ul>
+                          </li>
+                          注：下图不包含屏蔽字相关设定
+                          <img src="中断服务程序流程.png">
+                          <li>屏蔽技术
+                            <ul>
+                              <li>屏蔽触发器和屏蔽字：动态优先级设定
+                                <ul>
+                                  <li>接口电路内屏蔽字应用
+                                    <br>屏蔽字为1即使D为1，INTR只能为0，无法发出中断请求
+                                  </li>
+                                  <img src="./屏蔽字_INTR.png">
+                                  <li>集中在CPU内的链式排队电路
+                                    <br>屏蔽字为1导致INTP恒为0，中断请求被屏蔽
+                                  </li>
+                                  <img src="./屏蔽字.png">
+                                </ul>
+                              </li>
+                              <li>屏蔽字的设定：ISR内设定
+                                <br>如下图，与普通的多重中断示意图相比，保护现场后保存当前屏蔽字并设定新屏蔽字，恢复现场现在不允许打断，恢复后恢复屏蔽字再开中断。即修改屏蔽字的时候要避免中断。
+                              </li>
+                              <img src="./interrupt.png">
+                              <li>屏蔽技术改变优先级
+                                <ul>
+                                  <li>响应优先级：由硬件排队电路固定，无法改变</li>
+                                  <li>处理优先级：
+                                    <br>可通过设置屏蔽字改变，从而使得某中断虽然先响应，但执行ISR时被其他高处理优先级中断打断，这个时候实质上是因为屏蔽字修改了响应优先级，其他中断可以响应，从而才表现为可以执行ISR
+                                    <br>例子
+                                </li>
+                                <img src="屏蔽字改变优先级.png">
+                                </ul>
+                              </li>
+                              <li>屏蔽技术用途：人为屏蔽某个中断源，便于程序控制</li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+                
+              </div>
+            </li>
+            <li><a href="#" id="link5_3">中断在多周期和流水线中的实现</a>
+              <div id="thediv5_3" style="display:none">
+              <ul>
+                <li>异常处理工作
+                  <ul>
+                    <li>将断点保存在EPC(PC-4)</li>
+                    <li>根据Cause状态寄存器内异常原因处理异常</li>
+                    <li>跳转到异常处理程序(PC)</li>
+                  </ul>
+                </li>
+                <li>多周期
+                  <ul>
+                    <li>中断和异常操作特点(非流水线)
+                      <ul>
+                        <li>顺序语义：之前的指令全部执行完，之后的指令还没有执行</li>
+                        <li>断点精确：指令异常同步响应，外部中断异步响应(在下一条指令fetch前)</li>
+                        <li>现场简明：EPC和Cause</li>
+                      </ul>
+                    </li>
+                    <li>多周期异常处理状态机
+                      <br>注意：下图以溢出、非法指令为例，其中溢出可以提前到前一个阶段后执行；其他的中断、异常可以用类似的方法<strong>加入状态</strong>，例如对于I/O中断可以放在下一条指令fetch前检查
+                    </li>
+                    <img src="./多周期异常状态图.png">
+                    <li>多周期异常处理RTL
+                      <br>以算数溢出为例，溢出可以在修改算数指令MEM段，改为给PC、EPC、Cause分别赋值处理程序地址、断点地址PC-4(利用ALU算出)、对应的Cause编码；当然也可以修改WB段，错误值写回也无所谓
+                      <br>其他的中断、溢出以此类推，和状态机对应即可
+                    </li>
+                    <li>多周期异常处理数据通路</li>
+                    <img src="MIPS_中断.png">
+                  </ul>
+                </li>
+                <li>流水线
+                  <ul>
+                    <li>非精确处理
+                      <br>判断异常，保存现场，清空指令，跳转执行(在同一个posedge clk完成)
+                      <ul>
+                        <li>方案一
+                          <ul>
+                            <li>实现：无论哪一段发生异常，不允许后续指令进入流水线，允许已进入流水线指令执行完</li>
+                            <li>特点
+                              <ul>
+                                <li>非精确：断点可能不是异常指令，而是最后进入流水线那条指令</li>
+                                <li>可变：不同段发生异常，得到的EPC相对异常指令增量不同</li>
+                              </ul>
+                            </li>
+                          </ul>
+                        </li>
+                        <li>方案二
+                          <ul>
+                            <li>实现：将异常指令后续指令排空，异常指令之前的指令正常执行 -> 是一种控制相关
+                              <ul>
+                                <li>清除异常指令后的全部指令(flush)</li>
+                                <li>记录异常原因(Cause)</li>
+                                <li>保存异常指令断点(EPC)</li>
+                                <li>转到异常服务程序运行(由异常原因决定，例如RISC-V中使用向量表基址加异常向量地址)</li>
+                              </ul>
+                            </li>
+                            <li>数据通路(RISC-V)
+                              <br>说明：add在clock6发生溢出，进入clock7的时候，寄存器清空、EPC写入、cause写入、PC更新为处理程序第一条指令地址；先于add的指令不受影响地执行
+                              <br><strong>注意</strong>：图中没有画出MEM/WB段flush信号，此信号用于处理访存错误等发生在MEM段的错误；并且CAUSE和EPC的输入不仅仅来自EX，其他流水段也有输入，因为异常可能发生在任何一个流水段，不要误解图中所示。 
+                            </li>
+                            <img src="./RISC-V_异常流水线.png">
+                          </ul>
+                        </li>
+                        <li>缺点：
+                          <ul>
+                            <li>异常响应时间长</li>
+                            <li>后续指令如果被允许执行可能又会引发错误</li>
+                            <li>程序调试不能按要求停在设置好的断点处</li>
+                            <li>多个异常并发难以处理</li>
+                          </ul>
+                        </li>
+                      </ul>
+                    </li>
+                    <li>精确处理：判断异常，暂存错误，到点提交，保存现场，清空指令，跳转执行
+                      <ul>
+                        <li>实现：
+                          <ul>
+                            <li>保持异常标记直到提交点(MEM段)</li>
+                            <li>提交点如果有异常，那么更新cause、EPC、PC，并清除所有流水段</li>
+                            <li>执行完成ISR，返回断点继续执行</li>
+                          </ul>
+                        </li>
+                        <li>本质：使用后援大量寄存器，<strong>安全(指严格按照指令逻辑先后关系处理异常，并把流水线状态完整保存)</strong>停止流水线，从而可重启</li>
+                        <li>特点
+                          <ul>
+                            <li>早期流水段异常抑制后来的异常
+                              <br>两层含义：
+                              <ul>
+                                <li>同一指令处理较早的异常：因为后面的异常可能是早期异常造成的</li>
+                                <li>不同指令处理深度最深指令异常：下面图中硬件实现避免了后面指令前面流水段在时间上更早发生异常从而导致对其进行异常处理，无视了逻辑上前面指令的异常(尽管发生在靠后流水段)；提交点异常将后续指令全部flush，抑制后续异常</li>
+                              </ul>
+                            </li>
+                            <li>保证前面指令完成：提交点在MEM，这保证前面的指令WB执行完，必然完成，并且后续指令全部被flush</li>
+                          </ul>
+                        </li>
+                        <li>MIPS提交点实现数据通路</li>
+                        <img src="./提交点.png">
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              </div>
+            </li>
+            </ul>
+          </div>
+          <a href="#" id="link5_4"></a><div id="thediv5_4" style="display:none"></div><a href="#" id="link5_5"></a><div id="thediv5_5" style="display:none"></div><a href="#" id="link5_6"></a><div id="thediv5_6" style="display:none"></div>
+        </li>
 
         <li><a href="#" id="link1">存储系统</a>
           <div id="thediv1" style="display:none">
           <ul>
-            <li id="link1_1">存储器分类
+            <li><a href="#" id="link1_1">存储器分类</a>
               <div id="thediv1_1" style="display:none">
               <ul>
                 <li>按材料分：半导体、磁表面、光盘</li>
@@ -147,7 +884,7 @@
             </div>
             </li>
           
-            <li id="link1_2">存储器层次结构
+            <li><a href="#" id="link1_2">存储器层次结构</a>
               <div id="thediv1_2" style="display:none">
             <br>存储空间、运行速度、成本之间的权衡<br>
             <img src="./storage_hierarchy.png">
@@ -155,7 +892,7 @@
           </div>
             </li>
           
-          <li id="link1_3">主存储器
+          <li><a href="#" id="link1_3">主存储器</a>
             <div id="thediv1_3" style="display:none">
             <ul>
               <li>指标
@@ -181,7 +918,7 @@
             </ul>
           </div>
           </li>
-          <li id="link1_4">高速缓冲存储器Cache
+          <li><a href="#" id="link1_4">☆高速缓冲存储器Cache</a>
             <div id="thediv1_4" style="display:none">
             <ul>
               <li>为什么需要Cache
@@ -257,7 +994,7 @@
             </ul>
           </div>
           </li>
-          <li id="link1_5">虚拟存储器
+          <li><a href="#" id="link1_5">☆虚拟存储器</a>
             <div id="thediv1_5" style="display:none">
             <ul>
             <li><abbr title="用户编程的空间，逻辑地址空间">虚地址</abbr>到<abbr title="实际的物理存储空间">实地址</abbr>：程序重定向
@@ -326,39 +1063,345 @@
         </div>
         </li>
 
-        <li>总线</li>
+        <li><a href="#" id="link6">总线</a>
+            <div id="thediv6" style="display:none">
+            <ul>
+              <li><a href="#" id="link6_1">总线概述</a>
+                <div id="thediv6_1" style="display:none">
+                <ul>
+                  <li>总线概念
+                    <ul>
+                      <li>计算机系统的互连结构，在资源争用的基础上实现计算机各部件<strong>地址、数据、控制信息</strong>的交换。一般而言，总线由多条传输线和数据通路组成，每条线可以传输一位二进制代码。</li>
+                      <li>注意：争用意味着每一时刻只能有一个部件向总线发送信息，但是可以有多个部件从总线接收信息</li>
+                    </ul>
+                  </li>
+                  <li>总线分类
+                    <ul>
+                      <li>数据传送方式：并行/串行总线</li>
+                      <li>数据与时钟同步/异步工作：同步/异步总线</li>
+                      <li>连接部件：<attr title="连接CPU内运算部件和寄存器">内部</attr>/系统总线
+                        <br>系统总线分类
+                      <ul>
+                        <li>数据总线：双向</li>
+                        <li>地址总线：单向</li>
+                        <li>控制总线：单向</li>
+                      </ul>
+                      </li>
+                    </ul>
+                  </li>
+                  <li>总线特性：物理/电气/功能/时间(时序)特性</li>
+                  <li><strong>总线性能指标</strong>
+                  <ul>
+                    <li>总线宽度</li>
+                    <li>总线频率：1/传输一次数据时间(总线周期)</li>
+                    <li>总线周期/总线时钟周期</li>
+                    <li>总线带宽：通常用每秒字节数衡量</li>
+                    <li>其他：总线复用、负载能力...</li>
+                  </ul>
+                  </li>
+                  <li>总线标准
+                    <ul>
+                      <li>总线标准：系统、模块之间互连的标准规范(协议)，模块可以不知对方连接要求，只考虑自身的接口功能要求</li>
+                      <li>一些总线标准：ISA,EISA,PCI,USB,AGP...</li>
+                      <li>PCI
+                        <ul>
+                          <li>时钟：独立于CPU时钟</li>
+                          <li><strong>突发工作模式/burst mode</strong>：连续传输数据只需给出首地址和burst时间，不用得到一个地址再传一个数据</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+                </div>
+              </li>
 
+              <li><a href="#" id="link6_2">总线结构</a>
+                <div id="thediv6_2" style="display:none">
+                <ul>
+                  <li>外部结构
+                    <ul>
+                      <li>单总线结构
+                        <ul>
+                          <li>连接在总线上部件要高速完成操作，迅速放弃总线控制权</li>
+                          <li>发送到主存地址也发送到其他I/O设备，对I/O设备操作与主存相同，可以指定地址</li>
+                          <li></li>
+                        </ul>
+                      </li>
+                      <li>多总线结构：按速率不同分类</li>
+                    </ul>
+                  </li>
+                  <li>内部结构
+                    <ul>
+                      <li>早期总线内部结构：处理器芯片的引脚延伸，处理器与I/O适配器的通道，与CPU结构密切相关，通用性差</li>
+                      <li>现行总线内部结构：把CPU、存储器等都视为总线的设备，总线是标准的，与CPU等无关
+                        <br>注：CPU和Cache作为一个整体和总线相连
+                        <ul>
+                          <li>数据传输总线：数据、地址、控制</li>
+                          <li>仲裁总线：总线请求和总线授权</li>
+                          <li>中断和同步总线：中断请求和中断响应</li>
+                          <li>公用线：时钟、电源...</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+                </div>
+              </li>
+
+              <li><a href="#" id="link6_3"><strong>总线仲裁</strong></a>
+                <div id="thediv6_3" style="display:none">
+                <ul>
+                  <li>基本概念
+                    <ul>
+                      <li>设备主从关系
+                        <br><strong>一个主动方</strong>占用总线(总线占用期)，<strong>一个或多个被动方</strong>响应主动方，此时总线忙
+                      </li>
+                      <li>总线仲裁：对多个设备提出的总线占用请求判优。可根据仲裁电路位置来分类</li>
+                    </ul>
+                  </li>
+                  <li>集中式仲裁：现代总线的一般做法
+                    <ul>
+                    <li>基本方式：CPU中总线仲裁器负责仲裁,每个设备模块的BR(请求)和BG(授权)连接到仲裁器</li>
+                    <li>三种仲裁方式
+                      <br>此处参考图也可见ppt参考图，更详细
+                    </li>
+                    </ul>
+                  </li>
+                  <table>
+                    <thead>
+                      <tr>
+                        <th style="text-align: left">对比项</th>
+                        <th style="text-align: left">链式查询</th>
+                        <th style="text-align: left">计数定时</th>
+                        <th style="text-align: left">独立请求</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td style="text-align: left">实现方式</td>
+                        <td style="text-align: left">类似于排队电路，按连接顺序查询，一旦查询到BR有请求，则不继续往下查询，建立总线忙BS信号</td>
+                        <td style="text-align: left">设备通过BR发出请求，仲裁器计数并将计数值通过设备地址线发给各设备，设备地址和计数值相同的设备置总线忙信号BS</td>
+                        <td style="text-align: left">每个设备都有自己的BR和BG，仲裁器内部的排队电路根据一定优先次序决定先响应哪个请求</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: left">优先级</td>
+                        <td style="text-align: left">离仲裁器最近的设备优先级最高</td>
+                        <td style="text-align: left">计数从0开始：优先级固定<br>计数从中止值开始：优先级相等</td>
+                        <td style="text-align: left">nice</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: left">优点</td>
+                        <td style="text-align: left">硬件连线简单且容易扩充</td>
+                        <td style="text-align: left">优先级可变<br>对电路故障不敏感</td>
+                        <td style="text-align: left">优先级灵活，响应时间快</td>
+                      </tr>
+                      <tr>
+                        <td style="text-align: left">缺点</td>
+                        <td style="text-align: left">对电路故障敏感<br>优先级是固定的；优先级低设备很难获得的请求</td>
+                        <td style="text-align: left">控制线增加，控制复杂</td>
+                        <td style="text-align: left">控制线更多，控制更复杂</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <img src="./集中式仲裁.png">
+
+                  <li>分布式仲裁：无中央仲裁器
+                    <ul>
+                      <li>自举分布式仲裁：仲裁期间取回请求线上信号，各自独立的决定自己是否是优先级最高的（优先级固定）</li>
+                      <li>冲突检测分布式仲裁：监听总线，发生冲突则用某种方式选择一个使用者(CSMA/CD)</li>
+                      <li><strong>并行竞争分布式仲裁</strong>：各设备有自己专属的仲裁号和仲裁器（优先级固定）
+                        <ul>
+                          <li>具体原理：
+                            <ul>
+                              <li>各设备若请求总线则将自己的仲裁号发到仲裁总线上，总线的每一根对应一位，只要有设备发送了仲裁号并且仲裁号此位是1，那么该线上为<strong>低</strong>电平(表示这一位有1)</li>
+                              <li>若仲裁总线为1(低电平)而仲裁号为0，那么低于该位的所有位仲裁号变为0，高电平被写入总线，表示该仲裁号更小，其不影响更大仲裁号修改仲裁总线<br>若仲裁总线为1(低电平)而仲裁号为1，不影响低位<br>若仲裁总线为0(高电平)，不管仲裁号为多少，不影响低位
+                              <br>即最终结果只有当仲裁总线表示的值大于仲裁号该位时，其低位相当于被置0，从而不影响更大仲裁号修改总线
+                              </li>
+                              <li>最终仲裁线上仲裁号与具有最大仲裁号的设备仲裁号<strong>匹配</strong>，获得总线控制权</li>
+                            </ul>
+                          </li>
+                          <li>帮助理解的例子</li>
+                          <img src="./并行竞争例子.png">
+                          <img src="./并行竞争分布式仲裁.png">
+                        </ul>
+                      </li>
+                    </ul>
+                  </li>
+                </ul>
+              </div>
+              </li>
+
+              <li><a href="#" id="link6_4"><strong>总线通信</strong></a>
+                <div id="thediv6_4" style="display:none">
+                <ul>
+                  <li>总线操作
+                    <ul>
+                      <li>读操作：地址 -> 命令 -> 数据</li>
+                      <li>写操作：地址 -> 数据 -> 命令</li>
+                      <li>块传送/猝发式操作(burst)：给出起始地址和burst时间，然后连续写入/读出，不需要重复传地址</li>
+                      <li>先读后写/先写后读：只给出一次地址
+                        <br>注：先读后写用于共享资源保护，先写后读用于校验
+                      </li>
+                      <li>广播/广集：一主对多从的写和读
+                        <br>广集需要指定数据在总线上进行与或操作，可用于多个中断源检测
+                      </li>
+                    </ul>
+                  </li>
+                  <li>总线周期：完成一次总线操作的时间
+                    <ul>
+                      <li>申请分配：主设备提出申请，仲裁决定下一周期总线归属权</li>
+                      <li>寻址阶段：主设备发送设备地址、命令等，启动从设备</li>
+                      <li>传送阶段：主、从设备数据交换</li>
+                      <li>结束阶段：主设备相关信息从总线上撤出，让出使用权</li>
+                    </ul>
+                  </li>
+                  <li>串行/并行传送、复用
+                    <ul>
+                      <li>串行传送：单线脉冲传送，每一位平均用的时间 -> 位时间</li>
+                      <li>并行传送：多线电位传送</li>
+                      <li>复用：分时复用总线，既传地址又传数据</li>
+                    </ul>
+                  </li>
+                  <img src="./串行总线并行总线.png">
+                  <li>总线通信方式</li>
+                </ul>
+                <table>
+                  <thead>
+                    <tr>
+                      <th style="text-align: left">对比项</th>
+                      <th style="text-align: left">同步</th>
+                      <th style="text-align: left">异步</th>
+                      <th style="text-align: left">半同步</th>
+                      <th style="text-align: left">分离式</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="text-align: left">实现方式</td>
+                      <td style="text-align: left">通信双方用统一时钟控制</td>
+                      <td style="text-align: left">通信双方一次、两次、三次握手(不互锁、半互锁、全互锁)，需加入两条应答线</td>
+                      <td style="text-align: left">同步结合异步，统一时钟控制，利用等待线，插入等待周期以平衡速度</td>
+                      <td style="text-align: left">总线周期分为两个子周期，子周期内单向同步通信，例如第一个子周期发送地址、命令，第二个子周期反向发送数据<br>两个子周期开始时申请总线控制权，两个子周期之间总线归还控制权</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: left">总线周期</td>
+                      <td style="text-align: left">主设备发出地址和读写命令开始，直到数据传输完成，归还总线</td>
+                      <td style="text-align: left">同上</td>
+                      <td style="text-align: left">同上</td>
+                      <td style="text-align: left">分为两个子周期</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: left">优点</td>
+                      <td style="text-align: left">模块配合简单</td>
+                      <td style="text-align: left">允许各部件速度不同</td>
+                      <td style="text-align: left">控制方式比异步简单，统一时钟更可靠</td>
+                      <td style="text-align: left">准备数据时不占用总线，因此占用期间都在进行有效工作而不等待浪费</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: left">缺点</td>
+                      <td style="text-align: left">强制同步，必须在限定时间内完成操作<br>需按最慢的部件设计公共时钟</td>
+                      <td style="text-align: left">有附加位存在，比特率小于同步</td>
+                      <td style="text-align: left">等待周期数量不确定</td>
+                      <td style="text-align: left">控制复杂</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: left">使用体系</td>
+                      <td style="text-align: left">总线短，各部件存取时间近似</td>
+                      <td style="text-align: left">各种体系</td>
+                      <td style="text-align: left">各部件速度差异大的简单系统</td>
+                      <td style="text-align: left">大型计算机</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: left">常见相关问题</td>
+                      <td style="text-align: left">同步读、写的控制、数据、地址信号</td>
+                      <td style="text-align: left"><attr title="只包含数据位">比特率</attr>与<attr title="包含附加位和数据位">波特率</attr>计算</td>
+                      <td style="text-align: left">半同步读、写的控制、数据、地址、等待信号</td>
+                      <td style="text-align: left">子周期主从关系(都是主设备，当然也都是从设备，都能申请总线控制权)、数据流方向</td>
+                    </tr>
+                  </tbody>
+                </table>
+                
+                <ul>
+                  <li>附：常见问题示意图
+                    <br>同步总线读写<br>
+                    <img src="同步总线读.png"><img src="同步总线写.png">
+                    <br>半同步总线读
+                    <br>
+                    <img src="半同步总线读.png">
+                  </li>
+                </ul>
+              </div>
+              </li>
+            </ul>
+            </div>
+            <a href="#" id="link6_5"></a><div id="thediv6_5" style="display:none"></div>
+        </li>
+        <li>I/O</li>
+
+      </ul>
+      <hr>
+      <h2 id="cod-summary">Summary</h2>
+      <ul>
+        <li>计算机的各种性能指标</li>
       </ul>
       <hr>
       <h2 id="cod-question">Questions</h2>
       <p>This part includes frequently-asked and important questions in COD.</p>
       <ul>
-        <li>计算机系统由哪两部分组成？计算机系统的层次结构是什么样的？</li>
-        <li>计算机的五大组成部分分别是什么？各部分的功能是什么？</li>
+        <h3>第一章、计算机系统概论</h3>
+        <li>计算机系统由哪两部分组成？计算机系统的层次结构是什么样的？软件和硬件的逻辑等价性指什么？(☆☆☆)</li>
+        <li>计算机的五大组成部分分别是什么？各部分的功能是什么？(☆☆)</li>
+        <li>当点击一个可执行文件hello_world的时候，计算机内部完成了什么样的过程来执行这个程序？(☆)</li>
         <li>指令的执行过程是什么样的？</li>
-        <li>冯诺依曼结构计算机的特点是什么？哈佛结构呢？</li>
-        <li>计算机组成和计算机体系结构之间的关系是什么样的？</li>
-        <li>机器字长、数据字长、存储字长分别指什么？它们之间的关系是什么？按字读取中的字指什么？它与字节什么关系？</li>
-        <li>计算机存储容量如何计算？</li>
-        <li>如何评价计算机的运算速度或者说性能？能否用MIPS或者MFLOPS来评价性能？如何计算总的CPU时间？测试运算速度的方法有哪些？</li>
-        <li>Amdahl定律是什么？如何理解Amdahl定律？  <abbr title="用于预测改进某部分导致的总体加速">答案</abbr></li>
-        <li>集成电路成本（单片成本）如何计算？最终单片芯片的成本如何计算？为什么量产会让芯片成本降低？</li>
+        <li>冯诺依曼结构计算机的特点是什么？哈佛结构呢？(☆☆)</li>
+        <li>计算机组成和计算机体系结构之间的关系是什么样的？(☆)</li>
+        <li>机器字长、数据字长、存储字长分别指什么？它们之间的关系是什么？按字读取中的字指什么？它与字节什么关系？(☆☆☆)</li>
+        <li>计算机存储容量如何计算？(☆☆☆)</li>
+        <li>如何评价计算机的运算<abbr title="CPU时间">速度或者说性能</abbr>？能否用MIPS或者MFLOPS来评价性能？f、CPI、IC分别指什么？它们分别反映了计算机哪一方面的性能？如何计算总的CPU时间？测试运算速度的方法有哪些？(☆☆☆)</li>
+        <li>计算机发展面临几个“墙”是什么？对于存储墙、I/O墙，有什么样的解决方案？(☆)</li>
+        <li>Amdahl定律是什么？如何理解Amdahl定律？  <abbr title="用于预测改进某部分导致的总体加速">答案</abbr>(☆☆)</li>
+        <li>集成电路成本（单片成本）如何计算？最终单片芯片的成本如何计算？为什么量产会让芯片成本降低？(☆)</li>
         <br>
-        <li>完善的指令系统要做到什么样的兼容性？如何实现？</li>
-        <li>系列计算机哪两点基本相同？</li>
-        <li>高级语言是否与指令系统相关联？低级语言呢？不同机器指令系统相同么，或者说指令系统是否会影响机器硬件结构？指令系统会影响机器的哪三个方面？</li>
-        <li>指令的一般格式是什么样的？操作码和操作数地址的作用分别是什么？按照操作码长度是否可变，指令可以分为哪两类？其中变长操作码用到了什么技术？具体是怎么做的？变长操作码在分配操作码时有什么原则？</li>
+        <h3>第二章、指令系统</h3>
+        <li>微指令指什么？宏指令指什么？机器指令指什么？(☆)</li>
+        <li>完善的指令系统要做到什么样的兼容性？如何实现？(☆☆)</li>
+        <li>系列计算机哪两点基本<attr title="基本指令系统、基本体系结构">相同</attr>？(☆☆☆)</li>
+        <li>指令系统的四点性能要求<attr title="完备性、有效性、规整性、兼容性">是什么</attr>？</li>
+        <li>高级语言是否与指令系统相关联？低级语言呢？不同机器指令系统相同么，或者说指令系统是否会影响机器硬件结构？指令系统会影响机器的哪<attr title="硬件结构、系统软件、机器适用范围">三个方面</attr>？(☆☆)</li>
+        <li>指令的一般格式是什么样的？操作码和地址码的作用分别是什么？按照操作码长度是否可变，指令可以分为哪两类？其中变长操作码也叫什么技术？具体是怎么做的？变长操作码在分配操作码时有什么原则？扩展操作码中短操作码数量的增加是否会导致长操作码指令数量减少？为什么？(☆☆☆)</li>
         <li>按照地址码个数，指令可以被分为哪几类？</li>
         <li>按照操作数物理地址位置，指令可以分为哪三类？执行速度最快的是哪一类？访存次数最多的是哪一类？</li>
-        <li>指令字长指什么？按照指令字长和机器字长的关系，可以把指令分为哪几种？按照指令字长是否可变，可以把指令分为哪两种？这两种的优缺点分别是什么？</li>
-        <li>什么是指令助记符？指令助记符出现在什么程序中？指令助记符的作用是？</li>
+        <li>指令字长指什么？按照指令字长和机器字长的关系，可以把指令分为哪几种？按照指令字长是否可变，可以把指令分为哪两种？这两种的优缺点分别是什么？(☆☆☆)</li>
+        <li>什么是指令助记符？指令助记符出现在什么程序中？指令助记符的作用是？(☆)</li>
         <li>指令操作数的类型有哪些？</li>
-        <li>计算机内的数据存放的最小单位一般是什么？访问的单位是什么？边界对齐具体是怎么做的？字节顺序有哪两种？在边界对齐上的区别体现在哪里？</li>
-        <li>指令的寻址方式有哪些？数据的寻址方式有哪些（重点：偏移寻址）？</li>
-        <li>什么是程序的局部性原理？此原理体现在什么类型的寻址方式里？</li>
-        <li>CISC和RISC分别指什么？指令数目、指令格式、寻址方式谁更多？其中哪一种指令字长固定？哪一种指令多为单机器周期？两种计算机的指令使用频率分布如何？可访存指令有什么区别？寄存器数目谁更多？CISC的缺点有哪些？</li>
-        <li>RISCV采用大端还是小端模式？内存按什么编址？是否要求边界对齐？</li>
-        <li>to do</li>
+        <li>计算机内的数据存放的最小单位一般是什么？访问的单位是什么？为什么要边界对齐？边界对齐具体是怎么做的？字节顺序有哪两种？它们的区别体现在哪里？(☆☆☆)</li>
+        <li>指令的寻址方式有哪些？数据的寻址方式有哪些（重点：偏移寻址）？(☆)</li>
+        <li>什么是程序的局部性原理？此原理体现在什么类型的寻址方式里？(☆☆☆)</li>
+        <li>对于偏移寻址，其中的相对寻址、基址寻址、变址寻址分别指什么？基址寻址、变址寻址有什么区别？它们分别有什么作用？(☆☆)</li>
+        <li>CISC和RISC分别指什么？指令数目、指令格式、寻址方式谁更多？其中哪一种指令字长固定？哪一种指令多为单机器周期？两种计算机的指令使用频率分布如何？可访存指令有什么区别？寄存器数目谁更多？它们分别使用了什么样的技术？RISC、CISC的缺点有哪些？为什么会出现从CISC到RISC的转变？(☆☆☆)</li>
+        <li><attr title="小端、字节、不要求">RISC-V</attr>采用大端还是小端模式？内存按什么编址？是否要求边界对齐？RISC-V的指令可以分为<attr title="R,I,S,SB,UJ,U"></attr>哪几类？每一类包含完成什么功能的指令？RISC-V如何将一个32位数字加载进入寄存器？RISC-V的寻址方式有<attr title="立即寻址、寄存器寻址、PC相对寻址、(寄存器)基址寻址">哪些</attr>？</li>
+        <li><attr title="指令序列，没有嵌入分支和分支目标，编译器可以识别基本块并优化，先进处理器可以并行加速基本块">什么是</attr>基本块？</li>
+        <br>
+        <h3>第三章、RISC-V处理器设计</h3>
+        <li>多周期为什么理论上要比单周期快？实际的实现中多周期<attr title="不一定，因为多周期添加了部件，可能会导致机器周期变长，并且具体运行时间还要看具体程序">一定比单周期快么</attr>？</li>
+        <li>理想流水线的加速比为多少？IPC=CPI=？实际的流水线CPI应为多少？(☆☆)</li>
+        <li>结构相关指什么？有什么解决方法？(☆☆☆)</li>
+        <li>结构相关指什么？数据前递指什么？能否用数据前递解决所有的数据相关？load-use数据相关需要如何解决？向某寄存器加载数据然后将该寄存器内数据存入内存是否是load-use相关？如果认为是怎么解决？如果认为不是怎么解决？(☆☆☆)</li>
+        <li>控制相关指什么？如何解决控制相关？(☆☆☆)</li>
+        <li>流水线多发技术的目的是什么？超标量技术指？超流水线指？超长指令字指？</li>
+        <br>
+        <h3>第五章、中断与异常</h3>
+        <li>中断源如何提出中断请求？CPU对中断的响应优先级和处理优先级有什么区别？如何实现这两个优先级的判断？为什么有时多个中断请求的服务曲线会出现锯齿？(☆☆☆)</li>
+        <li>CPU什么条件下才会对中断请求进行响应？响应中断(即CPU发出查询信号)的时间一般是什么时候？(☆☆☆)</li>
+        <li>什么是中断隐指令？中断隐指令在中断周期完成了哪些操作？其中关中断为什么说是硬件自动的？寻找ISR的入口有哪两种方法？其中硬件向量法有哪两种不同的实现？(☆☆☆)</li>
+        <li>保护现场要进行哪些操作？这些操作哪一些是由中断隐指令/ISR完成的？如何恢复现场？如何返回？(☆☆☆)</li>
+        <li>单重中断指什么？单重中断的流程是什么样的？多重中断指什么？多重中断的流程是什么样的？进行多重中断的前提是什么？为什么保存现场前要通过中断隐指令关中断？多重中断的流程中为什么开始执行服务程序前又要通过开中断指令打开中断，而单重中断则是在返回前打开？(☆☆☆)</li>
+        <li>屏蔽字的作用是什么？屏蔽字在硬件上有哪两种实现？为什么屏蔽字能使得处理优先级和响应优先级不同？屏蔽字的保存、设置、恢复是由谁完成的？如果考虑屏蔽技术，那么多重中断的流程是什么样的？(☆☆☆)</li>
+        <li>在多周期实现中，如果想要加入异常处理或者中断功能，需要对状态机和数据通路做什么修改？已经具备中断、异常处理功能的多周期CPU，想要加入新的中断要考虑哪些问题？(☆☆☆)</li>
+        <li>流水线非精确异常处理两种方案分别怎么实现？有什么缺点？(☆☆☆)</li>
+        <li>为什么流水线精确处理异常方法中，提交点要设置在MEM段？精确处理方案中如果多个异常并发怎么处理？精确方案中会不会出现不同指令异常处理顺序颠倒的情况？EPC和cause应该设置在哪一段？为什么？(☆☆☆)</li>
+        <li>某指令写回目标寄存器地址越界属于什么异常？</li>
+        <li>对比一下多周期、流水线非精确、流水线精确异常实现的区别？(☆☆☆)</li>
         <br>
         <h3>第六章、存储系统</h3>
         <li>(☆)为什么要有Cache？Cache改善性能的原理是什么？为什么我们很少在编程时直接和Cache打交道，即使是在内核态编程也只是涉及到虚拟地址和物理地址？</li>
@@ -367,7 +1410,19 @@
         <li>(☆☆☆)包含Cache的CPU一次完整的访存过程是什么样的？</li>
         <li>(☆☆☆)Cache的映射策略有哪三种？哪种策略的相联度最高(即冲突率最小)？为什么冲突率越小，失效率越小？为什么对于直接相连和组相联策略，要把index放在地址中间几位，tag放在地址高位？（为了让同余类是均匀分布的）</li>
         <li>(☆☆☆)读Cache的流程是什么样的？</li>
-        <li>(☆☆☆)写命中时写直达和写回有什么区别？它们花费的时间是多少？写失效时按写分配和绕写法有什么区别？以写直达+按写分配为例，写Cache时的工作流程是什么样的？</li>        
+        <li>(☆☆☆)写命中时写直达和写回有什么区别？它们花费的时间是多少？写失效时按写分配和绕写法有什么区别？以写直达+按写分配为例，写Cache时的工作流程是什么样的？</li>     
+        <br>
+        <h3>第七章、总线</h3>   
+        <li>使用总线的设备的主从关系指什么？(☆)</li>
+        <li>总线时钟周期和总线周期有什么区别？</li>
+        <li>为什么会出现从单总线到多总线结构的转变？(即多总线结构的意义)总线包括哪几种不同作用的总线？</li>
+        <li>系统总线分为哪三种？他们的数据方向是什么样的？(☆☆☆)</li>
+        <li>为什么要进行总线仲裁？集中仲裁的方式有哪三种？它们的实现和仲裁优先级是什么样的？分布式仲裁有哪三种？它们的实现和仲裁优先级是什么样的？(☆☆☆)</li>
+        <li>总线读、写操作控制、数据、地址信号时序如何？(☆☆☆)</li>
+        <li>总线周期一般指什么？总线周期怎么计算？一个总线周期可以分成哪四个阶段？(☆☆☆)</li>
+        <li>总线串行传送和并行传送在编码上有什么区别？(☆☆☆)</li>
+        <li>总线的四种通信方式是什么？各自的优缺点？同步通信的读写控制、数据、地址信号时序如何？与半同步相比有什么区别？异步通信需要加入新的总线么？比特率和波特率有什么区别？怎么将异步通信改为同步通信？分离通信的两个子周期是否需要分别申请总线使用权？两个子周期的通信是单向还是双向的？以CPU从存储器读取数据为例,两个子周期主从关系如何?(☆☆☆)</li>
+        <li>总线控制器本质上是什么？如果CPU想要从存储器读取某地址的数据，整个过程是什么样的(请求、仲裁、控制权、通信方式对应时序、归还控制)？如果是CPU从I/O设备读取值和从存储器读取值为什么对于总线来说没有差异(标准接口，抽象封装分层)？(☆☆☆)</li>
       </ul>
     <br>
     <hr>
