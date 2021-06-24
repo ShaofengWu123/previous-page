@@ -896,14 +896,43 @@
             <div id="thediv1_3" style="display:none">
             <ul>
               <li>指标
-                <br>访存周期
+                <br>存储容量、存储字长、存取时间(访问时间)、存取周期(大于存取时间)、存储器带宽
+              </li> 
+              <li>半导体存储芯片
+                <ul>
+                  <li>基本结构
+                    <ul>
+                      <li>存储矩阵：具有记忆功能</li>
+                      <li>译码驱动电路：翻译地址信号为对应单元的选择信号</li>
+                      <li>读写电路：读放大电路、写电路</li>
+                      <li>相关总线：数据线、地址线、控制线(读写控制线、片选线)</li>
+                    </ul>
+                  </li>
+                  <img src="./半导体芯片结构.png">
+                  <li>译码驱动方式
+                    <ul>
+                      <li>线选法</li>
+                      <li>重合法</li>
+                    </ul>
+                  </li>
+                </ul>
               </li>
+              <li>RAM
+                <ul>
+                  <li>SRAM</li>
+                  <li>DRAM</li>
+                </ul>
+              </li>
+              <li>ROM</li>
+              <li>存储器与CPU连接</li>
               <li>访存速度提高策略
                 <br>由最初的单体单字到...
                 <ul>
+                  <li>双端口存储器</li>
                   <li>单体多字</li>
                   <li>多体并行
-                    <li>高位交叉：地址连续的数据放在同一存储体内
+                    <ul>
+                      <li>高位交叉：地址连续的数据放在同一存储体内
                       <img src="./高位交叉多体.png"> 
                       <br>连续读取n个字时间：nT
                     </li>
@@ -912,9 +941,11 @@
                       <br>连续读取n个字时间：T+(n-1)t，t为完美流水工作情况下启动间隔或者也可以说是总线使用时间，非完美流水(T>nt)要另外考虑
                       <img src= "./完美流水多体并行.png">
                     </li>
+                    </ul>
                   </li>
                 </ul>
               </li>
+              <li></li>
             </ul>
           </div>
           </li>
@@ -1280,8 +1311,8 @@
                       <td style="text-align: left">实现方式</td>
                       <td style="text-align: left">通信双方用统一时钟控制</td>
                       <td style="text-align: left">通信双方一次、两次、三次握手(不互锁、半互锁、全互锁)，需加入两条应答线</td>
-                      <td style="text-align: left">同步结合异步，统一时钟控制，利用等待线，插入等待周期以平衡速度</td>
-                      <td style="text-align: left">总线周期分为两个子周期，子周期内单向同步通信，例如第一个子周期发送地址、命令，第二个子周期反向发送数据<br>两个子周期开始时申请总线控制权，两个子周期之间总线归还控制权</td>
+                      <td style="text-align: left">同步结合异步，统一时钟控制，从模块利用等待线通知住模块自己没有准备好，主模块插入等待周期以平衡速度</td>
+                      <td style="text-align: left">总线周期分为两个子周期，子周期内单向同步通信，例如第一个子周期发送地址、命令、主模块编号，第二个子周期反向发送数据和模块编号<br>两个子周期开始时申请总线控制权，两个子周期之间总线归还控制权</td>
                     </tr>
                     <tr>
                       <td style="text-align: left">总线周期</td>
@@ -1336,13 +1367,310 @@
             </div>
             <a href="#" id="link6_5"></a><div id="thediv6_5" style="display:none"></div>
         </li>
-        <li>I/O</li>
+        <li><a href="#" id="link7">I/O</a>
+          <div id="thediv7" style="display:none">
+          <ul>
+            <li><a href="#" id="link7_1">I/O系统概述</a>
+              <div id="thediv7_1" style="display:none">
+              <ul>
+                <li>I/O系统组成
+                  <ul>
+                    <li>I/O软件
+                      <ul>
+                        <li>I/O指令：接口模块方式常用，是指令集中的指令，操作码(区分与其他机器指令)+命令码(体现具体操作)+设备码(指明设备)</li>
+                        <li>通道指令：具有通道系统的I/O系统常用，不是指令集中的指令，由通道执行。
+                          <br>注：CPU执行I/O指令启动设备、查询通道情况后，由通道指令接管I/O设备
+                        </li>
+                      </ul>
+                    </li>
+                    <li>I/O硬件
+                      <ul>
+                        <li>带接口I/O系统：I/O设备，接口模块电路</li>
+                        <li>带有通道系统的I/O系统：通道连接一到多个设备控制器，设备控制器连接一到多个同类型设备</li>
+                      </ul>
+                      <img src="通道系统IO系统.png">
+                    </li>
+                  </ul>
+                </li>
+                <li>I/O系统发展阶段
+                  <ul>
+                    <li>早期阶段</li>
+                    <li>接口模块</li>
+                    <li>DMA</li>
+                    <li>通道结构</li>
+                    <li>I/O处理机(外围处理机)</li>
+                  </ul>
+                </li>
+                <table>
+                  <thead>
+                    <tr>
+                      <th style="text-align: left">对比项</th>
+                      <th style="text-align: left">早期阶段</th>
+                      <th style="text-align: left">接口模块</th>
+                      <th style="text-align: left">DMA</th>
+                      <th style="text-align: left">通道结构</th>
+                      <th style="text-align: left">I/O处理机</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="text-align: left">实现方式</td>
+                      <td style="text-align: left">每个I/O设备以一套独立逻辑电路和CPU相连</td>
+                      <td style="text-align: left">I/O设备通过接口模块以及总线和主机相连，接口中设有数据通路和控制通路</td>
+                      <td style="text-align: left">I/O设备通过DMA与主存直接相连</td>
+                      <td style="text-align: left">通道作为CPU的从处理器，依据CPU指令进行启动、停止、改变工作状态，通过通道指令独立进行I/O和主存之间信息交换</td>
+                      <td style="text-align: left">外围处理机</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: left">工作特点</td>
+                      <td style="text-align: left">CPU和I/O设备串行工作</td>
+                      <td style="text-align: left">可用中断方式工作</td>
+                      <td style="text-align: left">DMA代替CPU管理I/O，但需要窃取周期占用总线</td>
+                      <td style="text-align: left">通道可以独立执行通道指令编写的输入输出程序，但也不是完全独立于CPU的</td>
+                      <td style="text-align: left">基本独立于CPU，完成通道完成的I/O控制，还要完成码制变换、纠错等</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: left">缺点</td>
+                      <td style="text-align: left">复杂，浪费CPU资源，难以扩展</td>
+                      <td style="text-align: left">交换信息时仍然要占用CPU资源，并非绝对并行</td>
+                      <td style="text-align: left">DMA接口多则控制困难，成本高，并且会频繁窃取CPU周期</td>
+                      <td style="text-align: left">略</td>
+                      <td style="text-align: left">略</td>
+                    </tr>
+                  </tbody>
+                </table>
+                <li>I/O系统与主机联系
+                  <ul>
+                    <li>编址方式
+                      <ul>
+                        <li>统一编址：I/O指令和访存指令类似，占用主存空间</li>
+                        <li>独立编址：I/O指令专门设置，不占用主存空间</li>
+                      </ul>
+                    </li>
+                    <li>传送方式：并行/串行</li>
+                    <li>联络方式
+                      <ul>
+                        <li>立即响应：缓慢I/O设备已经在等待CPU</li>
+                        <li>同步</li>
+                        <li>异步应答:握手</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+              </div>
+            </li>
+
+            <li><a href="#" id="link7_2">I/O接口</a>
+              <div id="thediv7_2" style="display:none">
+              <ul>
+                <li>基本概念：I/O接口也叫适配器，是主机与I/O设备之间的硬件电路和软件控制
+                  <br>注意：端口指接口电路中的寄存器，CPU对I/O设备的操作实际上是对端口的操作
+                </li>
+                <li>I/O接口功能和组成
+                  <ul>
+                    <li>选址</li>
+                    <li>数据缓冲，数据串并转换</li>
+                    <li>传送控制命令</li>
+                    <li>反映I/O设备状态：中断请求触发器INTR、中断屏蔽触发器MASK(如果INTR和MASK是分布在接口内的，并且采用程序中断的I/O方式)、完成触发器D、工作触发器B</li>
+                  </ul>
+                </li>
+                <img src="./IO接口.png">
+                <li>I/O接口分类</li>
+              </ul>
+              </div>
+            </li>
+
+            <li><a href="#" id="link7_3"><strong>I/O信息交换方式</strong></a>
+              <div id="thediv7_3" style="display:none">
+              <ul>
+                <img src="./IO方式.png">
+                <ul>
+                  <li>程序查询方式
+                    <ul>
+                      <li>基本实现：数据在CPU和外围设备之间的传送完全靠计算机程序控制，CPU暂停主程序，主动通过I/O指令查询并转去执行I/O服务程序</li>
+                      <li>示意图：多个I/O设备程序查询以及单个I/O设备的服务程序流程
+                        <br>注：多个设备按优先级降序循环查询，进入某设备服务例程中仍采取轮询的方式，每个字节都进行相同的忙等操作(CPU控制)，因此会浪费CPU资源
+                      </li>
+                      <img src="./程序查询方式.png">
+                      <li>实例
+                        <br>可以结合这里理解总线读操作、写操作的时序，例如为什么读操作给出地址、命令之后，需要等待几个周期才能读取数据，因为这个时候设备正在准备数据（对于同步通信和半同步通信而言，分离式可以认为没有等待）
+                      </li>
+                      <img src="./程序查询接口.png">
+                      <img src="./程序查询实例.png">
+                    </ul>
+                  </li>
+                  <li>程序中断方式
+                    <ul>
+                      <li>基本实现：CPU给出启动I/O设备命令后，I/O设备与控制器自行准备数据，准备好后以中断的方式提示CPU，此时CPU暂停当前程序转入I/O服务程序</li>
+                      <li>示意图：CPU正常执行程序，I/O通过中断占用CPU
+                        <br>注：整个过程符合中断那一章描述的过程，包括中断允许、中断请求、中断判优、保护现场、跳转ISR、是否允许多重中断以及屏蔽字的设置
+                      </li>
+                      <img src="./中断IO方式.png">
+                      <li>实例
+                        <br>设备在图中1、2、3、4处准备数据，此时CPU并行完成自己的任务，当5处一条指令执行结束，CPU查询到有中断时，转而执行ISR
+                      </li>
+                      <img src="./中断IO方式接口.png">
+                      <img src="./中断IO示例1.png"><img src="./中断IO示例2.png">
+                    </ul>
+                  </li>
+                  <li>DMA方式
+                    <ul>
+                      <li>基本实现：DMA控制器从CPU获取基本I/O信息(主存位置、计数、命令等)并申请总线控制权后，完全接管总线，直接和主存进行数据交换，不经过CPU</li>
+                      <li>三种实现：</li>
+                        <table>
+                          <thead>
+                            <tr>
+                              <th style="text-align: left">对比项</th>
+                              <th style="text-align: left">停止CPU访问内存</th>
+                              <th style="text-align: left">周期窃取/挪用</th>
+                              <th style="text-align: left">DMA和CPU交替</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr>
+                              <td style="text-align: left">实现方式</td>
+                              <td style="text-align: left">DMA申请到控制权后，占用总线和主存直到完成数据传送</td>
+                              <td style="text-align: left">I/O设备发出DMA请求时，I/O设备挪用总线占用权一个或多个主存周期</td>
+                              <td style="text-align: left">CPU和DMA交替访问主存</td>
+                            </tr>
+                            <tr>
+                              <td style="text-align: left">工作特点</td>
+                              <td style="text-align: left">CPU和I/O设备串行工作</td>
+                              <td style="text-align: left">如果CPU正在访存,则访存结束让出总线占用权；若两者同时申请，DMA优先，防止数据丢失</td>
+                              <td style="text-align: left">将一个CPU周期分成两份，CPU和DMA轮流访存</td>
+                            </tr>
+                            <tr>
+                              <td style="text-align: left">适合场景</td>
+                              <td style="text-align: left">数据传输速率很高的设备</td>
+                              <td style="text-align: left">I/O设备读写周期大于主存存取周期，因为DMA接口主存存取存在延迟(2~5倍)</td>
+                              <td style="text-align: left">CPU周期长于存取周期的，保证CPU和DMA在C1和C2内完成存取</td>
+                            </tr>
+                            <tr>
+                              <td style="text-align: left">优点</td>
+                              <td style="text-align: left">简单</td>
+                              <td style="text-align: left">兼顾I/O访问和CPU、主存效率</td>
+                              <td style="text-align: left"><strong>不需要</strong>申请、建立、归还总线控制权，总线控制权由C1、C2控制，CPU不暂停也不等待，DMA效率高</td>
+                            </tr>
+                            <tr>
+                              <td style="text-align: left">缺点</td>
+                              <td style="text-align: left">CPU基本处于不工作状态<br>一般数据准备时间总是长于主存存取周期，造成浪费</td>
+                              <td style="text-align: left">每窃取一次都要申请、建立、归还控制权</td>
+                              <td style="text-align: left">硬件逻辑复杂</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                      <img src="./三种DMA.png">
+                      <li>实例：<strong>DMA接口和DMA过程</strong>
+                        <ul>
+                          <li>DMA接口以及各寄存器作用：主存地址寄存器AR、字计数寄存器WC、数据缓冲寄存器BR、设备地址寄存器DAR</li>
+                          <li>DMA接口模块作用：中断机构、DMA控制逻辑</li>
+                          <li>DMA过程：预处理->数据传送->后处理
+                            <br>以输出数据为例：
+                            <ul>
+                              <li>预处理：CPU给DMA预置主存起始地址、传输方向(读主存)、字计数、设备地址并启动设备</li>
+                              <li>数据传输
+                                <br>当缓冲区空(被I/O设备拿走)时，I/O设备准备好，设备向DMA接口发送请求，DMA接口向CPU申请总线控制权,CPU授权给DMA，DMA将地址送至内存并命令存储器读，DMA通知设备获得DMA周期(DACK响应)并为下一个字交换做准备，主存将
+                                读取数据送到缓冲区，设备从缓冲区读取数据，修改主存地址和计数值，若溢出则申请中断，否则继续传送
+                              </li>
+                              <li>后处理：CPU跳转到中断服务程序，包括校验内存中结果，若发生错误转错误处理程序，若继续传输则预处理DMA接口，若不需要继续传输则关闭设备</li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                      <img src="./DMA接口.png">
+                      <img src="./DMA过程.png">
+
+                      <li>DMA接口与系统连接方式：公共请求和独立请求
+                        <img src="./DMA连接.png">
+                      </li>
+                      <li>DMA接口类型：选择型和多路型
+                        <br>区别在于：物理上都与多个设备相连，但逻辑上允许一个/多个设备连接、同时工作
+                      </li>
+                      <li>DMA与程序中断、程序查询对比</li>
+                      <img src="./dma中断对比.png">
+                      <img src="三种IO比较.png">
+                    </ul>
+                  </li>
+                  <li>通道方式
+                    <ul>
+                      <li>具体实现：通道接受CPU的I/O指令，自己从存储器取通道指令，完成和I/O指令指定的外设的数据传输
+                      </li>
+                      <li>组织方式：主机-通道-设备控制器-设备，主机连接多个通道，通道连接多个设备</li>
+                      <li>通道的功能</li>
+                      <img src="./通道功能.png">
+                    </ul>
+                  </li>
+                </ul>
+                <table>
+                  <thead>
+                    <tr>
+                      <th style="text-align: left">对比项</th>
+                      <th style="text-align: left">程序查询</th>
+                      <th style="text-align: left">程序中断</th>
+                      <th style="text-align: left">DMA</th>
+                      <th style="text-align: left">通道</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td style="text-align: left">实现方式</td>
+                      <td style="text-align: left">CPU通过I/O指令，循环查询各设备情况，并根据设备状态进行操作</td>
+                      <td style="text-align: left">CPU启动设备后执行原程序,I/O设备以中断通知CPU数据准备完成，CPU调用ISR处理</td>
+                      <td style="text-align: left">I/O设备通过DMA与主存直接相连，通过DMA接口来与I/O设备、内存交互</td>
+                      <td style="text-align: left">通道作为CPU的从处理器，依据CPU指令进行启动、停止、改变工作状态，执行有限通道指令指令集合，独立进行I/O和主存之间信息交换，结束通过中断通知CPU</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: left">优点</td>
+                      <td style="text-align: left">如果I/O设备较快影响不大，简单</td>
+                      <td style="text-align: left">可用中断方式工作</td>
+                      <td style="text-align: left">DMA代替CPU管理I/O，适合快速传输大量数据</td>
+                      <td style="text-align: left">提高并行操作能力</td>
+                    </tr>
+                    <tr>
+                      <td style="text-align: left">缺点</td>
+                      <td style="text-align: left">CPU忙等从而浪费资源，数据在CPU和外围设备之间的传送完全靠计算机程序控制</td>
+                      <td style="text-align: left">执行ISR时仍然要占用CPU资源，并非绝对并行</td>
+                      <td style="text-align: left">DMA接口多则控制困难，成本高，并且会频繁窃取CPU周期<br>DMA不能处理数据传输过程中的错误，需要后处理完成</td>
+                      <td style="text-align: left">通道控制比较复杂</td>
+                    </tr>
+                  </tbody>
+                </table>
+                
+              </ul>
+              </div>
+            </li>
+
+            <li><a href="#" id="link7_4">I/O设备</a>
+              <div id="thediv7_4" style="display:none">
+              <ul></ul>
+              </div>
+            </li>
+
+            <li><a href="#" id="link7_5">辅助存储器</a>
+              <div id="thediv7_5" style="display:none">
+              <ul>
+                <li>磁记录原理：编码方式</li>
+                <img src="./磁编码方式.png">
+                <li>磁盘
+                  <ul>
+                    <li>寻址方式：寻道+旋转(等待)</li>
+                    <li>指标：<attr title="半径方向轨道密度">道密度</attr>、位密度、容量、<attr title="位密度*运行速度">传输率</attr></li>
+                  </ul>
+                </li>
+              </ul>
+              </div>
+            </li>
+          </ul>
+          </div>
+        </li>
 
       </ul>
       <hr>
       <h2 id="cod-summary">Summary</h2>
       <ul>
         <li>计算机的各种性能指标</li>
+        <img src="./各类性能指标.png">
       </ul>
       <hr>
       <h2 id="cod-question">Questions</h2>
@@ -1390,6 +1718,12 @@
         <li>控制相关指什么？如何解决控制相关？(☆☆☆)</li>
         <li>流水线多发技术的目的是什么？超标量技术指？超流水线指？超长指令字指？</li>
         <br>
+        
+        <h3>第四章、存储器</h3>
+        <li>存储器层次结构是什么样的？为什么存在存储器的层次结构？(☆☆☆)</li>
+        <li>存储容量、存储字长、存取时间、存取周期、存储器带宽分别指什么？(☆☆☆)</li>
+        <li>如何提升存储器带宽(存取周期、字长、存储体)？双端口存储器如何实现？单体多字和多体并行区别在哪里？低位交叉和高位交叉有什么区别？在这两种实现中读取连续的n个字的时间分别是多少？(☆☆☆)</li>
+        <br>
         <h3>第五章、中断与异常</h3>
         <li>中断源如何提出中断请求？CPU对中断的响应优先级和处理优先级有什么区别？如何实现这两个优先级的判断？为什么有时多个中断请求的服务曲线会出现锯齿？(☆☆☆)</li>
         <li>CPU什么条件下才会对中断请求进行响应？响应中断(即CPU发出查询信号)的时间一般是什么时候？(☆☆☆)</li>
@@ -1423,6 +1757,25 @@
         <li>总线串行传送和并行传送在编码上有什么区别？(☆☆☆)</li>
         <li>总线的四种通信方式是什么？各自的优缺点？同步通信的读写控制、数据、地址信号时序如何？与半同步相比有什么区别？异步通信需要加入新的总线么？比特率和波特率有什么区别？怎么将异步通信改为同步通信？分离通信的两个子周期是否需要分别申请总线使用权？两个子周期的通信是单向还是双向的？以CPU从存储器读取数据为例,两个子周期主从关系如何?(☆☆☆)</li>
         <li>总线控制器本质上是什么？如果CPU想要从存储器读取某地址的数据，整个过程是什么样的(请求、仲裁、控制权、通信方式对应时序、归还控制)？如果是CPU从I/O设备读取值和从存储器读取值为什么对于总线来说没有差异(标准接口，抽象封装分层)？(☆☆☆)</li>
+        <br>
+        <h3>第八章、IO系统</h3> 
+          <li>I/O系统的软件部分中I/O指令和通道指令有什么区别？(☆☆☆)</li>
+          <li>I/O系统硬件部分中，采用接口结构的I/O系统一般包括哪两部分？采用通道结构的I/O系统一般是如何连接的？(☆)</li>
+          <li>I/O系统的发展可以分为哪几个阶段？描述一下从上一个阶段到下一个阶段的各自原因？</li>
+          <li>I/O系统的编址有哪两种方式？数据传送方式呢？(☆)</li>
+          <li>I/O接口也叫什么？接口和端口的关系是什么？I/O接口的五个组成部分是什么？分别对应什么功能？(☆☆☆)</li>
+          <li>I/O信息交换方式有哪四种？其中主要由程序实现的是？主要由硬件实现的是？(☆☆☆)
+            <ul>
+              <li>程序查询的方式基本流程是什么样的？如果CPU要执行从外设读的指令，采用程序查询方法的整个过程是什么样的？为什么程序查询方法比较浪费CPU资源？</li>
+              <li>程序中断方式进行从外设读数据的操作流程是什么样的？CPU什么时间可以响应来自IO设备的中断？CPU在什么阶段需要暂停主程序执行？如果设备工作过程中出现异常是否能够要求CPU处理？</li>
+              <li>DMA本质上是什么？DMA控制器中的主存地址寄存器AR、字计数寄存器WC、数据缓冲寄存器BR、设备地址寄存器DAR分别有什么作用？DMA和CPU访问主存有哪三种不同的方式？详细描述从外设读数据的DMA过程？此过程与向外设写数据有什么不同？DMA过程中外设发生异常是否能够立刻解决？CPU对DMA接口的预处理和后处理做了什么？</li>
+              <li>DMA接口和系统的连接方式中公共连接和独立连接有什么区别？DMA接口选择型和多路型有什么区别？(☆)</li>
+              <li>通道和CPU是什么关系？通道能执行什么指令？通道需要具备的功能有什么？</li>
+            </ul>
+          </li>
+          <li>磁盘的道密度、位密度、容量、传输率怎么计算？磁盘的寻址方式是什么？(☆☆☆)</li>
+          <li>磁存储介质的编码中NRZ、NRZ1、调相PM、调频FM和改进调频MFM分别是怎么做的？(☆☆☆)</li>
+        </h3>  
       </ul>
     <br>
     <hr>
