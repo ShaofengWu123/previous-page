@@ -47,213 +47,286 @@
       <hr>
       <h2 id="os-content">Content outline</h2>
       <ul>
-        <li><a href="#" id="link12">操作系统服务</a>
-          <div id="thediv12" style="display:none">
-            <img src="./os_services.png" width="750"> 
-            <ul>
-            <li>方便用户的服务
-              <ul>
-                <li>用户界面 / User Interface</li>
-                <li>程序执行 / Program Execution</li>
-                <li>I/O操作 / I/O Operation</li>
-                <li>文件系统操作 / File-system Manipulation</li>
-                <li>进程间通信 / Communications</li>
-                <li>错误检测 / Error Detection</li>
-              </ul>
-            </li>
-            <li>保证效率的服务
-              <ul>
-                <li>资源分配 / Resource Allocation</li>
-                <li>统计 / Accounting</li>
-                <li>保护和安全 / Protection and Security</li>
-              </ul>
-            </li>
-            <li>系统调用/System Calls
-              <ul>
-                <li>概念：操作系统服务的编程接口(程序接口)</li>
-                <li>具体实现：API(Application Programming Interface)
-                  <p>注意：API不等于系统调用，可以认为API包含系统调用，它相较系统调用更容易使用（参数少），并且在支持相同API的系统上均可以编译执行</p>
-                </li>
-                <li>系统调用的本质：用户在用户态下执行访管/trap/陷入指令，从用户态转变为内核态，从而在内核态下执行(内)中断服务程序</li>
-                <li>系统调用类型
-                  <ul>
-                    <li>进程控制 / Process Control</li>
-                    <li>文件管理 / File Management</li>
-                    <li>设备管理 / Device Management</li>
-                    <li>信息维护 / Information Maintenance</li>
-                    <li>通信 / Communications：例如套接字</li>
-                    <li>保护 / Protection</li>
-                  </ul>
-                </li>
-              </ul>
-            </li>
-            </ul>
-          </div>
-          
-        </li>
-
-        <li><a href="#" id="link13">操作系统结构</a>
-          <div id="thediv13" style="display:none">
-          <ul>
-            <li>简单结构(Simple Structure)：MS-DOS
-              <img src="./ms_dos.png">
-              <p>无良好定义的结构，没有模块之分，在最小的空间内提供最多的服务</p>
-            </li>
-            <li>整体式结构(Monolithic)：UNIX
-              <img src="./unix.png">
-              <p>系统程序+内核，有限分层</p>
-            </li>
-            <li>分层结构(Layered Approach)<br>
-              <img src="./layered.png">
-            </li>
-            <li>微内核(Microkernel)：Mach
-              <p>将所有非基本部分从内核移除，实现为系统程序或者用户程序，微内核主要功能是使各种服务通信</p>
-            </li>
-            <li>模块(Modules)：
-              <img src="./modules.png">
-              <p>核心内核+可加载内核模块，任何一个模块都可以加载任何一个模块且不需要调用消息传递来通信，核心内核只有核心功能以及其他模块加载和通信的相关信息</p>
-            </li>
-            <li>混合式(Hybrid)：Mac OS X kernel, Windows, Linux</li>
-          </ul>
-          </div>
-
-        </li>
-        <li><a href="#" id="link14">操作系统设计与实现</a>
-          <div id="thediv14" style="display:none">
-          <ul>
-            <li>设计目标 → 没有唯一解决方案
-              <ul>
-                <li>系统目标和规格：批处理、分时、单用户、多用户、分布式、实时、通用目标</li>
-                <li>用户目标：容易使用、学习、可靠、安全、快速</li>
-                <li>系统目标：容易设计、实现、维护，灵活、可靠、高效、没有错误</li>
-              </ul>
-            </li>
-            <li><strong>机制(Mechanism)和策略(Policy)的分离</strong>
-              <p>机制：怎么做 vs. 策略：做什么<br>例子：机制：需要一个程序优先级机制 策略：CPU密集型程序优先级大于I/O密集型程序<br>优点：机制与策略无关，允许用户创建内核模块等或用户程序来增加策略或者机制。</p>
-            </li>
-            <li>具体实现：汇编、C、C++</li>
-          </ul>
-          </div>
-        </li>
-        <li><a href="#" id="link15">进程的概念</a>
-          <div id="thediv15" style="display:none">
-          <ul>
-            <li>进程(Process)与程序(Program)
-              <ul>
-                <li>程序：一段静态代码</li>
-                <li>进程：代码的执行实例，当一个程序被加载进入内存后，它就成为了进程；进程是动态的</li>
-              </ul>
-            </li>
-            <li>内存中的进程-进程包含的内容<br>
-              <img src="./process_in_memory.png"><br>
-              用户空间内容：用于进程的运行 vs.内核空间内容：用于进程管理
-              <ul>
-                <li>文本段：代码</li>
-                <li>数据段：全局变量</li>
-                <li>栈：临时数据，如函数参数、返回地址、本地变量</li>
-                <li>堆：动态分配内存空间</li>
-                <li>程序计数器、寄存器内容(在PCB内)</li>
-              </ul>
-            </li>
-            <li>进程状态
-              <img src="./process_state.png">
-              <ul>
-                <li>新的(new)：进程正在被创建</li>
-                <li>运行(running)：指令正在被执行，此状态已获得CPU资源，在任何一个CPU上，某时刻只有一个进程在运行</li>
-                <li>等待(waiting)：进程正在等待某事件发生，例如I/O结束</li>
-                <li>就绪(ready)：进程正在等待被分配给某CPU，此时需要进程调度</li>
-                <li>终止(terminated)：进程结束执行</li>
-              </ul>
-            </li>
-            <li>进程控制块-表示、定位、管理进程的数据结构
-              <img src="./PCB.png" width="350">
-              <ul>
-                <li>进程状态</li>
-                <li>程序计数器</li>
-                <li>CPU寄存器</li>
-                <li>CPU调度信息</li>
-                <li>内存管理信息</li>
-                <li>I/O状态信息，打开文件列表</li>
-                <li>记账信息：CPU时间，使用时间，时间界限...</li>
-              </ul>
-            </li>
-          </ul>
-          </div>
-        </li>
-        <li><a href="#" id="link11">进程的用户时间和系统时间</a>
-          <div id="thediv11" style="display:none">
-          <p>系统运行总时间（性能）= 用户时间 + 系统时间<br>
-          注意：
-          <ul>
-            <li>编写程序时要同时考虑用户时间和系统时间，因为某些系统调用（如<abbr title="暂停进程，等待直到获得数据或资源的一些系统调用">阻塞系统调用</abbr>）会花费相当长的时间</li>
-          </ul>
-          </p>
-          </div>
-        </li>
-
-        <li><a href="#" id="link6">进程操作</a>
+        <li><a href="#" id="link6">操作系统概述</a>
           <div id="thediv6" style="display:none">
-          <p>系统提供的用于进程辨识、创建进程、执行程序、结束进程的工具。</p>
           <ul>
-            <li>getpid()
-              <p>进入内核空间，查询PCB中的pid，并返回</p>
-            </li>
-            <li>进程创建
-              <p>当系统启动时，创建的第一个进程-init，此进程作为进程树的根，创建更多进程<br>进程树的查看：pstree 命令</p>
-              <img src="./pstree_ubuntu.png">
-              <ul>
-                <li>fork() - "Cell division"
+            <li><a href="#" id="link6_1">操作系统服务</a>
+              <div id="thediv6_1" style="display:none">
+                <img src="./os_services.png" width="750"> 
+                <ul>
+                <li>方便用户的服务
                   <ul>
-                    <li>系统修改的内容：pid、运行时间、调用返回值、父进程的孩子指针和子进程的父指针</li>
-                    <li>系统没有修改的内容：用户空间进程数据（完全复制，包括代码段、全局变量、局部变量、动态分配空间）、打开文件指针列表、PC等CPU寄存器内容</li>
+                    <li>用户界面 / User Interface</li>
+                    <li>程序执行 / Program Execution</li>
+                    <li>I/O操作 / I/O Operation</li>
+                    <li>文件系统操作 / File-system Manipulation</li>
+                    <li>进程间通信 / Communications</li>
+                    <li>错误检测 / Error Detection</li>
                   </ul>
-                  fork()调用复制PCB并更新子进程PCB
-                  <img src="./fork_copying.png">
-                  <img src="fork_update.png">
-                  fork()调用不对用户空间进程的相关数据做修改，只是复制
-                  <img src="./fork_userspace.png">
                 </li>
-                <li>exec*() - Go to another program
-                  <p>execl(program directory,1st arg,2nd arg,...,NULL)</p>
+                <li>保证效率的服务
                   <ul>
-                    <li>系统修改的内容：用户空间进程数据（包括代码段、全局变量、局部变量、动态分配空间）、PC等CPU寄存器内容</li>
-                    <li>系统没有修改的内容：pid、运行时间</li>
+                    <li>资源分配 / Resource Allocation</li>
+                    <li>统计 / Accounting</li>
+                    <li>保护和安全 / Protection and Security</li>
                   </ul>
-                  exec()系统调用搜索目标程序，更新用户空间进程数据
-                  <img src="./exec_userspace.png">
+                </li>
+                <li>系统调用/System Calls
+                  <ul>
+                    <li>概念：操作系统服务的编程接口(程序接口)</li>
+                    <li>具体实现：API(Application Programming Interface)
+                      <p>注意：API不等于系统调用，可以认为API包含系统调用，它相较系统调用更容易使用（参数少），并且在支持相同API的系统上均可以编译执行</p>
+                    </li>
+                    <li>系统调用的本质：用户在用户态下执行访管/trap/陷入指令，从用户态转变为内核态，从而在内核态下执行(内)中断服务程序</li>
+                    <li>系统调用类型
+                      <ul>
+                        <li>进程控制 / Process Control</li>
+                        <li>文件管理 / File Management</li>
+                        <li>设备管理 / Device Management</li>
+                        <li>信息维护 / Information Maintenance</li>
+                        <li>通信 / Communications：例如套接字</li>
+                        <li>保护 / Protection</li>
+                      </ul>
+                    </li>
+                  </ul>
+                </li>
+                </ul>
+              </div>
+            </li>
+
+            <li><a href="#" id="link6_4">操作系统功能</a><div id="thediv6_4" style="display:none">
+              <ul>
+                <li>用户的角度
+                  <ul>
+                    <li>对于使用PC或者手持设备的用户:操作系统主要是为了用户使用方便，优化用户所进行的工作，保证性能</li>
+                    <li>对于手持设备还涉及到电池电量的管理</li>
+                    <li>对于使用终端（与大型机和小型机相连）的用户:操作系统优化资源使用率，并且保证用户只使用权限内的资源</li>
+                    <li>对于工作站用户而言，操作系统对个人使用性能和资源利用率进行折中</li>
+                    <li>另外对于一些嵌入式的计算机（例如家电、汽车内的），这些设备基本没有用户交互的接口。</li>
+                  </ul>
+                </li>
+                <li>系统的角度
+                  <ul>
+                    <li>操作系统是一种<strong>资源分配器</strong>:它管理计算机内的资源（这些资源用来解决CPU时间、内存空间、文件存储空间、I/O设备等问题）
+                      ，并且决定如何有效公平地处理冲突的资源请求。</li>
+                    <li>操作系统是一种<strong>控制程序</strong>，它控制程序的运行，防止计算机资源错误或使用不当</li>  
+                  </ul>
                 </li>
               </ul>
+            </div>
             </li>
-            <li>wait() - 挂起父进程，等待任意子进程结束，唤醒父进程
-              <p>wait()系统调用做的事情：杀死僵尸进程，管理资源 -> 非常重要，原因是：防止僵尸进程堆积而占据资源（pid是有限的），有效的进行系统资源管理
-                <ul>
-                  <li>设置信号处理服务例程，当收到SIGCHLD信号则对其进行处理。默认情况下，所有的进程都对SIGCHLD没有反应。</li>
-                  <li>收到SIGCHLD，移接收并移除SIGCHLD，销毁子进程。</li>
-                  <li>移除服务例程，开始无视SIGCHLD，继续执行，返回子进程pid。</li>
-                </ul>
-              </p>
+
+            <li><a href="#" id="link6_2">操作系统结构</a>
+                      <div id="thediv6_2" style="display:none">
+                      <ul>
+                        <li>简单结构(Simple Structure)：MS-DOS
+                          <img src="./ms_dos.png">
+                          <p>无良好定义的结构，没有模块之分，在最小的空间内提供最多的服务</p>
+                        </li>
+                        <li>整体式结构(Monolithic)：UNIX
+                          <img src="./unix.png">
+                          <p>系统程序+内核，有限分层</p>
+                        </li>
+                        <li>分层结构(Layered Approach)<br>
+                          <img src="./layered.png">
+                        </li>
+                        <li>微内核(Microkernel)：Mach
+                          <p>将所有非基本部分从内核移除，实现为系统程序或者用户程序，微内核主要功能是使各种服务通信，因此也会带来开销</p>
+                        </li>
+                        <li>模块(Modules)：
+                          <img src="./modules.png">
+                          <p>核心内核+可加载内核模块，任何一个模块都可以加载任何一个模块且不需要调用消息传递来通信，核心内核只有核心功能以及其他模块加载和通信的相关信息</p>
+                        </li>
+                        <li>混合式(Hybrid)：Mac OS X kernel, Windows, Linux</li>
+                      </ul>
+                      优缺点对比
+                      <table>
+                        <thead>
+                          <tr>
+                            <th style="text-align: left">对比项</th>
+                            <th style="text-align: left">简单结构</th>
+                            <th style="text-align: left">整体式</th>
+                            <th style="text-align: left">分层</th>
+                            <th style="text-align: left">微内核</th>
+                            <th style="text-align: left">模块</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td style="text-align: left">优点</td>
+                            <td style="text-align: left">空间小</td>
+                            <td style="text-align: left">内核集成大量功能，性能好</td>
+                            <td style="text-align: left">空间小</td>
+                            <td style="text-align: left">空间小</td>
+
+                          </tr>
+                          <tr>
+                            <td style="text-align: left">缺点</td>
+                            <td style="text-align: left">程序可直接访问I/O底层接口，对异常程序敏感</td>
+                            <td style="text-align: left">Boot Sector+FSINFO+(some reserved sectors)+FAT1+FAT2+Root Dir+Data</td>
+                          </tr>
+                        </tbody>
+                      </table>
+                      </div>
             </li>
-            <li>exit() - 结束进程，并唤醒父进程
-              <p>exit()系统调用做的事：让进程成为僵尸进程，回收资源
-                <ul>
-                  <li>回收大部分的内核空间分配的存储空间</li>
-                  <li>回收所有用户空间分配的存储空间</li>
-                  <li>子进程发出SIGCHLD通知父进程自己的结束，成为僵尸进程</li>
-                </ul>
-                Linux系统僵尸进程标签：[defunct]<br>
-                Note：特殊情况-孤儿僵尸进程，init进行reparent并定期调用wait()
+
+            <li><a href="#" id="link6_3">操作系统设计与实现</a>
+              <div id="thediv6_3" style="display:none">
+              <ul>
+                <li>设计目标 → 没有唯一解决方案
+                  <ul>
+                    <li>系统目标和规格：批处理、分时、单用户、多用户、分布式、实时、通用目标</li>
+                    <li>用户目标：容易使用、学习、可靠、安全、快速</li>
+                    <li>系统目标：容易设计、实现、维护，灵活、可靠、高效、没有错误</li>
+                  </ul>
+                </li>
+                <li><strong>机制(Mechanism)和策略(Policy)的分离</strong>
+                  <p>机制：怎么做 vs. 策略：做什么<br>例子：机制：需要一个程序优先级机制 策略：CPU密集型程序优先级大于I/O密集型程序<br>优点：机制与策略无关，允许用户创建内核模块等或用户程序来增加策略或者机制。</p>
+                </li>
+                <li>具体实现：汇编、C、C++</li>
+              </ul>
+              </div>
+            </li>
+
+          </ul>
+          </div>
+          <a href="#" id="link6_5"></a><div id="thediv6_5" style="display:none"></div>
+        </li>
+
+        <li><a href="#" id="link7">进程</a>
+          <div id="thediv7" style="display:none">
+          <ul>
+            <li><a href="#" id="link7_1">进程的概念</a>
+              <div id="thediv7_1" style="display:none">
+              <ul>
+                <li>进程(Process)与程序(Program)
+                  <ul>
+                    <li>程序：一段静态代码</li>
+                    <li>进程：代码的执行实例，当一个程序被加载进入内存后，它就成为了进程；进程是动态的</li>
+                  </ul>
+                </li>
+                <li>内存中的进程-进程包含的内容<br>
+                  <img src="./process_in_memory.png"><br>
+                  用户空间内容：用于进程的运行 vs.内核空间内容：用于进程管理
+                  <ul>
+                    <li>文本段：代码</li>
+                    <li>数据段：全局变量</li>
+                    <li>栈：临时数据，如函数参数、返回地址、本地变量</li>
+                    <li>堆：动态分配内存空间</li>
+                    <li>程序计数器、寄存器内容(在PCB内)</li>
+                  </ul>
+                </li>
+                <li>进程状态
+                  <img src="./process_state.png">
+                  <ul>
+                    <li>新的(new)：进程正在被创建</li>
+                    <li>运行(running)：指令正在被执行，此状态已获得CPU资源，在任何一个CPU上，某时刻只有一个进程在运行</li>
+                    <li>等待(waiting)：进程正在等待某事件发生，例如I/O结束</li>
+                    <li>就绪(ready)：进程正在等待被分配给某CPU，此时需要进程调度</li>
+                    <li>终止(terminated)：进程结束执行</li>
+                  </ul>
+                </li>
+                <li>进程控制块-表示、定位、管理进程的数据结构
+                  <img src="./PCB.png" width="350">
+                  <ul>
+                    <li>进程状态</li>
+                    <li>程序计数器</li>
+                    <li>CPU寄存器</li>
+                    <li>CPU调度信息</li>
+                    <li>内存管理信息</li>
+                    <li>I/O状态信息，打开文件列表</li>
+                    <li>记账信息：CPU时间，使用时间，时间界限...</li>
+                  </ul>
+                </li>
+              </ul>
+              </div>
+            </li> 
+
+            <li><a href="#" id="link7_2">进程的用户时间和系统时间</a>
+              <div id="thediv7_2" style="display:none">
+              <p>系统运行总时间（性能）= 用户时间 + 系统时间<br>
+              注意：
+              <ul>
+                <li>编写程序时要同时考虑用户时间和系统时间，因为某些系统调用（如<abbr title="暂停进程，等待直到获得数据或资源的一些系统调用">阻塞系统调用</abbr>）会花费相当长的时间</li>
+              </ul>
               </p>
-              <img src="./exit_kernel.png">
-              <img src="./exit_userspace.png">
+              </div>
+            </li>
+
+            <li><a href="#" id="link7_3">进程操作</a>
+              <div id="thediv7_3" style="display:none">
+              <p>系统提供的用于进程辨识、创建进程、执行程序、结束进程的工具。</p>
+              <ul>
+                <li>getpid()
+                  <p>进入内核空间，查询PCB中的pid，并返回</p>
+                </li>
+                <li>进程创建
+                  <p>当系统启动时，创建的第一个进程-init，此进程作为进程树的根，创建更多进程<br>进程树的查看：pstree 命令</p>
+                  <img src="./pstree_ubuntu.png">
+                  <ul>
+                    <li>fork() - "Cell division"
+                      <ul>
+                        <li>系统修改的内容：pid、运行时间、调用返回值、父进程的孩子指针和子进程的父指针</li>
+                        <li>系统没有修改的内容：用户空间进程数据（完全复制，包括代码段、全局变量、局部变量、动态分配空间）、打开文件指针列表、PC等CPU寄存器内容</li>
+                      </ul>
+                      fork()调用复制PCB并更新子进程PCB
+                      <img src="./fork_copying.png">
+                      <img src="fork_update.png">
+                      fork()调用不对用户空间进程的相关数据做修改，只是复制
+                      <img src="./fork_userspace.png">
+                    </li>
+                    <li>exec*() - Go to another program
+                      <p>execl(program directory,1st arg,2nd arg,...,NULL)</p>
+                      <ul>
+                        <li>系统修改的内容：用户空间进程数据（包括代码段、全局变量、局部变量、动态分配空间）、PC等CPU寄存器内容</li>
+                        <li>系统没有修改的内容：pid、运行时间</li>
+                      </ul>
+                      exec()系统调用搜索目标程序，更新用户空间进程数据
+                      <img src="./exec_userspace.png">
+                    </li>
+                  </ul>
+                </li>
+                <li>wait() - 挂起父进程，等待任意子进程结束，唤醒父进程
+                  <p>wait()系统调用做的事情：杀死僵尸进程，管理资源 -> 非常重要，原因是：防止僵尸进程堆积而占据资源（pid是有限的），有效的进行系统资源管理
+                    <ul>
+                      <li>设置信号处理服务例程，当收到SIGCHLD信号则对其进行处理。默认情况下，所有的进程都对SIGCHLD没有反应。</li>
+                      <li>收到SIGCHLD，移接收并移除SIGCHLD，销毁子进程。</li>
+                      <li>移除服务例程，开始无视SIGCHLD，继续执行，返回子进程pid。</li>
+                    </ul>
+                  </p>
+                </li>
+                <li>exit() - 结束进程，并唤醒父进程
+                  <p>exit()系统调用做的事：让进程成为僵尸进程，回收资源
+                    <ul>
+                      <li>回收大部分的内核空间分配的存储空间</li>
+                      <li>回收所有用户空间分配的存储空间</li>
+                      <li>子进程发出SIGCHLD通知父进程自己的结束，成为僵尸进程</li>
+                    </ul>
+                    Linux系统僵尸进程标签：[defunct]<br>
+                    Note：特殊情况-孤儿僵尸进程，init进行reparent并定期调用wait()
+                  </p>
+                  <img src="./exit_kernel.png">
+                  <img src="./exit_userspace.png">
+                </li>
+              </ul>
+              </div>
             </li>
           </ul>
           </div>
+          <a href="#" id="link7_4"></a><div id="thediv7_4" style="display:none"></div>
+            <a href="#" id="link7_5"></a><div id="thediv7_5" style="display:none"></div>
         </li>
+        
+        
 
-        <li><a href="#" id="link7">线程</a>
-          <div id="thediv7" style="display:none">
+        
+
+        <li><a href="#" id="link8">线程</a>
+          <div id="thediv8" style="display:none">
             <ul>
-              <li>基本概念：CPU使用的基本单元<br>
+              <li><a href="#" id="link8_1">基本概念：CPU使用的基本单元</a>
+                <div id="thediv8_1" style="display:none">
+              <br>
               <img src="./thread.png"><br>
               <ul>
                 <li>线程包括的内容：tid、PC、寄存器集合、栈</li>
@@ -262,8 +335,10 @@
               </ul>
               多线程进程用户空间：<br>
               <img src="./thread_userspace.png">
+                </div>
               </li>
-              <li>为什么需要多线程(multi-threading)？
+              <li><a href="#" id="link8_2">为什么需要多线程(multi-threading)？</a>
+                <div id="thediv8_2" style="display:none">
                 <ul>
                   <li>进程执行多个任务：多数软件都是多线程的，不同线程负责不同任务。</li>
                   <li>处理相似并发请求：单线程进程处理并发请求会导致处理请求的时间过长。而线程是轻量级的，进程是重量级的，如果创建新进程处理请求，
@@ -271,8 +346,10 @@
                   </li>
                   <li>提高运行效率：单线程进程只能运行在一个CPU上；现代多核计算机包含多CPU，以线程为单位使用CPU，可以让每个进程并行运行在不同处理器上。</li>
                 </ul>
+                </div>
               </li>
-              <li>多线程优点
+              <li><a href="#" id="link8_3">多线程优点</a>
+                <div id="thediv8_3" style="display:none">
                 <ul>
                   <li>响应度高<br>
                   多线程让应用程序可以同时执行多个任务(multi-tasking)，当一个线程被阻塞，其他线程可以与用户交互。
@@ -287,8 +364,10 @@
                   单线程进程只能运行在一个CPU上；现代多核计算机包含多CPU，以线程为单位使用CPU，可以让每个进程并行运行在不同处理器上。
                   </li>
                 </ul>
+                </div>
               </li>
-              <li>多线程的挑战
+              <li><a href="#" id="link8_4">多线程的挑战</a>
+                <div id="thediv8_4" style="display:none">
                 <ul>
                   <li>区分同时运行的不同的任务</li>
                   <li>均分、平衡不同线程的工作量</li>
@@ -296,10 +375,12 @@
                   <li>数据的互斥(mutual exclusion)与同步(synchronization)</li>
                   <li>测试和debug</li>
                 </ul>
+                </div>
               </li>
-              <li>多线程模型
+              <li><a href="#" id="link8_5">多线程模型</a>
+                <div id="thediv8_5" style="display:none">
                 <p>用户线程：受内核支持而无须内核管理<br>
-内核线程：由操作系统直接支持和管理，可以认为是使用CPU的基本单元
+                    内核线程：由操作系统直接支持和管理，可以认为是使用CPU的基本单元
                 </p>
                 <ul>
                   <li>多对一模型：许多用户级线程映射到一个内核级线程（也可认为是一个进程结构）
@@ -325,8 +406,10 @@
                     优点：并发性高，虽然相较一对一模型没有增加并发性（内核一次还是只能调度一个线程）；可以创建任意多用户线程。
                   </li>
                 </ul>
+                </div>
               </li>
-              <li>多线程编程
+              <li><a href="#" id="link8_6">多线程编程</a>
+                <div id="thediv8_6" style="display:none">
                 <ul>
                   <li>显式多线程：线程库-创建和管理线程的API
                     <ul>
@@ -370,8 +453,10 @@
                     </ul>
                   </li>
                 </ul>
+                </div>
               </li>
-              <li>多线程引起的一些问题-特殊处理
+              <li><a href="#" id="link8_7">多线程引起的一些问题-特殊处理</a>
+                <div id="thediv8_7" style="display:none">
                 <ul>
                   <li>fork()和exec()的语义
                     <ul>
@@ -460,18 +545,19 @@
                     </ul>
                   </li>
                 </ul>
+                </div>
               </li>
             </ul>
           </div>
         </li>
-
-        <li><a href="#" id="link8">进程通信与同步</a>
+        
+        <li><a href="#" id="link9">进程通信与同步</a>
           <br>
           合作进程 -> 进程间通信（IPC）<br>
           竞争条件 -> 进程间同步 -> 最终方案：信号量 -> 死锁和三个典型问题
-          <div id="thediv8" style="display:none">
+          <div id="thediv9" style="display:none">
           <ul>
-            <li>合作进程（Cooperating process）
+            <li><a href="#" id="link9_1">合作进程（Cooperating process）</a><div id="thediv9_1" style="display:none">
               <ul>
                 <li>概念：与独立进程比较，合作进程与其他进程共享数据，会被其他进程影响</li>
                 <li>优点：
@@ -484,11 +570,12 @@
                 </li>
                 <li>实现关键：IPC</li>
               </ul>
+              </div>
             </li>
-            <li>IPC-进程间通信
+            <li><a href="#" id="link9_2">IPC-进程间通信</a><div id="thediv9_2" style="display:none">
               <ul>
                 <li>概念：进程间交换数据的过程</li>
-                <li>实现方法：
+                <li><a href="#" id="link9_4">实现方法：</a><div id="thediv9_4" style="display:none">
                   <img src="IPC_modules.png">
                   <ul>
                     <li>共享存储（shared memory）
@@ -570,8 +657,9 @@
                       </ul>
                     </li>
                   </ul>
+                  </div>
                 </li>
-                <li>IPC具体实例
+                <li><a href="#" id="link9_5">IPC具体实例</a><div id="thediv9_5" style="display:none">
                   <ul>
                     <li>POSIX共享内存 - memory-mapped file
                       <ul>
@@ -614,6 +702,7 @@
                       </ul>
                     </li>
                   </ul>
+                  </div>
                 </li>
                 <li>竞争条件(Race Condition)
                   <ul>
@@ -623,7 +712,7 @@
                     <li>避免方法：进程间同步</li>
                   </ul>
                 </li>
-                <li>进程间同步 - <strong>互斥</strong>
+                <li><a href="#" id="link9_6">进程间同步 - <strong>互斥</strong></a><div id="thediv9_6" style="display:none">
                   <ul>
                     <li>核心思想：互斥(Mutual Exclusion)</li>
                     <li>互斥的概念：某一时刻只有一个进程可以进行对共享对象的访问（这里的访问指的是一系列操作）。</li>
@@ -697,8 +786,9 @@
                       </ul>
                     </li>
                   </ul>
+                  </div>
                 </li>
-                <li>信号量使用问题：死锁(Dead Lock)
+                <li><a href="#" id="link9_7">信号量使用问题：死锁(Dead Lock)</a><div id="thediv9_7" style="display:none">
                   <ul>
                     <li>概念：进程互相需要彼此持有的资源，导致没有进程能获得资源并离开section entry进入临界区</li>
                     <li>要求：
@@ -748,10 +838,12 @@
                       </ul>
                     </li>
                   </ul>
+                  </div>
                 </li>
               </ul>
+              </div>
             </li>
-          <li>信号量应用场景：三个典型IPC问题模型
+          <li><a href="#" id="link9_3">信号量应用场景：三个典型IPC问题模型</a><div id="thediv9_3" style="display:none">
             <ul>
               <li>生产者-消费者问题
                 <ul>
@@ -819,17 +911,19 @@
               </li>
               <img src="reader_writer.png">
             </ul>
+            </div>
           </li>  
           </ul>
           </div></li>
 
-          <li><a href="#" id="link9">进程调度</a>
-            <div id="thediv9" style="display:none">
+          <li><a href="#" id="link10">进程调度</a>
+            <div id="thediv10" style="display:none">
               <ul>
                 <li>进程调度的意义：<br>
                 有很多进程处于不同的状态，而CPU资源是有限的，进程调度有利于提高CPU利用率（CPU比I/O快，将等待I/O进程调离）以及改善系统的响应度
                 </li>
-                <li>进程生命周期
+                <li><a href="#" id="link10_1">进程生命周期</a>
+                  <div id="thediv10_1" style="display:none">
                   <img src="./process_life_cycle.png">
                   <ul>
                     <li>new: 除了init均由fork()创建</li>
@@ -850,15 +944,19 @@
                       </ul>
                     </li>
                   </ul>
+                  </div>
                 </li>
-                <li>上下文切换
+                <li><a href="#" id="link10_2">上下文切换</a>
+                  <div id="thediv10_2" style="display:none">
                   <ul>
                     <li>概念：上下文指进程在用户空间的数据的集合以及寄存器值（包括PC），上下文切换指由一个进程切换到另一个进程运行的过程。</li>
                     <li>过程：备份（backup）当前进程的上下文 -> 调度器决定下一进程 -> 将新进程的上下文加载进入内存和CPU</li>
                     <li>成本：上下文切换存在开销，并且当目标进程位于硬盘上开销会变的很大 -> 减少上下文切换</li>
                   </ul>
+                  </div>
                 </li>
-                <li>调度算法分类
+                <li><a href="#" id="link10_3">调度算法分类</a>
+                  <div id="thediv10_3" style="display:none">
                   <ul>
                     <li>可抢占：进程除了等待I/O或结束（自愿释放CPU资源），在特定的中断或事件发生时也会离开调度器
                       <br>优点/缺点：响应快，可以多任务/不利于强调进程完成时间的进程
@@ -867,8 +965,10 @@
                       <br>优点/缺点：有利于进程完成时间的降低/用户体验差，无法多任务
                     </li>
                   </ul>
+                  </div>
                 </li>
-                <li>调度算法性能参量
+                <li><a href="#" id="link10_4">调度算法性能参量</a>
+                  <div id="thediv10_4" style="display:none">
                   <ul>
                     <li>CPU利用率</li>
                     <li>吞吐量：单位时间内完成的任务量</li>
@@ -876,8 +976,10 @@
                     <li>等待时间：在就绪队列里等待的时间</li>
                     <li>响应时间：从递交请求到第一个回复产生的时间</li>
                   </ul>
+                  </div>
                 </li>
-                <li>进程调度算法
+                <li><a href="#" id="link10_5">进程调度算法</a>
+                  <div id="thediv10_5" style="display:none">
                   <br>离线调度 vs 在线调度，实际工作是在线的，因为无法提前得知所有将要提交到系统内的任务
                   <ul>
                     <li>调度算法的输入和输出：
@@ -918,8 +1020,10 @@
                       思想：与多队列优先级调度基本相同，但进程优先级是动态的，优先级变化具体的policy可设定，例如在用完RR的时间片后优先级下降一级，
                     </li>
                   </ul>
+                  </div>
                 </li>
-                <li>进程调度算法应用
+                <li><a href="#" id="link10_6">进程调度算法应用</a>
+                  <div id="thediv10_6" style="display:none">
                   <ul>
                     <li>SMP体系下的多核调度算法 -> 减少进程迁移</li>
                     <li>实时系统
@@ -950,18 +1054,20 @@
                       用具体例子、理论、模拟实现来评价一个调度算法，从而选择调度算法
                     </li>
                   </ul>
+                  </div>
                 </li>
               </ul>
             </div>
           </li>
           
-          <li><a href="#" id="link10">内存管理</a>
-            <div id="thediv10" style="display:none">
+          <li><a href="#" id="link11">内存管理</a>
+            <div id="thediv11" style="display:none">
               <ul>
                 <li>内存管理的意义
                   <br>进程运行时，CPU从内存中获取指令，并且要实现multi-programming那么需要在内存中存储一些进程
                 </li>
-                <li>用户空间内存管理
+                <li><a href="#" id="link11_1">用户空间内存管理</a>
+                  <div id="thediv11_1" style="display:none">
                   <ul>
                     <li>逻辑地址空间(Adress space)
                       <ul>
@@ -1011,14 +1117,14 @@
                           </ul>
                         </li>
                         <li>地址分配行为
-                          <br>函数被调用，局部变量入栈（分配空间）；函数返回，局部变量出栈（回收空间，<strong>注意：OS并未回收这些空间，这些空间再次进行函数调用时可以利用</strong>）
+                          <br>函数被调用，局部变量入栈（分配空间）；函数返回，局部变量出栈（回收空间，<strong>注意：<strong>OS并未回收这些空间</strong>，这些空间再次进行函数调用时可以利用</strong>）
                           <br>具体的入栈、出栈实现
                           <ul>
                             <li>入栈：调用函数，参数值、返回地址入栈；函数调用发生时，CPU切换到被调函数，参数值变为函数的局部变量值</li>
                             <li>出栈：函数返回，返回地址写入EAX寄存器，栈收缩，CPU回到主调函数</li>
                           </ul>
                         </li>
-                        <li>栈大小：linux默认大小8MB，可修改</li>
+                        <li>栈大小：linux默认大小8MB，可修改 -> 定义了一个过大的数组 Segmentation fault</li>
                         <li>递归造成栈溢出 -> stackoverflow exception<br>
                           减少函数参数数量、减少局部变量数量、减少递归次数、使用全局变量</li>
                       </ul>
@@ -1034,20 +1140,41 @@
                         </li>
                         <li>地址分配行为
                           <ul>
-                            <li>malloc()：调用brk()系统调用以分配空间并创建一个相应的结构体作为记录分配信息的头部，返回(void *)
-                              <br>malloc()请求空间大于单个空闲块，那么在高地址分配新的空间；请求空间等于单个空闲块，修改空闲块链表指针，重复利用空闲块；小于空闲块，将高地址部分分配，并修改空闲块的size域。
+                            <li>malloc()：调用brk()系统调用以分配空间（增长堆）并创建一个<strong>相应的结构体作为记录分配信息的头部</strong>，返回(void *)
+                              <ul>
+                                <li>malloc几种情况
+                                  </ul>
+                              <ul>
+                                <li>malloc()请求空间大于单个空闲块，那么调用brk()在高地址分配新的空间，即增长堆</li>
+                                <li>请求空间等于单个空闲块，修改空闲块链表指针，重复利用空闲块</li>
+                                <li>小于空闲块，将高地址部分分配(需要新的头部结构体记录分配信息)，并修改空闲块的size域；有可能会导致原来的空闲块size变成0</li>
+                              </ul>
+                                </li>
+                                <li>注意事项：有时malloc一块小于需求的空间，之后在写入时超过了malloc的范围，系统不会出现段错误 -> 原因：覆盖了隔壁的block，如果隔壁的block已经分配了而不是未分配，访问未分配部分会造成段错误</li>
                             </li>
-                            <li>free()：调用brk()系统调用以回收空间，注意这里并不是指内存被操作系统回收，这部分虚拟内存仍然属于当前进程，组织在空闲链表里，但是在页表里虚拟页对应的物理页为NIL（未分配）
-                              <br>free()将空闲块组织成一个链表，head指向第一个空闲块的头部，块的头部结构体中address指向下一个空闲块头部。
-                              <br>△注意：free()应对正确的地址进行操作，否则free()操作的地址不是一个块的头部，那么会造成头部size域无效或错误，导致已分配空间混乱
+                            <li>free()：调用brk()系统调用以回收空间，注意这里<strong>并不是指内存被操作系统回收</strong>，这部分虚拟内存仍然属于当前进程，组织在空闲链表里，这样之后如果malloc可以复用
+                              <ul>
+                                <li>空闲链表组织方式：
+                                  <br>链表头HEAD为一个全局变量，使用malloc时创建的每块头部结构体(pointer+block size)来组织空闲块链表，最后一块空闲块pointer指向NULL
+                                </li>
+                                <li>free()的几种情况
+                                  <ul>
+                                    <li>回收最后一块：调用brk()系统调用缩减堆</li>
+                                    <li>回收中间某块：将这块加入空闲链表</li>
+                                  </ul>
+                                </li>
+                                <li>注意事项
+                                  <br>free()应对<strong>正确的地址(即由malloc分配得到的地址)</strong>进行操作，否则free()操作的地址不是一个块的头部，那么会造成头部size域无效或错误，导致已分配空间混乱，导致segmentation fault
+                                </li>
+                              </ul>
                             </li>
                           </ul>
                         </li>
                         <li>堆内存管理具体实现
                           <ul>
-                            <li>隐式空闲链表：size + a + payload + padding，已分配、已分配未使用、未分配块均记录
+                            <li>隐式空闲链表：size + a(状态) + payload + padding，已分配、已分配未使用(即内部碎片部分)、未分配空闲块均记录在链表内，分配时可分割空闲块（因为有指针指示），回收时用头标、尾标(如果具体实现有)合并
                               <ul>
-                                <li>内存分配：可能需要O(n)
+                                <li>内存分配策略：可能需要O(n)
                                   <ul>
                                     <li>first fit：用找到的第一个足够大的洞</li>
                                     <li>next fit：用从上次搜索结束位置开始找到的第一个足够大的洞</li>
@@ -1055,22 +1182,38 @@
                                     <li>worst fit：用最大的洞</li>
                                   </ul>
                                 </li>
-                                <li>内存释放：内存合并
+                                <li>内存释放：内存合并/紧缩
                                   <br>与前一块（需要前一块的footer指示）或后一块（需要后一块的header指示）相邻的空闲块合并，修改size域
                                 </li>
-                                <li>缺点：内存分配的开销太大，因为是使用扫描的方式</li>
+                                <li>缺点：内存分配的开销太大，因为是使用扫描的方式；触发内存紧缩也会造成开销</li>
+                              </ul>
+                              
+                            </li>
+                            <img src="./隐式空闲链表.png">
+                            <li>显式空闲链表：与隐式类似，但链表只记录未分配块，分配时可分割空闲块（因为有指针指示），回收时仍用头标、尾标合并
+                              <ul>
+                                <li>已分配：size + a + payload + padding + size + a</li>
+                                <li>未分配：size + a + next + prev + size + a</li>
                               </ul>
                             </li>
-                            <li>显式空闲链表：与隐式类似，但只记录未分配块，分配时可分割空闲块（因为有指针指示），回收时仍用tag合并
-                              已分配：size + a + payload + padding + size + a<br>
-                              未分配：size + a + next + prev + size + a<br>
-                            </li>
+                            <img src="./显式空闲链表.png">
                             <li>分离空闲链表：按size将空闲块分成多个链表
-                              <br>分配时搜索合适size的链表，找到则切割并分配，未找到则搜索更大的 -> 近似best-fit，但有first-fit的延迟
+                              <ul>
+                                <li>实现
+                                  <ul>
+                                    <li>分配时搜索合适size的链表</li>
+                                    <li>若找到则切割并分配</li>
+                                    <li>未找到则搜索更大的</li>
+                                  </ul>
+                                </li>
+                                <li>优点：近似best-fit，但有first-fit的延迟</li>
+                              </ul>
                             </li>
+                            <img src="./分离链表分配.png">
                             <li>伙伴系统（分离空闲链表特例）
                               <br>将内存不断二分，一块用于分配，另一块空闲；某块被释放时，其伙伴若空闲则与其合并
                             </li>
+                            <img src="./伙伴系统.png">
                           </ul>
                         </li>
                         <li>碎片化问题
@@ -1089,11 +1232,17 @@
                       </ul>
                     </li>
                   </ul>
+                  </div>
                 </li>
-                <li>内核空间内存管理（从内核的角度）
+                <li><a href="#" id="link11_2">内核空间内存管理（从内核的角度）</a>
+                  <div id="thediv11_2" style="display:none">
                   <ul>
-                    <li>虚拟内存：逻辑地址对物理内存编址，逻辑地址（CPU访问的地址）与物理地址之间存在地址转换（MMU完成）的关系<br>
-                      意义：不同进程可以使用相同的逻辑地址，可以完成内存共享，进程的物理地址可以不再连续，大进程的大小可以超过内存的大小
+                    <li>虚拟内存：逻辑地址对物理内存编址，逻辑地址（CPU访问的地址）与物理地址之间存在地址转换（MMU完成）的关系<br>意义：
+                      <ul>
+                        <li>不同进程可以使用相同的逻辑地址，进程的物理地址可以不再连续</li>
+                        <li>不同进程可以完成内存共享</li>
+                        <li>大进程的大小可以超过内存的大小</li>
+                      </ul>
                     </li>
                     <li>MMU实现与分页
                       <ul>
@@ -1103,31 +1252,77 @@
                         </li>
                         <li>分页：减小每个进程的查找表大小（减少映射条目） -> 页表（虚拟页与物理页，也称页框，的映射）
                           <ul>
-                            <li>分页基本实现：32bit逻辑/物理地址 = 20bit逻辑/物理页地址 + 12bit页偏移（逻辑页偏移=物理页偏移）</li>
-                            <li>页表：即使用页地址映射建立的查找表，大小：4MB/process = 2^20 * 4Bytes<br>
-                            物理含义（特点）：页可不连续，页内连续</li>
-                            <li>分页系统内存分配：按页分配，页时内存分配的最小单位，即使需要的少于一页</li>
-                            <li>问题：内部碎片化</li>
+                            <li>分页基本实现：32bit逻辑/物理地址 = 20bit逻辑/物理页地址 + 12bit页偏移（逻辑页偏移=物理页偏移）
+                              <ul>
+                                <li>逻辑页：虚地址空间被分成等长度的页</li>
+                                <li>物理页：即页框，指<strong>主存空间</strong>被划分成和逻辑页大小相同的页框</li>
+                              </ul>
+                            </li>
+                            <li>页表：即使用页地址映射建立的查找表，每个进程一个页表
+                              <ul>
+                                <li>页表大小：4MB/process = 2^20 * 4Bytes</li>
+                                <li>页面大小：4KB</li>
+                                <li>物理含义（特点）：页可不连续，页内连续</li>
+                              </ul>
+                            </li>
+                            <li>分页系统内存分配：
+                              <ul>
+                                <li>系统调用sbrk()：sbrk(1)即分配一页，4KB</li>
+                                <li>分配方式：按页分配，页时内存分配的最小单位，即使需要的少于一页</li> 
+                                <li>问题：内部碎片化，进程可能用不了一页</li>
+                              </ul>
+                              </li>
                           </ul>
                         </li>
+                        <img src="./页表地址转换.png">
                         <img src="./vm_to_page.png">
                       </ul>
                     </li>
                     <li>分页系统设计
                       <ul>
-                        <li>页表设计：指示地址转换映射关系、权限、是否分配、位置<br>
-                          ·注意：什么时候会造成段错误？ -> 访问NIL页、写只读页、执行不可执行的页
+                        <li>页表设计：<br>
+                          ·注意：
                           <br>某进程页表<br><img src="./page_table.png">
                           <ul>
-                            <li>结构（优化较大页表的存储）：两级/多级的层次化页表 -> 页表也分页，从而页表不用连续存储</li>
+                            <li>内容：需要指示<strong>地址转换映射关系、权限、是否分配、位置（valid）</strong>
+                              <ul>
+                                <li>存放内容的作用：
+                                  <ul>
+                                    <li>地址转换</li>
+                                    <li>指示逻辑页位置是否在内存里，从而执行页面交换</li>
+                                    <li>检查什么时候会造成段错误？ -> 访问NIL页、写只读页、执行不可执行的页</li>
+                                  </ul>
+                                </li>
+                              </ul>
+                            </li>
+                            <li>结构（优化较大页表的存储）：两级/多级的层次化页表 -> 页表也分页，从而页表不用连续存储
+                              <ul>
+                                <li>如何理解二级页表：二级页表是一级页表的嵌套
+                                  <ul>
+                                    <li>对于一级页表，通过逻辑地址找到地址所在物理页框，然后即可访问页框内的内容(数据...)</li>
+                                    <li>对于二级页表，通过逻辑地址找到地址所在物理页框，这个页框内存放的是一个一级页表(或者说一整个页表的一部分)
+                                      <br>--> 接下来和访问一级页表一样
+                                    </li>
+                                    <li>对于n级页表，通过逻辑地址找到地址所在物理页框，这个页框存放的是一个n-1级页表 -> ...</li>
+                                  </ul>
+                                  <br>总结：n级页表是n-1级页表的一级页表，访问n-1级页表遵循一级页表访问，包括由逻辑页号查找页表获得物理页号、页面交换等。n级页表可以放在内存中，因为其比较小。
+                                </li>
+                                <li>注意：多级页表的页表(指最内层页表)不一定都在内存中，其可能分布在外存中，需要访问时交换进入</li>
+                              </ul>
+                            </li>
                             <img src="./two_level_page_table.png">
                             <li>性能（优化访问查找时间）
                               <ul>
-                                <li>大页：减少页表项数，抵消多级页表带来的访问开销
-                                  <br>缺点：加重内部碎片化、降低重删率（因为必须一页完全相同才会重复删除，从而节约空间）
+                                <li>大页：
+                                  <ul>
+                                    <li>优点：减少页表项数，抵消多级页表带来的访问开销</li>
+                                    <li>缺点：加重内部碎片化、降低重删率（因为必须一页完全相同才会重复删除，从而节约空间）</li>
+                                  </ul>
                                 </li>
                                 <li>缓存：TLB(translation lookaside buffer) -> 流水线的一部分，缓存部分页表映射条目，访问很快但不一定能命中
-                                  <br>有效访问时间 = TLB命中率*（TLB访问时间+内存访问时间）+（1-TLB命中率）*（页表访问时间+内存访问时间）  （有时TLB访问时间可以忽略，有时认为访问页表查找的时间等于普通的访问内存时间）
+                                  <ul>
+                                    <li>有效访问时间 = TLB命中率*（TLB访问时间+内存访问时间）+（1-TLB命中率）*（页表访问时间+内存访问时间）  （有时TLB访问时间可以忽略，有时认为访问页表查找的时间等于普通的访问内存时间）</li>
+                                  </ul>
                                 </li>
                                 <img src="TLB.png">
                               </ul>
@@ -1136,26 +1331,63 @@
                         </li>
                       </ul>
                     </li>
-                    <li>按需调页
-                      <br>malloc()、变量声明等并不真正立刻分配物理空间，只是标记逻辑空间已被分配，只有在真正访问已被分配逻辑空间时，系统才会调页以分配物理空间（懒惰分配）
+                    <li>按需调页 
                       <ul>
+                        <li>定义：malloc()、变量声明等并不真正立刻分配物理空间，只是标记逻辑空间已被分配，只有在真正访问已被分配逻辑空间时，系统才会调页以分配物理空间（懒惰分配）</li>
+                        <li>page fault中断：若MMU发现访问invalid逻辑页(包括在交换区的和NIL的)，CPU产生页错误中断</li>
                         <li>流程：发现虚拟页对应物理页NIL -> 产生<strong>page fault中断</strong> -> page fault服务例程工作，内核为虚拟页分配页框，更新页表<br>
                         流程特例：发现虚拟页对应物理页NIL -> 产生<strong>page fault中断</strong> -> 位于内存内的页框全满 -> 某虚拟页对应页框内容放入<strong>交换区(swap area)</strong> -> 把内存中空出来的页框分配给对应的虚拟页 <br>
                          -> 需要访问页框位于交换区的虚拟页 -> 产生page fault中断 -> 重复前面的步骤
                         </li>
                         <li>交换区
                           <ul>
-                            <li>大小：>= 物理内存，这样某个大进程获取了所有的内存页框，原来内存里的内容可以全部放入交换区</li>
+                            <li>大小：>= 物理内存，这样当某个大进程获取了所有的内存页框，原来内存里的内容可以全部放入交换区</li>
                             <li>位置：永久存储设备上预留的一块区域</li>
                           </ul>
                         </li>
-                        <li>大进程运行：不需要全存储在内存上，按需调页，max size = 内存大小+交换分区大小-内核占有的内存大小</li>
+                        <li>大进程运行：不需要全存储在内存上，按需调页
+                          <ul>
+                            <li>max size = 内存大小+交换分区大小-内核占有的内存大小</li>
+                          </ul></li>
+                        <li>按需分配例子:OOM程序
+                          <ul>
+                            <li>方法：循环分配空间，并memset分配空间，最终此进程导致内存和交换区全是属于它的页框，严重影响其他进程运行</li>
+                            <li>后果：
+                              <ul>
+                                <li>OS的page fault服务例程发现交换区没有空余空间，杀死OOM进程</li>
+                                <li>由于其他进程逻辑页都在交换区内，即使OOM被杀死，也会有大量page fault</li>
+                              </ul></li>
+                          </ul>
+                        </li>
+                        
                         <li>写时复制(COW,copy on write)：解决fork()&exec()时没有必要的复制<br>
                           <br> fork() -> 子进程复制，分配新的页面？ -> exec()替换页面内容，因此分配新的页面存放相同内容完全没有意义 -> 写时复制：父子进程共享页面，只有当某进程对共享对象写时才分配新页面
                         </li>
-                        <li>性能：有效访问时间 = (1-p)*内存访问时间 + p*page fault 时间 (page fault时间包括服务例程处理时间，以及交换后内存访问时间)
-                          <br>·注意：由于page fault时间远大于内存访问时间，因此降低p非常重要
+                        <li>完整内存访问
+                          <img src="./完整内存访问.png">
+                          <ul>
+                            <li>查找页表：TLB命中/未命中</li>
+                            <li>由页表得到的物理地址访问物理页框
+                              <ul>
+                                <li> 性能：有效访问时间 = (1-p)*内存访问时间 + p*page fault 时间 (page fault时间包括服务例程处理时间，以及交换后内存访问时间)
+                                  <br>注意：这里没有考虑Cache，将Cache透明地视为内存的一部分，如果考虑Cache，那么要在内存访问时间上进行修改
+                                </li>
+                                <li>参数影响：由于page fault时间远大于内存访问时间，因此降低p非常重要</li>
+                              </ul>
+                            </li>
+                            <li>完整内存访问有效时间(只考虑一级页表)
+                              <br>有效访问时间 = TLB命中率*（TLB访问时间+内存访问时间）+（1-TLB命中率）*（页表访问时间+（(1-p)*内存访问时间 + p*page fault 时间））
+                              <br>即LTB miss之后页错误可能发生也可能不发生，但TLB命中后一定无页错误，不需要页面交换
+                              <ul>
+                                <li>TLB miss + no page fault</li>
+                                <li>TLB miss + page fault</li>
+                                <li>TLB hit + no page fault</li>
+                                <li>TLB hit + page fault：不可能，因为TLB会根据页表进行刷新，TLB中若找到表项，那么意味着此表项物理页框必有效</li>
+                              </ul>
+                            </li>
+                          </ul>
                         </li>
+                        
                       </ul>
                     </li>
                     <li>页面置换算法
@@ -1167,17 +1399,35 @@
                           <br>实现：counters（需要搜索遍历页表找到年龄最大的） / 栈（当某页被访问，其被从栈内删除并入栈或者直接入栈，栈顶部总是最近访问的页，栈底永远是LRU页）
                         </li>
                         <li>二次机会算法(LRU近似)：在FIFO的基础上，如果reference bit有效，那么先不置换此页并将其ref bit置0，年龄清0，并找年龄第二大的看是否能置换，以此类推
-                          <br>实现：reference bit（每页都关联一个引用位，页面被引用时由硬件快速置位） / 时钟循环队列：FIFO队列组织成循环的，当所有页面ref bit均有效时，二次机会退化成FIFO
+                          <br>实现：
+                          <ul>
+                            <li>reference bit（每页都关联一个引用位，页面被引用时由硬件快速置位）</li>
+                            <li>时钟循环队列：
+                              <ul>
+                                <li>实现：
+                                  <br>队列组织成循环的，指针指向最老的页面(即下一次可能被替换的页面)，需要置换时指针向前移动，对ref=1的时间清0并清ref，对ref=0的执行替换，把新页面放在替换的位置。
+                                  这样的实现保证了整个队列总是按年龄递增的。
+                                </li>
+                                <li>特殊情况：队列组织成循环的，当所有页面ref bit均有效时，二次机会退化成FIFO</li>
+                                </ul>
+                              </li>
+                          </ul>
                         </li>
-                        <li>Belady异常：当内存帧数变多时，页错误次数反而上升的现象
-                          <br>栈算法：不会出现Belady异常的页面置换算法，例如LRU和最佳置换算法。此类算法的特征为：n个页框的情况下内存中的页面集合总是n+1个页框的情况下内存中页面的子集，例如LRU算法内存中页面是前n个最多被引用的页面，一定是前n+1个最多被引用的页面的子集。
+                        <li>Belady异常：
+                          <ul>
+                            <li>定义：当内存帧数变多时，页错误次数反而上升的现象</li>
+                            <li>栈算法：不会出现Belady异常的页面置换算法，例如LRU和最佳置换算法。此类算法的特征为：n个页框的情况下内存中的页面集合总是n+1个页框的情况下内存中页面的子集，例如LRU算法内存中页面是前n个最多被引用的页面，一定是前n+1个最多被引用的页面的子集。</li>
+                          </ul>
                         </li>
                       </ul>
                     </li>
                     <li>页框的分配（多进程之间）
                       <ul>
-                        <li>分配的约束：<br>
-                        单个进程帧数上界(总空闲页框)/下界(防止页错误率过高，由电脑架构定义，进程页框小于此值被挂起)，全局/局部分配(即能否替换其他进程页框)
+                        <li>分配的约束：
+                          <ul>
+                            <li>单个进程帧数上界(整个系统总空闲页框)/下界(防止页错误率过高，由电脑架构定义，进程页框小于此值被挂起)</li>
+                            <li>全局/局部分配(即能否替换其他进程页框)</li>
+                          </ul>
                         </li>
                         <li>分配算法
                           <ul>
@@ -1197,7 +1447,7 @@
                                 <li>(在一段时间内)提供足够的页框：在最近△次页面引用时提供足够多的页框
                                   <ul>
                                     <li>工作集(working set)：最近△次页面引用的页面集合（访问局部性），用工作集大小确定合适的页框数
-                                  <br>抖动条件：WSSi > m，此时抖动可能发生
+                                  <br>抖动条件：Σ<sub>i</sub>WSSi > m，即各进程工作集大小总和大于内存总页框数量，此时抖动可能发生
                                     </li>
                                     <li>启发式：使用PFR(page fault rate)来确定合适的页框数</li>
                                   </ul>
@@ -1227,6 +1477,7 @@
                       </ul>
                     </li>
                   </ul>
+                  </div>
                 </li>
               </ul>
             </div>
@@ -1308,6 +1559,7 @@
                         <li>C-LOOK
                           <br>特点：与c-scan类似，但是一旦达到请求的尽头，就回到起点（请求的另一个尽头而不是0），不需要扫描到尽头轨道，这样可以避免磁头在无请求区域浪费时间
                         </li>
+                        <li>注意：SCAN和LOOK不仅要注意扫描方向，还要注意最后一个请求在哪里，对于SCAN，最后不一定要回到0或者max</li>
                       </ul>
                     </li>
                   </ul>
@@ -1324,11 +1576,17 @@
                     <li>操作
                       <ul>
                         <li>写：page为单位</li>
-                        <li>擦除：block为单位</li>
+                        <li>擦除：block为单位，开销很大</li>
                         <li>删除：标记页为invalid</li>
                         <li>覆盖/更新：只能进行异地更新，即数据只能被编程放入干净的page</li>
                         <li>GC：垃圾回收</li>
-                        <li>Trim：解决OS标记文件被删除但SSD主控不知情的情况，在这种情况下SSD依然会把无效页当有效页，若OS和SSD同时支持Trim，删除页时OS向SSD发送Trim命令，SSD得知某页无效，删除页，之后通过GC处理。</li>
+                        <li>Trim：解决OS标记文件被删除但SSD主控不知情的情况，在这种情况下SSD依然会把无效页当有效页，若OS和SSD同时支持Trim，删除页时OS向SSD发送Trim命令，SSD得知某页无效，删除页，之后通过GC处理。
+                          <ul>
+                            <li>TRIM能够提高原来读修改写过程的效率：更新page时需要读出page、在内核修改、写入空的page，原有page标记为stale；因为如果没有TRIM，那么删除的页不会被回收，这时操作系统要把原来删除文件的位置用于写入新的内容，那么
+                          SSD要写入非空的page，则需要读取整个block，擦除block，在内核中覆写，然后将更新block写回，这将非常耗费时间；如果有TRIM，那么删除的页可能被已经被统一垃圾回收了，那么这个时候只需要写到空页上即可，免去了擦除时间。</li>
+                          </ul>
+                        </li>
+                        <a href="https://zhuanlan.zhihu.com/p/34683444">参考</a>
                       </ul>
                     </li>
                     <li>Flash Translation Layer(略)：地址映射，回收，擦除等</li>
@@ -1390,6 +1648,7 @@
                 <li id="link1_1">文件系统简介
                   <div id="thediv1_1" style="display:none"> 
                   <ul>
+                    <li>定义：<br>操作系统用于明确存储设备（常见的是磁盘，也有基于NAND Flash的固态硬盘）或分区上的文件的方法和数据结构；即在存储设备上组织文件的方法。</li>
                     <li>文件系统做什么？
                       <br>FS = layout + operation = 怎么存 + 怎么读
                     </li>
@@ -1408,8 +1667,9 @@
                 <li id="link1_2">文件/File
                   <div id="thediv1_2" style="display:none"> 
                   <ul>
-                    <li>定义
+                    <li><strong>定义</strong>
                       <br>统一的、逻辑上的信息存储单元，是一种抽象数据类型，其独立于进程、用户、系统存在
+                      <br>一种由操作系统提供的对于存储信息的统一逻辑视图
                     </li>
                     <li>为什么需要？
                       <br>持久性存储（与内存中的存储信息相对比，进程结束被回收），并且可以作为一种共享对象
@@ -1428,7 +1688,7 @@
                     <li>文件内容
                       <ul>
                         <li>文件属性</li>
-                        <li>权限(以UNIX为例)<br>
+                        <li><strong>权限(以UNIX为例)</strong><br>
                           file/directory + owner(3bits for rwx) + file'group(3bits) + others(3bits)
                           <br>例子：permission d775 -> 拥有者和文件群组可读可写可执行，其他人可读可执行
                         </li>
@@ -1451,13 +1711,13 @@
                     <li>打开文件
                       <ul>
                         <li>基本流程:
-                          <br>fopen() -> open() -> 迭代目录遍历查找文件 -> 找到文件，硬盘将文件将文件属性与fd关联(在打开文件表内) -> 为FILE结构体(包含fd和buffer)动态分配空间，并返回FILE*
+                          <br>fopen() -> open() -> 迭代目录遍历查找文件 -> 找到文件，OS将文件将文件属性与fd关联(在打开文件表内) -> 为FILE结构体(包含fd和buffer)动态分配空间，并返回FILE*
                           <br>注意：文件打开最后返回给OS的是目标文件的属性而不涉及到内容，原因是只需要属性来维持打开文件表即可
                         </li>
                         <li>FILE结构体
                           <br>FILE = fd + buffer + ...，定义在stdio.h内
                         </li>
-                        <li>打开文件表(Open-file Table)和文件描述符(fd)
+                        <li><strong>打开文件表(Open-file Table)</strong>和文件描述符(fd)
                           <br>打开文件表 -> fd与文件属性的对应表，多个进程共享但各自维护自己的fd数组，以记录自己打开的文件有哪些
                         </li>
                       </ul>
@@ -1480,7 +1740,7 @@
                 <li id="link1_4">目录/Directory
                   <div id="thediv1_4" style="display:none">
                   <ul>
-                    <li>概念：目录就是文件</li>
+                    <li><strong>概念：目录就是存储属于它文件相关信息的文件</strong></li>
                     <li>目录内容
                       <ul>
                         <li>目录属性（可能有，取决于具体的文件系统）</li>
@@ -1495,15 +1755,15 @@
                           </ul>
                         </li>
                         <li>文件创建 -> 更新目录文件
-                          <br>注意：创建文件 = 更新目录文件，即在目录文件内添加一条目录条目，但不涉及存储空间分配
+                          <br>注意：创建文件 = 更新目录文件，即在目录文件内添加一条目录条目，但一般不涉及存储空间分配。（具体实现可以分配空间，但也不涉及向其中写内容）
                         </li>
-                        <li>文件/目录删除 -> 更新目录文件 and more</li>
+                        <li>文件/目录删除 -> 更新目录文件，标记为已删除 and more（例如FAT文件系统标记FAT表，更新FSINFO；EXT更新inode和GDT中空闲inode、块）</li>
                       </ul>
                     </li>
                   </ul>
                 </div>
                 </li>
-                <li id="link1_5">文件系统布局/Layout
+                <li id="link1_5"><strong>文件系统布局/Layout</strong>
                   <div id="thediv1_5" style="display:none">
                   <ul>
                     <li>FS layout定义：FS如何存放数据</li>
@@ -1552,6 +1812,37 @@
                       <li>缺点/需求：inode是额外开销、inode虽然可缓存但其指向的内容依然分布在各处</li>
                     </ul>
                     </li>
+                    <br>文件系统布局优缺点对比(为什么要从一种布局到另一种布局)<br>
+                    <table>
+                      <thead>
+                        <tr>
+                          <th style="text-align: left">对比项</th>
+                          <th style="text-align: left">连续分配/1.0</th>
+                          <th style="text-align: left">链表分配/2.0</th>
+                          <th style="text-align: left">链表分配/2.1</th>
+                          <th style="text-align: left">FAT/2.2</th>
+                          <th style="text-align: left">EXT/3.0</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td style="text-align: left">优点</td>
+                          <td style="text-align: left">可用于只读存储</td>
+                          <td style="text-align: left">文件增长不再受阻</td>
+                          <td style="text-align: left">同左<br>根目录实现简单<br>空闲块管理方便</td>
+                          <td style="text-align: left">同左<br>随机访问性能好(不用查看硬盘以获得指针信息)</td>
+                          <td style="text-align: left">同左<br>FAT较大时缓存inode，inode大小固定，且文件大小可变并且上限非常大</td>
+                        </tr>
+                        <tr>
+                          <td style="text-align: left">缺点</td>
+                          <td style="text-align: left">文件增长受阻<br>外部碎片化</td>
+                          <td style="text-align: left">根目录难以实现<br>不太严重的内部碎片化</td>
+                          <td style="text-align: left">指针信息分散，随机IO性能差<br>不太严重的内部碎片化</td>
+                          <td style="text-align: left">需要将FAT表一部分缓存在内存中<br>不太严重的内部碎片化</td>
+                          <td style="text-align: left">需要将一部分inode缓存<br>inode指向的块可能分布在各处</td>
+                        </tr>
+                      </tbody>
+                    </table>
                     <li>根目录和子目录
                       <ul>
                         <li>两者的关系：子目录可以是根目录里的一项(an entry)，子目录是一个和根目录存放内容等价(指形式相同)的文件
@@ -1614,11 +1905,11 @@
                   <div id="thediv2_2" style="display:none">
                   <ul>
                     <li>目录条目 - 一个32bytes的结构体，存储所有广义的文件属性
-                      <br>包含内容：文件名("8+3")、文件属性、起始簇号、时间信息、文件大小... <strong>所有的文件属性</strong>
+                      <br>包含内容：文件名(大写"8+3")、文件属性、起始簇号、时间信息、文件大小... <strong>所有的文件属性</strong>
                       <br>注：按字节读取目录条目中内容计算时间、大小等数值要注意大/小尾端问题
                     </li>
                     <img src="./FAT_DIR_entry.png">
-                    <li><attr title="长文件名">LFN</attr>问题
+                    <li><strong><attr title="长文件名">LFN</attr>问题</strong>
                       <br><attr title="按8+3截断">普通条目</attr> + 长文件名条目
                       <br>注意：LFN entry的文件属性部分永远是0x0F，从而指示LFN；最后一个长文件条目其序列号与0x40与运算得到替换原序列号。
                     </li>
@@ -1708,7 +1999,7 @@
                       <li>Inode结构体：具体内容可见图示，需要注意其<strong>不包含</strong>文件名和inode#</li>
                       <li>Inode支持<strong>文件大小</strong>计算
                       <br>数据块的大小：2<sup>x</sup>Bytes，指针长度4Bytes
-                      <br>12个直接块：12 * 2<sup>x</sup>，1个间接块：2<sup>2x-2，一个二级间接块：2<sup>3x-4，一个三级间接块：<strong>2<sup>4x-6</sup></strong>
+                      <br>12个直接块：12 * 2<sup>x</sup>，1个间接块：2<sup>2x-2，一个二级间接块：2<sup>3x-4</sup>，一个三级间接块：<strong>2<sup>4x-6</sup></strong>
                       </li>
                     </ul>
                     <img src="./inode_structure.png">
@@ -1731,10 +2022,10 @@
                   </li>
                   <li>Link count/链接计数
                     <ul>
-                      <li>定义：inode里的一个域，记录有多少个路径指向本文件</li>
+                      <li>定义：inode里的一个域，记录有多少个<strong>目录条目</strong>指向本文件</li>
                       <li>特殊的文件Link count
                         <br>刚刚创建的文件/目录：link count = 1/2，其父目录的link count++
-                        <br>某个link count很大的目录：这个目录有很多子目录
+                        <br>某个link count很大的目录：这个目录有很多<strong>子目录</strong>，注意不是子文件
                       </li>
                       <li>删除文件和link count的关系
                         <ul>
@@ -1756,7 +2047,7 @@
                   <li>符号链接
                     <ul>
                       <li>创建方法：创建一个新的<strong>文件</strong>(注意不是目录文件，是一个特殊的文件)，其中的内容为目标文件的路径</li>
-                      <br>注意：创建<strong>新的文件</strong>，当然也分配了新的inode
+                      <br>注意：创建<strong>新的文件</strong>，当然也分配了新的inode;但是创建符号链接不会导致目标文件link count增加，因为指向目标文件的目录条目数量没有增加。
                       <li>符号链接文件内容
                         <br>存放内容：文件的路径名
                         <ul>
@@ -1784,12 +2075,14 @@
                     </li>
                     <li>带Cache读写
                       <ul>
-                        <li>带Cache读模式
-                          <li>基本思想：读取文件时，将文件数据缓存</li>
-                          <li>具体实现：readahead() -> 阻塞地预读，读x时取x+1，之后的read()调用若读缓存区域则不用阻塞</li>
+                        <li>带Cache读模式：预读系统调用
+                          <ul>
+                            <li>基本思想：读取文件时，将文件数据缓存</li>
+                          <li>具体实现：readahead() -> 阻塞地预读，读x时取x+1进入页面内核缓存，之后的read()调用若读缓存区域则不用阻塞</li>
                           <li>对访问开销的影响：
-                            <br>顺序访问(SSD/DISK)非常有利，随机访问并无提升
+                            <br>顺序访问(SSD/DISK)都非常有利，随机访问并无提升
                           </li>
+                          </ul>
                         </li>  
                         <li>带Cache写模式
                           <ul>
@@ -1811,7 +2104,7 @@
                     <li>意义/解决的问题：系统的不连续，例如缓存与磁盘之间的不一致(掉电等)、更新多个磁盘的扇区(每个扇区更新是原子的，但连续更新多个就不是)</li>
                     <li>Data journaling/数据日志
                       <ul>
-                        <li>思想：更新inode、bitmap(metadata)、数据块(data)前把<strong>这些都</strong>写入日志</li>
+                        <li>思想：更新inode、bitmap(metadata)、数据块(data block)前把<strong>这些都</strong>写入日志</li>
                         <li>执行顺序
                           <ul>
                             <li>journal write：写TxB、metadata、data</li>
@@ -1819,12 +2112,13 @@
                             <li>checkpoint：落盘</li>
                           </ul>
                         </li>
+                        <li>问题：为什么不能一起写TxB、inode、bitmap、db和TxE？因为：如果一次性下达向日志写这五块内容的要求，OS、磁盘都可能进行调度，假设db正好最后写入磁盘，而在这之前其他已经写入但发生了崩溃，日志中的事务有TxB和TxE，看似有效实则缺少data，这样的日志也无法重放，但OS并不知道此事务无效</li>
                         <img src="./data_journaling.png">
                       </ul>
                     </li>
                     <li>Metadata journaling/元数据日志
                       <ul>
-                        <li>思想：更新inode、bitmap(metadata)、数据块(data)前<strong>只将metadata</strong>写入日志</li>
+                        <li>思想：更新inode、bitmap(metadata)、数据块(data)前<strong>只将inode、bitmap等metadata</strong>写入日志</li>
                         <li>两种模式：data与metadata先后顺序
                           <ul>
                             <li>write-back mode：data与journal写没有顺序要求
@@ -1943,8 +2237,8 @@
                   </ul>
                 </div>
               </li>
-              <li><a href="#" id="link4_4">I/O访问方式</a>
-                <div id="thediv4_4" style="display:none">=
+              <li><a href="#" id="link4_4"><strong>I/O访问方式</strong></a>
+                <div id="thediv4_4" style="display:none">
                   <ul>
                     <li>轮询/polling
                       <ul>
@@ -1971,7 +2265,7 @@
               </li>
               <li><a href="#" id="link4_5">应用I/O接口</a>
                 <div id="thediv4_5" style="display:none">
-                  <br>不同I/O差异很大，如何提供标准、统一I/O接口？
+                  <br><strong>不同I/O差异很大，如何提供标准、统一I/O接口？</strong>
                   <ul>
                     <li>抽象/abstraction</li>
                     <li>封装/encapsulation</li>
@@ -1980,7 +2274,7 @@
                   <img src="./io_interface.png">
                 </div>
               </li>
-              <li><a href="#" id="link4_6">内核I/O子系统服务</a>
+              <li><a href="#" id="link4_6"><strong>内核I/O子系统服务</strong></a>
                 <div id="thediv4_6" style="display:none">
                   <ul>
                     <li><attr title="管理I/O队列，提高I/O性能">I/O调度</attr></li>
@@ -2091,60 +2385,79 @@
         <li>(7.1)(★★★)什么是段错误(segmentation fault)？按照只读段、已分配段、未分配段的分类，引发段错误的方式有哪些？为什么以下语句"char* ptr =NULL; char c = *ptr"会产生段错误？对未分配地址或者错误的分配地址使用free()为什么会产生段错误？使用
         malloc()分配一段小于真正需求的空间，在对空间写入时是否会引发段错误（有时会有时不会）？为什么？
         </li>
-        <li>(7.2)(★★★)虚拟内存是什么？为什么需要虚拟内存（虚拟内存解决了什么问题）？逻辑地址和物理地址之间的关系是什么？它们通过什么部件完成转换？CPU访问的是逻辑地址还是物理地址？</li>
-        <li>(7.2)(★★★)MMU是什么？MMU是如何实现地址转换的？CPU以及指令中所使用的地址是虚拟地址还是物理地址？</li>
-        <li>(7.2)(★★★)分页是什么？为什么需要分页机制？对于32bit地址，不采用分页和采用分页的机制，查找表分别多大？分页之后的查找表叫什么？在物理存储器上页与页之间是连续的么？页内呢？对于分页系统其分配空间的最小单位是什么？分页系统为什么会存在内部碎片化的问题？</li>
-        <li>(7.2)(★★)free()是否真正释放了逻辑页对应的物理页？空闲链表实际上连接的是逻辑空闲块还是物理空闲块？</li>
-
-        <li>(7.2)(★★★)TLB是什么？为什么TLB的访问很快？怎么计算带有TLB的MMU有效内存访问时间？</li>
-        <li>(7.2)(★★★)按需分配是什么？按需分配的流程是什么？</li>
-        <li>(7.2)(★★★)交换区的作用是什么？什么情况下会发生交换？交换为什么会导致内存分配开销变大(why page fault expensive)？对于某个OOM无限循环程序，程序在运行时，内存和交换区会发生什么？为什么在交换区满后OOM程序被杀死，依然会有一段时间进程访问自己地址空间内容比较缓慢？
-          交换分区的大小一般多大？位置在哪里？
+        <li>(7.2)(★★★)虚拟内存是什么？为什么需要虚拟内存（虚拟内存解决了什么问题）？逻辑地址是什么？物理地址是访问主存的地址，还是外存的地址(主存的地址)？逻辑地址和物理地址之间的关系是什么？它们通过什么部件完成转换？CPU访问的是逻辑地址还是物理地址？</li>
+        <li>(7.2)(★★★)MMU是什么？MMU是如何实现地址转换的(描述硬件相关的过程)？CPU以及指令中所使用的地址是虚拟地址还是物理地址？</li>
+        <li>(7.2)(★★★)分页是什么？为什么需要分页机制？逻辑页和物理页分别指什么？对于32bit地址，不采用分页和采用分页的机制，查找表分别多大？</li>
+        <li>分页之后的查找表叫什么？页表需要存储哪些内容？这些内容的作用是什么？页表一般放在什么位置？在物理存储器上页与页之间是连续的么？页内呢？对于分页系统其分配空间的最小单位是什么？分页系统为什么会存在内部碎片化的问题？</li>
+        <li>多级页表的意义是什么？如何理解多级页表？为什么多级页表会导致查找页表时间上升？(★★★)</li>
+        <li>如果是单级页表，MMU如何找到页表的位置并将逻辑地址转换成物理地址(即页表基址的作用)？页表基址存放的是物理地址还是逻辑地址？如果是二级页表，页目录表(外层页表)存放了什么？对于二级页表，其页表还存放在内存里么？如果某进程的二级页表的一个页表在外存中，这个时候要利用此页表的内容进行地址转换，应该经过什么样的过程？(★★★)</li>
+        
+        
+        <li>(7.2)(★★)页表中NIL表示什么(表示逻辑页没有被分配)？free()是否真正释放了逻辑页对应的物理页(没有，因为malloc使得某逻辑页被分配，之后free，此逻辑页一部分可能还没被free，因此物理页框也不能收回，而空闲的部分由空闲链表指示其逻辑地址范围)？空闲链表实际上连接的是逻辑空闲块还是物理空闲块？</li>
+        <li>使用大页的好处是什么？有什么缺点？(★★★)</li>
+        <li>(7.2)(★★★)TLB是什么？为什么TLB的访问很快？怎么计算带有TLB的MMU有效内存访问时间(指最终访问物理页的时间)？</li>
+        <li>(7.2)(★★★)按需调页是什么？什么是page fault？页错误什么情况下会发生？page fault的中断服务例程做什么工作？按需调页的流程是什么？</li>
+        <li>在考虑page fault的情况下，完整的访存流程是什么样的？为什么不会出现TLB命中但又出现page fault的情况？如何计算完整的有效访问时间？(★★★)</li>
+        <li>(7.2)交换区是什么？交换区的作用是什么？交换分区的大小一般多大？为什么？位置在哪里？进程如何得知某逻辑页不在内存中？什么情况下会发生交换？交换为什么会导致内存分配开销变大(why page fault expensive)？什么是OOM？为什么只是循环调用malloc不会导致OOM？如何才能真正的OOM？对于某个OOM无限循环程序，程序在运行时，内存和交换区会发生什么？为什么在交换区满后OOM程序被杀死，依然会有一段时间进程访问自己地址空间内容比较缓慢？
+          (★★★)
         </li>
         <li>(7.2)(★)一个大进程在运行时需要的空间大于内存大小，它能够运行么？进程理论上最大的尺寸可以达到大约多大？</li>
         <li>(7.2)(★★)写时复制（COW）是什么？为什么需要COW？</li>
         <li>(7.2)(★)最优页面置换算法如何实现？</li>
-        <li>(7.2)(★★★)FIFO页面置换算法与LRU页面置换算法的区别在哪里？LRU算法基于什么样的原理？LRU算法的实现方法有哪些？</li>
+        <li>(7.2)(★★★)FIFO页面置换算法与LRU页面置换算法的区别在哪里？LRU算法基于什么样的原理？LRU算法的实现方法有哪些？二次机会算法是什么？什么是Belady异常？栈算法是什么？其特点是什么？哪些页面置换算法是栈算法？</li>
+        <li>单个进程可支配的页框数量的上限和下限是多少？全局页框替换和本地页框替换有什么区别？(★★★)</li>
+        <li>有哪三种可支配页框数量分配的方法？(★)</li>
+        <li>抖动是什么？为什么多道程序且全局交换会导致抖动？本地交换或者优先级交换能解决抖动么？工作集是什么？工作集的原理是什么？工作集的抖动条件是什么？采用提供足够页框的方法除了使用工作集估计页框数量外，还有什么方法？(★★★)</li>
+        <li>内核内存分配有什么样的需求特点？内核内存分配有什么常用方法？Cache(指slab分配中用于存放内核数据结构的特别Cache)和slab分别是什么？为什么slab分配比较快？(★★★)</li>
+        <li>内存映射文件是什么？如何实现内存映射文件？内存映射文件除了加速访问还有什么好处？(★)</li>
         <br>
         <li>(8)存储层次化各层次使用什么存储元件？存储层次化的意义是什么？</li>
         <li>(8)(★★★)硬盘上物理地址由什么确定(或者说硬盘从物理上可以划分成哪三个层次)？硬盘上存储的最小单位是什么？硬盘的访问方式是什么？platter旋转的CLV和CAV有什么区别？硬盘的地址映射是怎么做的？坏块管理有哪两种方式？硬盘的物理格式化做什么，有什么意义？硬盘的逻辑格式化分为哪两种？</li>
         <li>(8)(★★★)硬盘调度算法需要完成什么工作？FCFS调度是什么？它的缺点是什么？SSTF调度是什么？其性能与FCFS相比如何？其性能（指磁头总移动距离）是否达到最优？为什么？SSTF是否会造成饿死？SCAN,C-SCAN,LOOK,C-LOOK这四个算法之间有什么关系？SCAN相比C-SCAN的缺点体现在什么地方？SCAN相比LOOK缺点体现在什么地方？</li>
-        <li>(8)(★)SSD是什么？其与硬盘有什么区别？SSD的结构中最小的两个结构单元是什么？为什么SSD的寿命有限？为什么SSD不能进行一般意义的覆盖或更新而只能进行异地更新？SSD的操作有哪些？Trim是什么？</li>
+        <li>(8)(*)(★)SSD是什么？其与硬盘有什么区别？SSD的结构中最小的两个结构单元是什么？为什么SSD的寿命有限？为什么SSD不能进行一般意义的覆盖或更新而只能进行异地更新？SSD的操作有哪些？Trim是什么？为什么Trim有利于提高写的速度以及SSD的寿命？</li>
         <br>
         <li>(9)(★★★)文件系统是什么？文件系统的两个最重要的要素是什么？文件系统与操作系统的关系是什么？文件系统和操作系统是不是一对一映射？文件系统和存储设备的关系是什么？存储设备是不是一定要存放一个或多个FS？</li>
-        <li>(9)(★★★)文件是什么？为什么需要文件？列举几个文件的属性？文件属性是不是OS-dependent的？对于UNIX而言，某文件权限为d775，表示什么？文件名和路径名分别是什么？文件名在什么情况下是唯一的？路径名在整个FS内唯一么？</li>
+        <li>(9)(*)(★★★)文件是什么？为什么需要文件？列举几个文件的属性？文件属性是不是OS-dependent的？对于UNIX而言，某文件权限为d775，表示什么？文件名和路径名分别是什么？文件名在什么情况下是唯一的？怎么理解一个路径名在整个FS内唯一？它指的是某个文件只能有一个路径名么？它指的是不同文件路径名不同么？</li>
         <li>(9)对文件的操作具体流程是不是独立于OS和FS的？为什么？</li>
         <li>(9)(★★★)文件打开操作流程是什么样的？为什么打开文件不涉及到目标文件内容的访问？打开某个文件是否会涉及到其他文件内容的访问？FILE结构体是什么？fd是什么？打开文件表是什么？打开文件表对于读写的意义是什么？</li>
-        <li>(9)(★★★)读打开文件的工作流程是什么样的？</li>
+        <li>(9)(*)(★★★)读打开文件的工作流程是什么样的？</li>
         <li>(9)(★★★)写文件的工作流程是什么样的？为什么在对文件写入之后不能随意按下重启或者拔出U盘？</li>
         <li>(9)(★★★)目录是什么？目录的内容包含什么？目录和文件如何区分（对于UNIX来说）？定位一个文件需要进行什么样的操作？以EXT文件系统为例，遍历目录访问某个文件的流程是什么样的？创建一个文件实际上是在干什么？删除一个文件呢？根目录和子目录之间有什么样的关系？子目录存放什么内容？</li>
         <li>(9)(★)连续分配文件系统布局是如何实现的？其有什么缺点？这种layout适合什么样的存储设备或者说系统？</li>
-        <li>(9)(★★)链表分配的所谓2.0和2.1版本有什么区别？对于2.1版本，根目录是否需要存储文件的属性？为什么？链表分配2.1相比连续分配解决了什么问题？有什么缺点？</li>
+        <li>(9)(★★)(*)链表分配的所谓2.0和2.1版本有什么区别？对于2.1版本，(*)根目录是否需要存储文件的属性？为什么？链表分配2.1相比连续分配解决了什么问题？有什么缺点？</li>
         <li>(9)(★★★)FAT是什么？为什么要使用FAT(对比链表分配2.1)？FAT存放的位置在哪里？为什么要缓存一部分FAT在内存里？FAT里是否要存储文件的属性？</li>
         <li>(9)(★★★)什么是Index node？为什么说inode实际上是FAT按文件粒度切分的结果？相比FAT，index node解决了什么问题？为什么缓存index node对于访问性能有提升？对于三级间接块，其对应的存储空间有多大？使用Index node的目录文件存放什么内容?文件属性存放在目录文件内容里还是该文件的Index node结构体内？Index node存在什么样的缺点？</li>
-        <li>(9)(★★★)文件系统特定的信息为什么存放在存储设备上而不是编程到kernel代码内？FAT和EXT文件系统的文件系统特定信息叫什么？一个完整的文件系统包含哪些部分？</li>
-        <li>(9)(★★★)磁盘分区的概念是什么？为什么一块硬盘上可以有多个文件系统或者操作系统？磁盘分区为什么可以提高文件系统的性能？磁盘分区的意义是什么？</li>
+        <li>(9)(★★★)文件系统特定的信息为什么<attr title="因为不同的存储设备需求不同，例如存储设备小导致FAT表小"></attr>存放在存储设备上而不是编程到kernel代码内？FAT和EXT文件系统的文件系统特定信息叫什么？一个完整的文件系统包含哪些部分？</li>
+        <li>(9)(★★★)磁盘分区的概念是什么？磁盘分区后完整的布局是什么样的？不同部分的作用是什么？为什么一块硬盘上可以有多个文件系统或者操作系统？磁盘分区为什么可以提高文件系统的性能？磁盘分区的意义是什么？</li>
         <br>
         <li>(9)(★★★)FAT16、FAT32文件系统的数字代表什么？扇区(sector)和簇(cluster)之间的大小关系一般是什么样的？FAT文件系统分区包含哪五个部分？为什么FAT文件系统要设置两个FAT？FAT表中有表项和表项内容是特殊的？FAT文件系统的数据簇首簇簇号是多少？为什么？</li>
-        <li>(9)(★★★)FAT文件系统中目录文件的目录项大小为多少字节？其包含什么内容？大/小尾端对于读取entry内的内容有什么影响？对于短文件名，目录项中如何存储？长文件名如何解决？LFN entry与普通entry的区别在哪里？</li>
+        <li>(9)(★★★)FAT文件系统中目录文件的目录项大小为多少字节？其包含什么内容？大/小尾端对于读取entry内的内容有什么影响？对于短文件名，目录项中如何存储（注意存放的是大写的8+3）？长文件名如何解决？LFN entry与普通entry的区别在哪里？</li>
         <li>(9)(★★★)FAT文件系统中读取一个文件的流程是什么样的？为什么文件包含的簇不会出现Cluster0或Cluster1？怎么确定已经读到了文件尾？FAT32的FAT表项中内容表示的簇号是多少位的？有哪些特殊的FAT表项内容？</li>
-        <li>(9)(★★★)FAT文件系统中写文件除了接着文件尾写入数据外还需要更新哪些内容？如果文件已分配簇不够该从哪里获取可用的簇号？如何更新FSINFO中下一个可用簇？为什么FSINFO要保存的是“下一个”可用簇而不是随机的一个可用簇？</li>
+        <li>(9)(*)(★★★)FAT文件系统中写文件除了接着文件尾写入数据外还需要更新哪些内容？如果文件已分配簇不够该从哪里获取可用的簇号？如何更新FSINFO中下一个可用簇？为什么FSINFO要保存的是“下一个”可用簇而不是随机的一个可用簇？</li>
         <li>(9)(★★★)在FAT文件系统内删除一个文件是否需要修改文件的数据内容？需要修改哪些元数据？只修改元数据的<abbr title="速度快，数据可恢复">好处</abbr>是什么？如何做有利于删除文件的恢复？恢复文件应该如何找到文件的数据簇在哪里？</li>
       
         <li>(9)(★★★)对于EXT2/3文件系统，其实际的布局是什么样的？分组的意义是什么？</li>
         <li>(9)(★★★)Ext文件系统的inode结构体包含什么？是否包含文件名和inode号？假设每个数据块大小为8KB，每个指针4字节，那么对于一个有12个直接块域以及1个一级块域、一个二级块域、一个三级块域的inode，文件最大的<abbr title="64TB">大小</abbr>为多少？</li>
         <li>(9)(★★★)Ext文件系统的目录文件中目录条目包含什么内容？目录条目是以什么形式组织的？</li>
         <li>(9)(★★★)Block Bitmap和Inode Bitmap指什么？它们俩一样大么？为什么说文件系统能存放的文件数量是固定的？</li>
-        <li>(9)(★★★)硬链接和符号链接有什么区别？在linux下使用什么指令可以创建硬/符号链接？创建硬链接是否会导致新文件被创建？符号链接呢？link count是什么？新创建的文件/目录，其link count为多少？目录文件内的dot和double dot是硬链接还是符号链接？
-          删除文件的系统调用为什么叫unlink()（该系统调用与链接的关系）？删除一个文件是不是一定会引起其数据块被回收？为什么？能否制作一个指向符号链接的硬链接？反过来呢？
+        <li>(9)(★★★)硬链接和符号链接有什么区别？在linux下使用什么指令可以创建硬/符号链接？创建硬链接是否会导致新文件被创建或者是新的inode被分配？符号链接呢？link count是什么？新创建的文件/目录，其link count为多少？某目录的link count很大，说明什么(其子目录很多，注意不是子文件)？给某文件添加一个硬链接/符号链接，<attr title="会，不会">会导致</attr>其link count增加么？目录文件内的dot和double dot是硬链接还是符号链接？
+          删除文件的系统调用为什么叫unlink()（该系统调用与链接的关系）？删除一个文件是不是一定会引起其数据块被回收？为什么？能否制作一个指向符号链接的硬链接？反过来呢？考虑以下情况：
+          <ul>
+            <li>删除某文件，其符号链接和硬链接会有什么<attr title="前者失效，后者仍然有效">变化</attr>？</li>
+            <li>如果某文件同时有一个符号链接和一个硬链接，那么删除硬链接/文件<attr title="不会/会">是否会</attr>引起符号链接失效</attr>？</li>
+            <li>如果某文件有一个符号链接和一个指向符号链接的硬链接，删除文件/符号链接<attr title="会/不会">是否会</attr>引起硬链接失效(失效指无法正常访问文件)？</li>
+            <li>如果某文件有一个硬链接和一个指向硬链接的符号链接，删除文件/硬链接<attr title="不会/会">是否会</attr>引起符号链接失效？</li>
+            <li>同上，有硬和硬、符号和符号，会怎样？<attr title="不会，不会，会，会"></attr></li>
+          </ul>
+          
         </li>
 
-        <li>(9)(★★★)内核缓存的意义是什么？其原理是什么？需要存放到内核缓存的数据有哪些？对应的三种内核缓存叫什么？带有内核缓存的读与普通的读有什么不同？顺序访问和随机访问谁能从预读获益？带有内核缓存的写有哪两种模式？</li>
+        <li>(9)(★★★)内核缓存的意义是什么？其原理是什么？(*)需要存放到内核缓存的数据有哪些？对应的三种内核缓存叫什么？带有内核缓存的读与普通的读有什么不同？顺序访问和随机访问谁能从预读获益？带有内核缓存的写有哪两种模式？</li>
 
-        <li>(9)(★★★)数据日志和元数据日志有什么区别？它们的执行顺序和每一步做的事情是什么？为什么元数据日志中只存储了元数据而没有存储数据，但是当系统在commit后、checkpoint前崩溃时，仍然能够保持文件系统的连续性，这个时候日志里不是<abbr title="因为按照ordered mode要求，数据在commit前已落盘，这个时候恢复metadata即可">没有数据</abbr>么？
+        <li>(9)(★★★)(*)数据日志和元数据日志有什么区别？它们的执行顺序和每一步做的事情是什么？写入的内容包括哪些？数据日志如果将TxB、数据、元数据和TxE一起写入日志后进行checkpoint会有什么问题？为什么日志commit的写TxE需要是原子的？元数据日志分为哪两种模式？其中write-back模式为什么会出现metadata指向垃圾数据的情况？ordered mode的核心思想可以如何概括？为什么元数据日志中只存储了元数据而没有存储数据，但是当系统在commit后、checkpoint前崩溃时，仍然能够保持文件系统的连续性，这个时候日志里不是<abbr title="因为按照ordered mode要求，数据在commit前已落盘，这个时候恢复metadata即可">没有数据</abbr>么？
         如果系统在journal commit前发生崩溃怎么办？在commit之后呢？日志满了如何解决？当一个事务完成后(checkpoint后)，其占用的日志空间<attr title="不处理，当日志循环回来的时候可以覆盖">怎么处理</attr>？</li>
 
-        <li>(9)(★★)VFS的意义是什么？</li>
+        <li>(9)(★★)(*)VFS的意义是什么？</li>
         <br>
         <li>(10)(★★★)I/O设备可以分为哪几类(按照数据传输模式)？如何为多种多样的I/O设备提供统一、标准应用接口？</li>
         <li>(10)(★)一般而言，用于控制I/O的寄存器有哪些？根据I/O设备地址访问I/O的方式有什么？</li>

@@ -104,12 +104,65 @@ window.onload=function()
  var odiv7_5=document.getElementById("thediv7_5");
  var olink8=document.getElementById("link8");
  var odiv8=document.getElementById("thediv8");
+ var olink8_1=document.getElementById("link8_1");
+ var odiv8_1=document.getElementById("thediv8_1");
+ var olink8_2=document.getElementById("link8_2");
+ var odiv8_2=document.getElementById("thediv8_2");
+ var olink8_3=document.getElementById("link8_3");
+ var odiv8_3=document.getElementById("thediv8_3");
+ var olink8_4=document.getElementById("link8_4");
+ var odiv8_4=document.getElementById("thediv8_4");
+ var olink8_5=document.getElementById("link8_5");
+ var odiv8_5=document.getElementById("thediv8_5");
+ var olink8_6=document.getElementById("link8_6");
+ var odiv8_6=document.getElementById("thediv8_6");
+ var olink8_7=document.getElementById("link8_7");
+ var odiv8_7=document.getElementById("thediv8_7");
  var olink9=document.getElementById("link9");
  var odiv9=document.getElementById("thediv9");
+ var olink9_1=document.getElementById("link9_1");
+ var odiv9_1=document.getElementById("thediv9_1");
+ var olink9_2=document.getElementById("link9_2");
+ var odiv9_2=document.getElementById("thediv9_2");
+ var olink9_3=document.getElementById("link9_3");
+ var odiv9_3=document.getElementById("thediv9_3");
+ var olink9_4=document.getElementById("link9_4");
+ var odiv9_4=document.getElementById("thediv9_4");
+ var olink9_5=document.getElementById("link9_5");
+ var odiv9_5=document.getElementById("thediv9_5");
+ var olink9_6=document.getElementById("link9_6");
+ var odiv9_6=document.getElementById("thediv9_6");
+ var olink9_7=document.getElementById("link9_7");
+ var odiv9_7=document.getElementById("thediv9_7");
  var olink10=document.getElementById("link10");
  var odiv10=document.getElementById("thediv10");
+ var olink10_1=document.getElementById("link10_1");
+ var odiv10_1=document.getElementById("thediv10_1");
+ var olink10_2=document.getElementById("link10_2");
+ var odiv10_2=document.getElementById("thediv10_2");
+ var olink10_3=document.getElementById("link10_3");
+ var odiv10_3=document.getElementById("thediv10_3");
+ var olink10_4=document.getElementById("link10_4");
+ var odiv10_4=document.getElementById("thediv10_4");
+ var olink10_5=document.getElementById("link10_5");
+ var odiv10_5=document.getElementById("thediv10_5");
+ var olink10_6=document.getElementById("link10_6");
+ var odiv10_6=document.getElementById("thediv10_6");
+
  var olink11=document.getElementById("link11");
  var odiv11=document.getElementById("thediv11");
+ var olink11_1=document.getElementById("link11_1");
+ var odiv11_1=document.getElementById("thediv11_1");
+ var olink11_2=document.getElementById("link11_2");
+ var odiv11_2=document.getElementById("thediv11_2");
+ var olink11_3=document.getElementById("link11_3");
+ var odiv11_3=document.getElementById("thediv11_3");
+ var olink11_4=document.getElementById("link11_4");
+ var odiv11_4=document.getElementById("thediv11_4");
+ var olink11_5=document.getElementById("link11_5");
+ var odiv11_5=document.getElementById("thediv11_5");
+
+
  var olink12=document.getElementById("link12");
  var odiv12=document.getElementById("thediv12");
  var olink13=document.getElementById("link13");
@@ -354,21 +407,151 @@ window.onload=function()
   Show_Hidden(odiv8);
   return false;
  }
+ olink8_1.onclick=function()
+ {
+  Show_Hidden(odiv8_1);
+  return false;
+ }
+ olink8_2.onclick=function()
+ {
+  Show_Hidden(odiv8_2);
+  return false;
+ }
+ olink8_3.onclick=function()
+ {
+  Show_Hidden(odiv8_3);
+  return false;
+ }
+ olink8_4.onclick=function()
+ {
+  Show_Hidden(odiv8_4);
+  return false;
+ }
+ olink8_5.onclick=function()
+ {
+  Show_Hidden(odiv8_5);
+  return false;
+ }
+ olink8_6.onclick=function()
+ {
+  Show_Hidden(odiv8_6);
+  return false;
+ }
+ olink8_7.onclick=function()
+ {
+  Show_Hidden(odiv8_7);
+  return false;
+ }
+
  olink9.onclick=function()
  {
   Show_Hidden(odiv9);
   return false;
  }
+ olink9_1.onclick=function()
+ {
+  Show_Hidden(odiv9_1);
+  return false;
+ }
+ olink9_2.onclick=function()
+ {
+  Show_Hidden(odiv9_2);
+  return false;
+ }
+ olink9_3.onclick=function()
+ {
+  Show_Hidden(odiv9_3);
+  return false;
+ }
+ olink9_4.onclick=function()
+ {
+  Show_Hidden(odiv9_4);
+  return false;
+ }
+ olink9_5.onclick=function()
+ {
+  Show_Hidden(odiv9_5);
+  return false;
+ }
+ olink9_6.onclick=function()
+ {
+  Show_Hidden(odiv9_6);
+  return false;
+ }
+ olink9_7.onclick=function()
+ {
+  Show_Hidden(odiv9_7);
+  return false;
+ }
+
+
  olink10.onclick=function()
  {
   Show_Hidden(odiv10);
   return false;
  }
+ olink10_1.onclick=function()
+ {
+  Show_Hidden(odiv10_1);
+  return false;
+ }
+ olink10_2.onclick=function()
+ {
+  Show_Hidden(odiv10_2);
+  return false;
+ }
+ olink10_3.onclick=function()
+ {
+  Show_Hidden(odiv10_3);
+  return false;
+ }
+ olink10_4.onclick=function()
+ {
+  Show_Hidden(odiv10_4);
+  return false;
+ }
+ olink10_5.onclick=function()
+ {
+  Show_Hidden(odiv10_5);
+  return false;
+ }
+ olink10_6.onclick=function()
+ {
+  Show_Hidden(odiv10_6);
+  return false;
+ }
+
  olink11.onclick=function()
  {
   Show_Hidden(odiv11);
   return false;
  }
+ olink11_1.onclick=function()
+ {
+  Show_Hidden(odiv11_1);
+  return false;
+ }
+ olink11_2.onclick=function()
+ {
+  Show_Hidden(odiv11_2);
+  return false;
+ }
+ olink11_3.onclick=function()
+ {
+  Show_Hidden(odiv11_3);
+  return false;
+ }
+ olink11_4.onclick=function()
+ {
+  Show_Hidden(odiv11_4);
+  return false;
+ }
+ olink11_5.onclick=function()
+ {
+  Show_Hidden(odiv11_5);
+  return false;
+ }
+
  olink12.onclick=function()
  {
   Show_Hidden(odiv12);
