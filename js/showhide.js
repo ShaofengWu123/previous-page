@@ -161,6 +161,12 @@ window.onload=function()
  var odiv11_4=document.getElementById("thediv11_4");
  var olink11_5=document.getElementById("link11_5");
  var odiv11_5=document.getElementById("thediv11_5");
+ var olink11_6=document.getElementById("link11_6");
+ var odiv11_6=document.getElementById("thediv11_6");
+ var olink11_7=document.getElementById("link11_7");
+ var odiv11_7=document.getElementById("thediv11_7");
+ var olink11_8=document.getElementById("link11_8");
+ var odiv11_8=document.getElementById("thediv11_8");
 
 
  var olink12=document.getElementById("link12");
@@ -551,6 +557,22 @@ window.onload=function()
   Show_Hidden(odiv11_5);
   return false;
  }
+ olink11_6.onclick=function()
+ {
+  Show_Hidden(odiv11_6);
+  return false;
+ }
+ olink11_7.onclick=function()
+ {
+  Show_Hidden(odiv11_7);
+  return false;
+ }
+ olink11_8.onclick=function()
+ {
+  Show_Hidden(odiv11_8);
+  return false;
+ }
+
 
  olink12.onclick=function()
  {

@@ -549,7 +549,7 @@
                   </li>
                   <li>多对多模型：用户线程映射到相同数量或更少数量的内核线程上
                     <ul>
-                      <li> 优点：并发性高，虽然相较一对一模型没有增加并发性（内核一次还是只能调度一个内核线程），但相较多对一模型，用户线程可执行时间变多；可以创建任意多用户线程。</li>
+                      <li>优点：并发性高，虽然相较一对一模型没有增加并发性（内核一次还是只能调度一个内核线程），但相较多对一模型，用户线程可执行时间变多；可以创建任意多用户线程。</li>
                     </ul>
                   </li>
                 </ul>
@@ -596,9 +596,9 @@
                               </li>
                             </ul>
                           </li>
-                          <li>pthread_exit(output) -> pthread_join(tid,(void**)output)
+                          <li>pthread_exit(output) -> pthread_join(tid,(void**)&output)
                             <ul>
-                              <li>作用：将全局变量或堆指针（pass by reference not value）返回给父线程，从而使用子线程处理好的数据</li>
+                              <li>作用：将全局变量指针或堆指针（pass by reference not value，例如这里exit函数的参数output必须是一个指针）返回给父线程，父线程用一个指向指针的指针(output是一个指针，用它的地址作为join的参数)来存放，从而通过指针使用子线程处理好的数据</li>
                             </ul>
                           </li>
                         </ul>

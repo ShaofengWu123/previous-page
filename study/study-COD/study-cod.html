@@ -1182,21 +1182,67 @@
                   <img src="./complete_memory_access.png">
                 </li>
                 <li>段式虚存
-                  <li>段表：程序特定
+                  <ul>
+                    <li>段表：程序特定
                     <br>逻辑地址 = 逻辑段号 + 段内偏移
                     <br>段表entry = valid + 段物理起始地址 + 段长
                     <br>地址映射：(段表基址+逻辑段号->物理段起始地址) + 段内偏移->物理地址 ， 最多两次访存
                   </li>
+                  </ul>
                 </li>
                 <li>段页式虚存
-                  <li>段表+页表：可重入段是程序特定的，局部变量等在执行时copy到各进程的局部数据段
+                  <ul>
+                   <li>段表+页表：可重入段是程序特定的，局部变量等在执行时copy到各进程的局部数据段
                     <br>逻辑地址 = 逻辑段号 + 逻辑页号 + 页内偏移
                     <br>段表entry = valid + 页表起始地址 + 段长，页表entry = valid + 虚拟页号 + 权限 + 物理页号
                     <br>地址映射：((段表基址+逻辑段号->页表起始地址) + 逻辑页号) + 页内偏移->物理地址 ， 最多三次访存
-                  </li>
+                  </li> 
+                  </ul>
                 </li>
                 <a href="https://blog.csdn.net/low5252/article/details/106075945">段页式存储参考</a>
               </ul>
+              <table>
+                <thead>
+                  <tr>
+                    <th style="text-align: left">对比项</th>
+                    <th style="text-align: left">段式虚存</th>
+                    <th style="text-align: left">页式虚存</th>
+                    <th style="text-align: left">段页式虚存</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td style="text-align: left">最小单位</td>
+                    <td style="text-align: left">页</td>
+                    <td style="text-align: left">段</td>
+                    <td style="text-align: left">段</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left">特定</td>
+                    <td style="text-align: left">进程特定</td>
+                    <td style="text-align: left">程序特定</td>
+                    <td style="text-align: left">程序特定</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left">共享</td>
+                    <td style="text-align: left">使用可重入代码时，不同进程中一些逻辑页会被映射到可重入代码使用的物理页，但各进程的私有数据和局部变量所使用的帧则各不相同</td>
+                    <td style="text-align: left">在每个进程的段表中对多进程共享的可重入代码设置一个段表项，每个进程的私有数据和局部变量必须使用独立的段保存且不提供共享。<br>若有不可避免的代码修改，那么拷贝可重入段到局部数据区以支持对数据的修改</td>
+                    <td style="text-align: left">同上</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left">优点</td>
+                    <td style="text-align: left">页长固定，碎片少，便于构造、管理页表，利用了程序的局部性</td>
+                    <td style="text-align: left">段是逻辑单位，对程序员可见，并且有利于存储、保护、共享</td>
+                    <td style="text-align: left">综合两者</td>
+                  </tr>
+                  <tr>
+                    <td style="text-align: left">缺点</td>
+                    <td style="text-align: left">分页对程序员不可见(透明)，没有逻辑独立性，不利于编程、管理，并且页表一般大于段表</td>
+                    <td style="text-align: left">连续分配段的存储空间比较复杂，导致碎片化，并且换出时开销大<br>段长不一定是2的幂次，无法使用移位来计算和，需要更多硬件支持(例如加法器)</td>
+                    <td style="text-align: left">综合两者</td>
+                  </tr>
+                </tbody>
+              </table>
               <p>三种虚存示意图实现对比
                 <br>页表<br>
                 <img src="./page_table.png">

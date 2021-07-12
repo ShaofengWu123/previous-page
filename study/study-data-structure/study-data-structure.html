@@ -47,7 +47,9 @@
       <h2><a id="ds-outline">Content outline</a></h2>
       <p>
         <ul>
-          <li>Linear list/线性表</li>
+          <a href="#" id="link1_1"></a><div id="thediv1_1" style="display:none"></div><a href="#" id="link1_2"></a><div id="thediv1_2" style="display:none"></div><a href="#" id="link1_3"></a><div id="thediv1_3" style="display:none"></div><a href="#" id="link1_4"></a><div id="thediv1_4" style="display:none"></div><a href="#" id="link1_5"></a><div id="thediv1_5" style="display:none"></div>
+          <li><a href="#" id="link1">Linear list/线性表</a>
+          <div id="thediv1" style="display:none">
           <ul>
             <li>基本定义:<br>n(n>=0)个具有相同特性元素组成的有限序列。</li>
             <li>顺序实现：顺序表
@@ -72,8 +74,11 @@ typedef struct _lnode{
               <li>容易搞错的基本操作：清空表、销毁表</li>
             </ul>
           </ul>
+          </div>
+          </li>
 
-          <li><abbr title="仅限定在表尾或者说栈顶进行插入删除操作的特殊线性表，LIFO">Stack</abbr></li> 
+          <a href="#" id="link2_1"></a><div id="thediv2_1" style="display:none"></div><a href="#" id="link2_2"></a><div id="thediv2_2" style="display:none"></div><a href="#" id="link2_3"></a><div id="thediv2_3" style="display:none"></div><a href="#" id="link2_4"></a><div id="thediv2_4" style="display:none"></div><a href="#" id="link2_5"></a><div id="thediv2_5" style="display:none"></div>
+          <li><a href="#" id="link2"><abbr title="仅限定在表尾或者说栈顶进行插入删除操作的特殊线性表，LIFO">Stack</abbr> </a><div id="thediv2" style="display:none">
           <ul>
             <li>顺序实现：顺序栈
               <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define STACK_INIT_SIZE 100
@@ -103,8 +108,9 @@ typedef struct _linkstack{
                 <li>检测括号匹配</li>
                 <li>中缀式求值：
                   <ul>
-                    <li>双栈求值（符号栈和数字栈）：<br>&nbsp &nbsp 数字入栈；当前符号优先级小于栈顶符号优先级，处理栈顶符号；当前符号优先级大于栈顶符号优先级，入栈等待；相等，消配对括号</li>
-                    <li>中缀式转后缀式（逆波兰式）:<br>&nbsp &nbsp 方法和双栈求值类似，注意碰到右括号时一直出栈直到左括号出栈；逆波兰式求值一次弹出两个数字，此时运算顺序已经排列好了</li>
+                    <li>双栈求值（符号栈和数字栈）：数字入栈；当前符号优先级小于栈顶符号优先级，处理栈顶符号；当前符号优先级大于栈顶符号优先级，入栈等待；相等，消配对括号</li>
+                    <li>中缀式转后缀式（逆波兰式）：数字直接输出，注意碰到右括号时一直出栈直到左括号出栈；逆波兰式求值一次弹出两个数字，此时运算顺序已经排列好了</li>
+                    <li>中缀式转前缀式（波兰式）：和前缀式构造类似，从中缀式最右侧开始倒着读，输出放入一个队列中，数字输出，符号优先级低于栈顶那么栈顶出栈，注意碰到右括号时一直出栈直到左括号出栈；波兰式求值从右往左进行，同样遇到符号一次弹出两个数字，运算顺序已经排列好</li>
                   </ul>
                 <li>函数调用
                   <ul>
@@ -121,8 +127,12 @@ typedef struct _linkstack{
               </ul>
             </li>
           </ul>
+        </div>
+        </li>
 
-          <li><abbr title="仅限定在一端进行插入，另一端进行删除的特殊线性表，FIFO">Queue</abbr>
+        <a href="#" id="link3_1"></a><div id="thediv3_1" style="display:none"></div><a href="#" id="link3_2"></a><div id="thediv3_2" style="display:none"></div><a href="#" id="link3_3"></a><div id="thediv3_3" style="display:none"></div><a href="#" id="link3_4"></a><div id="thediv3_4" style="display:none"></div><a href="#" id="link3_5"></a><div id="thediv3_5" style="display:none"></div><a href="#" id="link3_6"></a><div id="thediv3_6" style="display:none"></div>
+          <li><a href="#" id="link3"><abbr title="仅限定在一端进行插入，另一端进行删除的特殊线性表，FIFO">Queue</abbr></a>
+            <div id="thediv3" style="display:none">
             <ul>
               <li>链式实现：链式队列
                 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>typedef struct _queuenode{
@@ -149,9 +159,12 @@ typedef struct _sqqueue{
                 </ul>
               </li>
             </ul>
+          </div>
           </li> 
 
-          <li><abbr title="0个或多个字符组成的有限序列">String</abbr>
+          <a href="#" id="link4_1"></a><div id="thediv4_1" style="display:none"></div><a href="#" id="link4_2"></a><div id="thediv4_2" style="display:none"></div><a href="#" id="link4_3"></a><div id="thediv4_3" style="display:none"></div><a href="#" id="link4_4"></a><div id="thediv4_4" style="display:none"></div><a href="#" id="link4_5"></a><div id="thediv4_5" style="display:none"></div><a href="#" id="link4_6"></a><div id="thediv4_6" style="display:none"></div>
+          <li><a href="#" id="link4"><abbr title="0个或多个字符组成的有限序列">String</abbr></a>
+            <div id="thediv4" style="display:none">
             <ul>
               <li>基本概念<br>&nbsp &nbsp 串值、串长、空串、<abbr title="空格组成的串">空白串</abbr>、子串、<abbr title="从1开始计数，要注意英文字符、数字等为1字节，汉字是2字节">子串的位置</abbr>、串相等、串变量、串常量</li>
               <li>定长顺序存储实现
@@ -224,16 +237,26 @@ typedef struct _bstring{
                 </ul>
               </li>
             </ul>
+          </div>
           </li>
 
-          <li><abbr title="n(n>1)个具有相同特性数据元素组成的地址连续的有限序列。数组采用随机存取，可以视为线性表的推广，其中数据元素可以是一个数据结构。">Array</abbr>
+          <a href="#" id="link5_1"></a><div id="thediv5_1" style="display:none"></div><a href="#" id="link5_2"></a><div id="thediv5_2" style="display:none"></div><a href="#" id="link5_3"></a><div id="thediv5_3" style="display:none"></div><a href="#" id="link5_4"></a><div id="thediv5_4" style="display:none"></div><a href="#" id="link5_5"></a><div id="thediv5_5" style="display:none"></div><a href="#" id="link5_6"></a><div id="thediv5_6" style="display:none"></div>
+          <li><a href="#" id="link5"><abbr title="n(n>1)个具有相同特性数据元素组成的地址连续的有限序列。数组采用随机存取，可以视为线性表的推广，其中数据元素可以是一个数据结构。">Array</abbr></a>
+            <div id="thediv5" style="display:none">
             <ul>
               <li>存储方式
                 <ul>
                   <li>二维数组：<abbr title="同一行的元素优先放在连续的地址空间">行优先存放</abbr>、列优先存放。另外要注意所有数组的下标都是从0开始的。
-                  <br>行优先存放：LOC(i,j) = a + (in+j)L
+                    <ul>
+                      <li>行优先存放：LOC(i,j) = a + (in+j)L</li>
+                    </ul>
                   </li>
-                  <li>n维数组：映象函数。n维数组由b1个n-1维数组构成，以此类推。<br> LOC(j1,j2,j3,...,jn) = a + Σciji ,其中ci是第i维地址系数，用于提高运算速度，ji是第i维坐标<br>cn = L, cj-1 = cj * bj</li>
+                  <li>n维数组：
+                    <ul>
+                      <li>映象函数。n维数组由b1个n-1维数组构成，以此类推。<br> LOC(j1,j2,j3,...,jn) = a + Σciji ,其中ci是第i维地址系数，用于提高运算速度，ji是第i维坐标<br>cn = L, cj-1 = cj * bj</li>
+                      <li>对于特殊的矩阵：三对角矩阵、上/下三角矩阵计算坐标和顺序位置的关系？->方程组或者直接按规律推导某元素前面有多少个</li>
+                    </ul>
+                  </li>
                 </ul>
               </li>
               <li>顺序实现
@@ -254,12 +277,16 @@ typedef struct _bstring{
                 </ul>
               </li>
             </ul>
+          </div>
           </li>
 
-          <li><abbr title="0和非零元素分布有一定规律的矩阵">特殊矩阵</abbr>
+          <a href="#" id="link6_2"></a><div id="thediv6_2" style="display:none"></div><a href="#" id="link6_3"></a><div id="thediv6_3" style="display:none"></div><a href="#" id="link6_4"></a><div id="thediv6_4" style="display:none"></div><a href="#" id="link6_5"></a><div id="thediv6_5" style="display:none"></div>
+          <li><a href="#" id="link6"><abbr title="0和非零元素分布有一定规律的矩阵">特殊矩阵</abbr></a>
+          <div id="thediv6" style="display:none">
           <ul>
             <li>对称矩阵、二对角矩阵、三对角矩阵：顺序压缩存储映象函数的求解 <br> 一般为线性关系，通过 k = ai + bj + c 解方程来求解</li>
-            <li><abbr title="非零元素远少于0元素的矩阵"></abbr>稀疏矩阵(Sparse Matrix)
+            <li><a href="#" id="link6_1"><abbr title="非零元素远少于0元素的矩阵">稀疏矩阵(Sparse Matrix)</abbr></a>
+              <div id="thediv6_1" style="display:none">
               <ul>
                 <li>顺序存储实现：三元组表(Triple)
                 <img src="三元组表.png"><br>
@@ -273,6 +300,14 @@ typedef struct _tsmatrix{
   Triple data[MAXSIZE+1];//索引0处未用，行为主序（行数小的在前面）
   int mu, nu, tu;//行数、列数、非零元素数
 }TSMatrix;</code></pre></div></div> 
+                  <ul>
+                    <li>三元组表实现矩阵转置操作
+                      <ul>
+                        <li>方法1：先交换行号和列号，再按照行先序、列次序的顺序进行排序</li>
+                        <li>方法2：从列号j=1开始，重复从前往后搜索列号等于j的元素（先搜索到的元素行号更小），然后放入新的三元组表内，对j=1到j=n循环。时间复杂度O(tu*nu)，即每次都要搜索表，要搜索nu次</li>
+                      </ul>
+                    </li>
+                  </ul>
                 </li>
                 <li>链式存储实现：十字链表
                   <img src="十字链表.png"><br>
@@ -287,26 +322,34 @@ typdef struct _crosslist{
   OLnode ** chead, rhead;//列指针、行指针数组
 }CrossList;
 </code></pre></div></div> 
-十字链表的优点：<br>对于需要大量移动非零元素位置的操作，十字链表比三元组表更加容易。例如转置（递归交换down和right指针即可）、等于x的元素置零（递归实现，递归过程中记录递归来源节点的指针从而修改链表连接关系，例如将上一个节点的right指针指向被置零节点的right）等操作
+                  <ul>
+                    <li>十字链表的优点：<br>对于需要大量移动非零元素位置的操作，十字链表比三元组表更加容易。例如转置（每一行递归交换down和right指针以及行、列域值即可）、等于x的元素置零（每一行递归实现，递归过程中记录递归来源节点的指针从而修改链表连接关系，例如将上一个节点的right指针指向被置零节点的right）等操作</li>
+                  </ul>
+                
                 </li>
-                <li>注意事项：<br> &nbsp &nbsp 绘制三元组表要注意行/列为主序，列/行为次序；绘制十字链表注意节点包括行、列、值和down、right</li>
+                <li>注意事项
+                  <ul>
+                    <li>绘制三元组表要注意如果行/列为主序，那么列/行为次序</li>
+                    <li>绘制十字链表注意节点包括行、列、节点value和down、right五个域</li>
+                  </ul>
+                </li>
               </ul>
-            </li>
-            <li>三元组表实现矩阵转置操作
-              <li>方法1：先交换行号和列号，再按照行先序、列次序的顺序进行排序</li>
-              <li>方法2：从列号j=1开始，重复从前往后搜索列号等于j的元素（先搜索到的元素行号更小），然后放入新的三元组表内，对j=1到j=n循环。时间复杂度O(tu*nu)，即每次都要搜索表，要搜索nu次</li>
+            </div>
             </li>
           </ul>
+          </div>
           </li>
 
-          <li><abbr title="n(n>=0)个元素组成的有限序列，其中元素可以是原子，也可以是广义表。广义表是线性表的推广">广义表（Lists）</abbr>
+          <a href="#" id="link7_1"></a><div id="thediv7_1" style="display:none"></div><a href="#" id="link7_2"></a><div id="thediv7_2" style="display:none"></div><a href="#" id="link7_3"></a><div id="thediv7_3" style="display:none"></div><a href="#" id="link7_4"></a><div id="thediv7_4" style="display:none"></div><a href="#" id="link7_5"></a><div id="thediv7_5" style="display:none"></div>
+          <li><a href="#" id="link7"><abbr title="n(n>=0)个元素组成的有限序列，其中元素可以是原子，也可以是广义表。广义表是线性表的推广">广义表（Lists）</abbr></a>
+            <div id="thediv7" style="display:none">
             <ul>
               <li>基本定义
                 <ul>
                   <li>表头：表非空时，表中第一个元素称作表头。</li>
                   <li>表尾：除去表头其他元素组成的<strong>广义表</strong>称作表尾。</li>
                   <li>表长：广义表中元素的个数。</li>
-                  <li>表深：广义表中括号的最大层数。空表的深度为0。</li>
+                  <li>表深：广义表中括号的最大层数。空表的深度为1，原子节点深度为0。</li>
                 </ul>
               </li>
               <li>常见问题
@@ -331,16 +374,19 @@ typdef struct _crosslist{
               </li>
 
             </ul>
+          </div>
           </li>   
 
-
-          <li>Tree</li>
+          <a href="#" id="link8_5"></a><div id="thediv8_5" style="display:none"></div><a href="#" id="link8_6"></a><div id="thediv8_6" style="display:none"></div><a href="#" id="link8_7"></a><div id="thediv8_7" style="display:none"></div>
+          <li><a href="#" id="link8">Tree</a></li>
+          <div id="thediv8" style="display:none">
             <ul>
               <li>Basic definations:<br>
                 node, <abbr title="子树的数量">degree</abbr>, leaf, branch node, <abbr title="节点最大度数">degree of tree</abbr>, level, height, <abbr title="孩子左右顺序是否能变换">ordered/disordered tree</abbr>, forest, child, parent, sibling, ancestor, descendant  
               </li>
 
-              <li>Binary tree</li>
+              <li><a href="#" id="link8_1">二叉树/Binary tree</a></li>
+              <div id="thediv8_1" style="display:none">
                 <ul>
                   <li><abbr title="除最深一层右边可能缺少节点（可以缺奇/偶数个节点），其它各层均满">完全二叉树</abbr>和<abbr title="各层均满的二叉树">满二叉树</abbr></li>
                   <li>二叉树的性质</li>
@@ -379,8 +425,10 @@ typdef struct _crosslist{
                     <li>线索二叉树寻找前驱或者后继</li>
                   </ul>
                 </ul>
+              </div>
 
-              <li>Tree</li>
+              <li><a href="#" id="link8_2">一般树</a></li>
+              <div id="thediv8_2" style="display:none">
               <ul>
                 <li>树的存储结构</li>
                 <ul>
@@ -400,15 +448,19 @@ typdef struct _crosslist{
                   <li>层序遍历：<br>借助孩子兄弟表示法和队列实现</li>
                 </ul>
               </ul>
-
-              <li>Forest</li>
+              </div>
+            
+              <li><a href="#" id="link8_3">Forest</a></li>
+              <div id="thediv8_3" style="display:none">
               以下均是在森林非空的前提下进行的
               <ul>
                 <li><abbr title="访问第一颗子树的根，然后先序遍历第一颗子树去掉根后的子树森林，最后先序遍历去掉第一棵树后的森林">先序遍历</abbr>：<br>借助孩子兄弟表示法和先序遍历实现，也可看做依次先根遍历子树</li>
                 <li><abbr title="中序遍历第一颗子树去掉根后的子树森林，然后访问第一颗子树的根，最后中序遍历去掉第一棵树后的森林">中序遍历</abbr>：<br>借助孩子兄弟表示法和中序遍历实现，也可看做依次后根遍历子树</li>
               </ul>
+              </div>
 
-              <li>Huffman tree</li>
+              <li><a href="#" id="link8_4">Huffman tree</a></li>
+              <div id="thediv8_4" style="display:none">
               <ul>
                 <li>基本概念<br><abbr title="带权路径长度最小的二叉树">哈夫曼树</abbr>、树的内部/外部路径长度、带权路径长度</li>
                 <li>一些简单的问题</li>
@@ -421,9 +473,13 @@ typdef struct _crosslist{
                 <li>Huffman算法 - 构建Huffman树</li>
                 <li>Huffman树以及Huffman算法的代码实现<br>推荐的数据结构：结构体数组</li>
               </ul>
+            </div>
+            
             </ul>
-
-          <li>Graph
+            </div>
+          <a href="#" id="link9_4"></a><div id="thediv9_4" style="display:none"></div><a href="#" id="link9_5"></a><div id="thediv9_5" style="display:none"></div><a href="#" id="link9_6"></a><div id="thediv9_6" style="display:none"></div><a href="#" id="link9_7"></a><div id="thediv9_7" style="display:none"></div>
+          <li><a href="#" id="link9">Graph</a></li>
+            <div id="thediv9" style="display:none">
             <ul>
               <li>重要概念（简单概念省略）：<br>
               <abbr title="带权图">网络</abbr>、<abbr title="有向边">弧</abbr>、<abbr title="无重边的情况下有n(n-2)/2或者n(n-1)条边的图称为完全图、有向完全图">完全图/有向完全图</abbr>、<abbr title="点不重复的路径，即轨道">简单路径</abbr>、
@@ -431,8 +487,10 @@ typdef struct _crosslist{
               <abbr title="连通图的生成树是其极小连通子图">生成树</abbr>、<abbr title="恰有一个顶点入度为0，其余顶点入度为1的树">有向树</abbr>、<abbr title="包含图所有顶点的若干棵不相交的树，生成森林不唯一">生成森林</abbr>、
               <abbr title="e 小于 nlogn">稀疏图</abbr>、<abbr title="不稀疏的图">稠密图</abbr>
               </li>
-              <li>图的存储结构<br>邻接矩阵、邻接链表、十字链表、邻接多重表、边表
+              <li><a href="#" id="link9_1">图的存储结构</a>
+                <div id="thediv9_1" style="display:none">
                 <ul>
+                  <li>邻接矩阵、邻接链表、十字链表、邻接多重表、边表</li>
                   <li>邻接矩阵（二维数组）+顶点数组<br>
                     注意：对于有向图，下图中邻接表行为起点，列为终点。对于带权图，不相关联的点边权置为INF；对于不带权图，不相关联的边置为0。
                     <img src="图的邻接矩阵.png">
@@ -523,10 +581,11 @@ typedef struct _amlgraph{
 }AMLGraph;
 </code></pre></div></div>
                 </li>
-                </ul>
+                </ul></div>
               </li>
 
-            <li>图的搜索与遍历
+            <li><a href="#" id="link9_2">图的搜索与遍历</a>
+              <div id="thediv9_2" style="display:none">
               <ul>
                 <li>图的搜索框架：基于Fringe集合 <br> &nbsp &nbsp 不同的搜索算法即插入Fringe集合的方式不同。
                   <ul>
@@ -574,6 +633,12 @@ typedef struct _amlgraph{
                     </li>
                   </ul>
                 </li>
+              </ul></div>
+            </li>
+
+            
+            <li><a href="#" id="link9_3">图的应用</a><div id="thediv9_3" style="display:none">
+              <ul>
                 <li>图的应用1：最小生成树算法
                   <ul>
                     <li>Prim算法
@@ -640,18 +705,20 @@ typedef struct _amlgraph{
                     </li>
                   </ul>
                 </li>
-
-                </li>
               </ul>
+            </div>
             </li>
-            </ul>
-          </li>
+            </ul></div>
 
-          <li>查找表（Search table）
+            
+          
+          <li><a href="#" id="link10">查找表（Search table）</a>
+            <div id="thediv10" style="display:none">
             <ul>
               <li>基本概念：<br><abbr title="数据元素中某数据项的值，用于标识一个或多个数据元素。">关键字</abbr>、<abbr title="只能识别唯一一个记录的关键字">主关键字</abbr>、<abbr title="可以识别多个记录的关键字">次关键字</abbr>、
               <abbr title="仅做查询和检索操作的查找表">静态查找表</abbr>、<abbr title="查找过程中插入或删除记录的查找表">动态查找表</abbr>、<abbr title="平均查找长度，查找成功时ASL=Σpici">ASL</abbr></li>
-              <li>静态查找表
+              <li><a href="#" id="link10_1">静态查找表</a>
+              <div id="thediv10_1" style="display:none">
                 <ul>
                   <li>顺序查找表
                     <ul>
@@ -678,11 +745,14 @@ typedef struct _amlgraph{
                   </li>
                   <li>静态查找表插入删除最好的时间复杂度为？查找呢？ <br>答：插入删除最好的为O(1)，即无序链表查找表；查找最好为O(logn)，即有序查找表的查找。</li>
                 </ul>
+              </div>  
               </li>
 
-              <li>动态查找表
+              <li><a href="#" id="link10_2">动态查找表</a>
+                <div id="thediv10_2" style="display:none">
                 <ul>
-                  <li>二叉排序树
+                  <li><a href="#" id="link10_3">二叉排序树</a>
+                    <div id="thediv10_3" style="display:none">
                     <ul>
                     <li>定义与特点：对于所有节点，其左子树所有节点小于该节点，右子树所有节点大于该节点。</li>
                     <li>二叉排序树常见算法：
@@ -717,8 +787,11 @@ typedef struct _amlgraph{
                       </ul>
                     </li>
                     </ul>
+                  </div>
                   </li>
-                  <li>平衡二叉排序树
+                  <li><a href="#" id="link10_4">平衡二叉排序树</a>
+                    <div id="thediv10_4" style="display:none">
+                    
                     <ul>
                       <li>定义：是平衡树的二叉排序树。其中平衡树左右子树深度相差最大为1，且左右子树也是平衡树。平衡二叉排序树可以解决二叉排序树性能受形态影响的缺点。</li>
                       <li>平衡二叉树的性质：<br>对于深度为h的平衡二叉树，其拥有的最少节点数为N<sub>h</sub>，其中N<sub>h</sub> = N<sub>h-1</sub>+N<sub>h-2</sub>+1。因此对于拥有n个节点的平衡二叉树，可反推出h为O(logn)（斐波那契数列），平均查找长度为O(logn)</li>
@@ -744,8 +817,10 @@ typedef struct _amlgraph{
                         方法：按给定序列构造二叉排序树，每增加一个节点就从增加节点位置向上检查平衡因子，对失衡节点执行平衡化旋转即可。
                       </li>
                     </ul>
+                  </div>
                   </li>
-                  <li>B-树：多路平衡查找树
+                  <li><a href="#" id="link10_5">B-树：多路平衡查找树</a>
+                    <div id="thediv10_5" style="display:none">
                     <ul>
                       <img src="B-树例子.png">
                       <li>定义：一棵非空的m阶B-树满足以下的性质：<br>
@@ -778,8 +853,10 @@ typedef struct _BTNode{
                       </li>
                       <img src="B-树删除.png">
                     </ul>
+                  </div>
                   </li>
-                  <li>B+树：B-树的变体
+                  <li><a href="#" id="link10_6">B+树：B-树的变体</a>
+                    <div id="thediv10_6" style="display:none">
                     <ul>
                       <li>定义：一棵非空的m阶B+树满足以下性质：<br>
                       1、根节点至少有两棵子树，至多有m棵子树<br>
@@ -791,8 +868,10 @@ typedef struct _BTNode{
                       <li>B+树的查找：类似于B-树，但对于所有记录查找长度都相同，均为树高。</li>
                       <li>B+树的插入和删除：类似于B-树，但是要符合B+树的定义，并且只在叶子节点进行，同时改变对应的非终端节点。</li>
                     </ul>
+                  </div>
                   </li>
-                  <li>哈希表
+                  <li><a href="#" id="link10_7">哈希表</a>
+                    <div id="thediv10_7" style="display:none">
                     <ul>
                       <li>定义：根据设定的哈希函数H(key) = Addr(a)，将一组关键字映射到一个有限的、地址连续的地址集上。哈希查找（散列查找）通过key和H，一存取就能找到要查找的记录。</li>
                       <li>常见哈希函数：
@@ -820,7 +899,7 @@ typedef struct _BTNode{
                           <img src="链地址法.png">
                         </li>
                         <li>再哈希法：当发生冲突时，用另一个哈希函数计算下一个哈希地址，即H<sub>i</sub>=RH<sub>i</sub>(key)</li>
-                        <li>建立公共溢出区：在基本散列表之外，另设一个溢出表保存与基本表中记录冲突的所有记录
+                        <li>建立公共溢出区：在基本散列表之外，另设一个溢出表保存与基本表中记录冲突的所有记录，当在哈希表中查找到的值不匹配时，在公共溢出区顺序查找
                           <img src="建立公共溢出区.png">
                         </li>
                       </ul>
@@ -831,12 +910,362 @@ typedef struct _BTNode{
                         探测链与同义词的概念。
                       </li>
                     </ul>
+                  </div>
                   </li>
                 </ul>
+              </div>
               </li>
 
             </ul>
+          </div>
           </li>
+
+          
+
+          <li><a href="#" id="link11">排序算法</a>
+            <div id="thediv11" style="display:none">
+            <ul>
+              <li>内部排序：待排序记录存放在随机存储器内的，在随机存储器内进行排序的过程
+                <ul>
+                  <li><a href="#" id="link11_1">插入排序</a>
+                    <div id="thediv11_1" style="display:none">
+                    <ul>
+                      <li>插入排序
+                        <ul>
+                          <li>基本实现：0处设置监视哨，将第i个元素插入前i-1个元素的有序序列内，同时从后向前移动元素，完成后i++</li>
+                        </ul>
+                      </li>
+                      <li>折半插入排序
+                        <ul>
+                          <li>基本实现：查找位置不再从后向前查找，而是折半查找</li>
+                        </ul>
+                      </li>
+                      <li>希尔排序
+                        <ul>
+                          <li>基本实现：构造"基本有序"序列，插入时增量移动</li>
+                          <li>增量序列的选择</li>
+                        </ul>
+                      </li>
+                    </ul>
+                    </div>
+                  </li>
+                  <li><a href="#" id="link11_2">冒泡排序</a>
+                    <div id="thediv11_2" style="display:none">
+                    <ul>
+                      <li>冒泡排序
+                        <ul>
+                          <li>基本实现：相邻元素比较，不断交换元素至最后一位，若无元素发生交换则停止</li>
+                        </ul>
+                      </li>
+                      <li>快速排序
+                        <ul>
+                          <li>基本实现：将第一个元素起泡至当前序列某位置(过程中将低位大元素移到高位，高位小元素移到低位)，然后分别对两个子序列重复</li>
+                          <li>栈空间的改进：利用循环(只进行两次的循环)，先执行较短子序列的调用，从而进行尾递归</li>
+                        </ul>
+                      </li>
+                    </ul>
+                    </div>
+                  </li>
+                  <li><a href="#" id="link11_3">选择排序</a>
+                    <div id="thediv11_3" style="display:none">
+                    <ul>
+                      <li>选择排序
+                        <ul>
+                          <li>基本实现：前i-1个最小元素已排列好，从后h-i+1个元素中选出最小的，与第i个元素交换，然后i++，即不断选出第一小、第二小...的过程</li>
+                        </ul>
+                      </li>
+                      <li>树型选择排序
+                        <ul>
+                          <li>基本实现：元素两两比较构造一棵胜者树(锦标赛)，根为冠军，输出根后将根对应的叶子改为INF，再进行树的构造，注意：未修改的另外一个子树不需要做任何操作，比较结果直接复用</li>
+                        </ul>
+                      </li>
+                      <li>堆排序
+                        <ul>
+                          <li>基本实现：与树型选择排序类似，但构造堆直接从数组下标关系得到完全二叉树，然后从最后一个非终端节点调整；输出根之后，用树的最后一个元素(数组存储的树中最后一个元素)替换根，然后调整树得到新堆（重复筛选）</li>
+                          <li>建堆和筛选的方法/示意图</li>
+                        </ul>
+                      </li>
+                    </ul></div>
+                  </li>
+                  <li><a href="#" id="link11_4">归并排序</a>
+                    <div id="thediv11_4" style="display:none">
+                    <ul>
+                      <li>基本实现：将元素两两归并，然后将有序段两两归并，重复直到整个数组有序</li>
+                    </ul>
+                  </div>
+                  </li>
+                  <li><a href="#" id="link11_5">基数排序</a>
+                    <div id="thediv11_5" style="display:none">
+                    <ul>
+                      <li>多关键字排序
+                        <ul>
+                          <li>实现方法
+                            <ul>
+                              <li>MSD/最高位优先：先按最主位关键字分堆并排序，然后堆内按次关键字分堆并排序，重复直到对最次关键字分堆并排序，注意：除了第一次，每次都是在对某个子序列排序</li>
+                              <li>LSD/最低位优先：先对最次关键字排序，然后对高一位关键字排序，直到对最高位关键字排序，注意：每次都是整个序列在参与排序，但是在逐渐变得部分有序</li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                      <li>链式基数排序
+                        <ul>
+                          <li>基本实现：把单逻辑关键字视为多关键字的复合，然后从最次关键字开始，按照队列顺序，分配并收集，再按照新队列顺序，分配并收集，直到对主关键字分配收集，得到有序序列</li>
+                        </ul>
+                      </li>
+                    </ul>
+                    </div>
+                  </li>
+                  <li>基于比较的内部排序算法最坏时间复杂度证明
+                    <ul>
+                      <li>证明方法：判定树，其叶子为n!种可能的初始状态，那么树高为log(n!)，即O(nlogn)</li>
+                    </ul>
+                  </li>
+                </ul>
+              </li>
+              <li>外部排序
+                <ul>
+                  <li>一般方法：分成m个初始段并每一段内部排序，然后k路归并。每次从外存中读取k个block的数据放入k个内存缓冲区，归并结果写入一个内存缓冲区内，写满则进行I/O从而落盘</li>
+                  <li><a href="#" id="link11_6">总时间计算</a>
+                    <div id="thediv11_6" style="display:none">
+                    <ul>
+                      <li>初始段内部排序：m*t<sub>1</sub>，m为段数</li>
+                      <li>总读写时间：t<sub>2</sub>*(2*(归并趟数+1)*记录数/块大小)，加一是因为初始段内部排序还需要对所有记录进行“一趟”读写</li>
+                      <li>每一趟归并的时间与趟数乘积：趟数*记录数*t<sub>3</sub>，t<sub>3</sub>为平均对每个记录归并消耗的时间，它和<strong>路数</strong>有关
+                        <ul>
+                          <li>注意：对长m和长n的段进行2路-归并的时间为O(m+n)，所以归并时间只和总记录数和路数有关</li>
+                        </ul>
+                      </li>
+                      <li>总时间主要和<strong>读写时间</strong>有关
+                        <ul>
+                          <li>读写时间计算：每一趟归并读写次数是固定的，因为总记录数量确定。对于k叉树，叶子m个，树高为min(log<sub>k</sub>m)+1，归并趟数为min(log<sub>k</sub>m)
+                            <ul>
+                              <li>总读写时间：O(log<sub>k</sub>m)，其中k为归并路数，m为初始段数量</li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                    </div>
+                  </li>
+                  <li><a href="#" id="link11_7">多路平衡归并：增加路数k以减小读写时间</a>
+                    <div id="thediv11_7" style="display:none">
+                    <ul>
+                      <li>基础实现：增大k，但是这样会导致每一趟内部归并时间变长</li>
+                      <li>进阶实现：败者树，即利用上一次归并已比较的元素的结果
+                        <ul>
+                          <li>败者树：内部节点记录败者信息，与树型选择排序胜者树相反，好处在于当叶子发生变化时，只需要与父亲比较而不需要先找到父亲再找到兄弟比较，减少读写次数(对于外存来说收益大，若都在内存减少的收益有但不大)</li>
+                          <li>时间复杂度：
+                            <ul>
+                              <li>单次归并/平均每个元素归并时间：
+                                <ul>
+                                  <li>除了建树，每次归并比较次数为log<sub>2</sub>k，因为只需要在上次结果所处的半边子树进行调整，最后在根处和另一个子树的结果(败者)比较即可</li>
+                                </ul>
+                              </li>
+                              <li>总内部归并时间：s*(n-1)*log<sub>2</sub>k = (n-1)*log<sub>2</sub>m，与路数无关，所以增加k不会引起内部归并时间上升(m不变)</li>
+                            </ul>
+                          </li>
+                          <li>实现细节：归并段若变空，那么可以在归并段最后添加MAX/MIN</li>
+                        </ul>
+                      </li>
+                      <img src="./败者树.png">
+                      <li>优缺点
+                        <ul>
+                          <li>优点：
+                            <ul>
+                              <li>增加了路数并使用败者树，在减少读写次数(其实是减少归并趟数)的同时保证总的内部归并时间不会因为路数上升而上升</li>
+                              <li>注意：<strong>单趟读写次数不变，并且单趟、单次归并比较次数还是会上升的</strong></li>
+                            </ul>
+                          </li>
+                          <li>缺点：需要增加内存缓冲区的大小，如果k过大，单个内存缓冲区变小，读写次数反而上升</li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                  </li>
+                  <li><a href="#" id="link11_8">置换-选择排序：减少归并段数量/增加归并段长度</a>
+                    <div id="thediv11_7" style="display:none">
+                    <ul>
+                      <li>原本的实现：归并段长度等于内存工作区长度w，故有n/w个初始段</li>
+                      <li>置换-选择排序
+                        <ul>
+                          <li>原理：归并段不等长，且平均长度大于w，因此趟数减少(假设路数k不变)</li>
+                          <li>实现
+                            <ul>
+                              <li>向工作区读入w个记录，然后构造败者树，并且将冠军写入输出文件</li>
+                              <li>顺序读取下一个记录，如果其大于上一个冠军，段号不变；如果其小于上一个冠军，其段号是下一段；调整败者树，将冠军写入输出文件，此时如果段号发生变化，证明前一段已经排序好。这一步实际上在选择不上一个冠军大的工作区内最小记录，如果没有那么这一次的冠军是下一段的开头。</li>
+                              <li>重复上一步直到输入文件空</li>
+                            </ul>
+                          </li>
+                          <li>归并段平均长度：2w，对于随机数序列来说
+                            <ul>
+                              <li>证明：“扫雪车“证明
+                                <br>工作区记录是积雪，输出的记录是扫走的雪，新进入的记录是新下的雪，其分布概率大于/小于输出记录各一半，即积雪落在扫雪车前和后概率相等。那么一圈得到一段，扫走的雪是当前积雪量(一个斜面)的两倍</li>
+                            </ul>
+                          </li>
+                          <li>时间复杂度：O(nlogw)，这和普通的分段方法相同，即n/w *wlogw=nlogw</li>
+                        </ul>
+                      </li>
+                      <li>最佳归并树：利用置换-选择排序的结果
+                        <ul>
+                          <li>一般实现：平衡归并树，其趟数已经比普通的分段方法少</li>
+                          <li>进阶实现：最佳归并树
+                            <ul>
+                              <li>理解：霍夫曼树，带权路径是读写次数，比平衡树读写次数少</li>
+                              <li>非完美k叉树
+                                <ul>
+                                  <li>虚段：即长度为0的段，对于霍夫曼树必然是第一次归并</li>
+                                  <li>虚段判定：
+                                    <ul>
+                                      <li>无需虚段：完美k叉树满足(k-1)n<sub>k</sub>+1=n<sub>0</sub>，故n<sub>0</sub>-1MOD(k-1)=0</li>
+                                      <li>需要虚段：k-1-(n<sub>0</sub>-1)MOD(k-1)个，即第一次归并是1+(n<sub>0</sub>-1)MOD(k-1)路归并(虚段无需参与归并)
+                                        <ul>
+                                          <li>原因：余数为t，那么即(k-1)(n<sub>k</sub>-1)+t=n<sub>0</sub>-1，因此(k-1)n<sub>k</sub> = n<sub>0</sub>-1+(k-1-t)</li>
+                                        </ul>
+                                      </li>
+                                    </ul>
+                                  </li>
+                                </ul>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </li>
+                    </ul>
+                  </div>
+                  </li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          </li>
+
+          <li>排序算法对比</li>
+          <div>
+            <table>
+              <thead>
+                <tr>
+                  <th style="text-align: left">排序算法</th>
+                  <th style="text-align: left">插入排序</th>
+                  <th style="text-align: left">折半插入排序</th>
+                  <th style="text-align: left">希尔排序</th>
+                  <th style="text-align: left">冒泡排序</th>
+                  <th style="text-align: left">快速排序</th>
+                  <th style="text-align: left">选择排序</th>
+                  <th style="text-align: left">树型选择排序</th>
+                  <th style="text-align: left">堆排序</th>
+                  <th style="text-align: left">归并排序</th>
+                  <th style="text-align: left">基数排序</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="text-align: left">分类</td>
+                  <td style="text-align: left">插入排序</td>
+                  <td style="text-align: left">插入排序</td>
+                  <td style="text-align: left">插入排序</td>
+                  <td style="text-align: left">冒泡排序</td>
+                  <td style="text-align: left">冒泡排序</td>
+                  <td style="text-align: left">选择排序</td>
+                  <td style="text-align: left">选择排序</td>
+                  <td style="text-align: left">选择排序</td>
+                  <td style="text-align: left">归并排序</td>
+                  <td style="text-align: left">基数排序</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left">平均时间复杂度</td>
+                  <td style="text-align: left">O(n<sup>2</sup>)比较和移动</td>
+                  <td style="text-align: left">O(n<sup>2</sup>)移动(不变，该移动多少移动多少)，O(logn)比较</td>
+                  <td style="text-align: left">O(n<sup>k</sup>)，1&ltk&lt2，取决于增量序列选取</td>
+                  <td style="text-align: left">O(n<sup>2</sup>)比较和交换</td>
+                  <td style="text-align: left">O(nlogn)，并且是同数量级排序算法中最快的</td>
+                  <td style="text-align: left">O(n<sup>2</sup>)</td>
+                  <td style="text-align: left">O(nlogn)</td>
+                  <td style="text-align: left">O(nlogn)</td>
+                  <td style="text-align: left">O(nlogn)</td>
+                  <td style="text-align: left">O(d(n+rd))</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left">最好时间复杂度</td>
+                  <td style="text-align: left">正序序列：O(n)比较，无数据移动</td>
+                  <td style="text-align: left">正序序列：O(logn)比较，无数据移动</td>
+                  <td style="text-align: left">N/A</td>
+                  <td style="text-align: left">正序序列：O(n)比较，无数据交换</td>
+                  <td style="text-align: left">O(nlogn)</td>
+                  <td style="text-align: left">O(n<sup>2</sup>)，正序序列数据交换变少，但是比较次数不变</td>
+                  <td style="text-align: left">O(nlogn)，和平均相同，永远是一棵均衡的二叉树</td>
+                  <td style="text-align: left">O(nlogn)</td>
+                  <td style="text-align: left">O(nlogn)</td>
+                  <td style="text-align: left">O(d(n+rd))</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left">最坏时间复杂度</td>
+                  <td style="text-align: left">逆序序列：O(n<sup>2</sup>)比较和移动</td>
+                  <td style="text-align: left">逆序序列：O(n<sup>2</sup>)移动，O(logn)比较</td>
+                  <td style="text-align: left">N/A</td>
+                  <td style="text-align: left">逆序序列：O(n<sup>2</sup>)比较和交换</td>
+                  <td style="text-align: left">正序序列/基本有序：<strong>O(n<sup>2</sup>)，退化成冒泡排序</strong></td>
+                  <td style="text-align: left">O(n<sup>2</sup>)，比较次数和初始状态无关</td>
+                  <td style="text-align: left">O(nlogn)，和平均相同，永远是一棵均衡的二叉树</td>
+                  <td style="text-align: left"><strong>O(nlogn)</strong></td>
+                  <td style="text-align: left">O(nlogn)</td>
+                  <td style="text-align: left">O(d(n+rd))</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left">稳定性</td>
+                  <td style="text-align: left">稳定</td>
+                  <td style="text-align: left">稳定</td>
+                  <td style="text-align: left">不稳定，例如两相同元素在某增量对应不同序列里</td>
+                  <td style="text-align: left">稳定</td>
+                  <td style="text-align: left">不稳定，例如高位某小元素和支点交换，和支点相等元素没动</td>
+                  <td style="text-align: left">稳定</td>
+                  <td style="text-align: left">稳定</td>
+                  <td style="text-align: left">不稳定</td>
+                  <td style="text-align: left">稳定</td>
+                  <td style="text-align: left">稳定</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left">辅助空间</td>
+                  <td style="text-align: left">O(1)</td>
+                  <td style="text-align: left">O(1)</td>
+                  <td style="text-align: left">O(1)</td>
+                  <td style="text-align: left">O(1)</td>
+                  <td style="text-align: left">O(logn)</td>
+                  <td style="text-align: left">O(1)</td>
+                  <td style="text-align: left">O(n)，即一棵二叉树</td>
+                  <td style="text-align: left">O(1)</td>
+                  <td style="text-align: left">O(n)，存储归并结果</td>
+                  <td style="text-align: left">O(rd+n)，队列指针和各元素的指针</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left">适合场景/优点</td>
+                  <td style="text-align: left">n很小时、基本有序时的简便排序方法</td>
+                  <td style="text-align: left">相比简单插入减少了一些比较次数</td>
+                  <td style="text-align: left">增量移动从而构造基本有序序列，最后一步插入排序更快</td>
+                  <td style="text-align: left">简单</td>
+                  <td style="text-align: left">平均最快</td>
+                  <td style="text-align: left">简单</td>
+                  <td style="text-align: left">相比选择排序利用了前一轮的比较结果</td>
+                  <td style="text-align: left">相比选择排序利用了前一轮的比较结果，并且最差时间复杂度优于快速排序</td>
+                  <td style="text-align: left">与堆排序和快排相比是稳定的，并且n较大时比堆排序快一些</td>
+                  <td style="text-align: left">适合n较大且关键字较小的场景，并且基于分配收集而不是比较移动</td>
+                </tr>
+                <tr>
+                  <td style="text-align: left">备注/缺点</td>
+                  <td style="text-align: left">N/A</td>
+                  <td style="text-align: left">N/A</td>
+                  <td style="text-align: left">N/A</td>
+                  <td style="text-align: left">N/A</td>
+                  <td style="text-align: left">尾递归改进栈深度从最差O(n)为O(logn)</td>
+                  <td style="text-align: left">无论如何比较次数都是O(n<sup>2</sup>)</td>
+                  <td style="text-align: left">辅助存储空间需求大、INF重复比较</td>
+                  <td style="text-align: left">N/A</td>
+                  <td style="text-align: left">辅助空间要求大，并且递归形式需要栈空间</td>
+                  <td style="text-align: left">N/A</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        
           <li>易错知识点：<br>
             AOE网络、强连通分量（极大连通子图）、图的深度优先遍历、Floyd算法
           </li>   
